@@ -10,119 +10,141 @@
 <body>
     <h4>Registrazione Utente</h4>
     <form action='' method='GET'>
-        <table id="form_emails">
-            <tr>
-                <td>Indirizzo Email</td>
-                <td>Conferma Indirizzo Email</td>
-            </tr>
-            <tr>
-                <td><input type="email" name="user_email" placeholder="Email" /></td>
-                <td><input type="email" name="confirm_user_email" placeholder="Email" /></td>
-            </tr>
-        </table>
-        <br>
-        <table id="form_passwords">
-            <tr>
-                <td>Password</td>
-                <td>Conferma Password</td>
-            </tr>
-            <tr>
-                <td><input type="password" name="user_password" placeholder="Password" /></td>
-                <td><input type="password" name="confirm_user_password" placeholder="Password" /></td>
-            </tr>
-        </table>
-        <hr color='red' width="530" align="left">
-        <br>
-        <table id="form_user">
-            <tr>
-                <td>Nome</td>
-                <td>Secondo Nome</td>
-                <td>Cognome</td>
-            </tr>
-            <tr>
-                <td><input type="text" name="name" placeholder="Nome" /></td>
-                <td><input type="text" name="second_name" placeholder="Secondo Nome" /></td>
-                <td><input type="text" name="surname" placeholder="Cognome" /></td>
-            </tr>
-            <tr>
-                <td>Sesso</td>
-                <td colspan="2">Città ed indirizzo</td>
-            </tr>
-            <tr>
-                <td>
-                    <select name="sex">
-                        <option value='maschio'>Maschio</option>
-                        <option value='femmina'>Femmina</option>
-                        <option value='altro'>Altro</option>
-                    </select>
-                </td>
-                <td colspan="2"><input size="45" type="text" name="address" placeholder="Città ed indirizzo" /></td>
-            </tr>
-        </table>
-        <hr color='red' width="530" align="left">
-        <br>
-        <table id="form_info">
-            <tr>
-                <td>Interessi</td>
-                <td>Sistema Utilizzato</td>
-            </tr>
-            <tr>
-                <td>
-                    <table width="265">
-                        <tr>
-                            <td><input type="checkbox" name="interests" value="videogame" /></td>
-                            <td>Videogame</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" name="interests" value="arte" /></td>
-                            <td>Arte</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" name="interests" value="fotografia" /></td>
-                            <td>Fotografia</td>
-                        </tr>
-                        <tr>
-                            <td><input type="checkbox" name="interests" value="alcool" /></td>
-                            <td>Alcool</td>
-                        </tr>
-                    </table>
-                </td>
-                <td>
-                    <table width="265">
-                        <tr>
-                            <td><input type="radio" name="os" value="windows" checked/></td>
-                            <td>Microsoft Windows</td>
-                        </tr>
-                        <tr>
-                            <td><input type="radio" name="os" value="linux" /></td>
-                            <td>Linux</td>
-                        </tr>
-                        <tr>
-                            <td><input type="radio" name="os" value="macos" /></td>
-                            <td>MacOS</td>
-                        </tr>
-                        <tr>
-                            <td><input type="radio" name="os" value="msdos" /></td>
-                            <td>Microsoft DOS</td>
-                        </tr>
-                    </table>
-                </td>
-            </tr>
-        </table>
-        <hr color='red' width="530" align="left">
-        <br><br>
-        <table id="accept_terms" width="530">
-            <tr>
-                <td>
-                    Accetti le condizioni?
-                </td>
-            </tr>
-            <tr>
-                <td><input type="checkbox" name="accept_terms" value="true" /> Accetto</td>
-            </tr>
-        </table>
-
-        <button style="background-color:rgb(82, 82, 255) "><font color="white">Registrati</font></button>
+    <table>
+        <tr><td>
+            <table id="form_emails">
+                <tr>
+                    <td>Indirizzo Email</td>
+                    <td></td>
+                    <td>Conferma Indirizzo Email</td>
+                </tr>
+                <tr>
+                    <td><input type="email" name="user_email" placeholder="Email" /></td>
+                    <td></td>
+                    <td><input type="email" name="confirm_user_email" placeholder="Email" /></td>
+                </tr>
+            </table>
+            <br>
+            <table id="form_passwords">
+                <tr>
+                    <td>Password</td>
+                    <td></td>
+                    <td>Conferma Password</td>
+                </tr>
+                <tr>
+                    <td><input type="password" name="user_password" placeholder="Password" /></td>
+                    <td></td>
+                    <td><input type="password" name="confirm_user_password" placeholder="Password" /></td>
+                </tr>
+            </table>
+        </td></tr>
+        <tr>
+            <td>
+                <hr color='red'>
+            </td>
+        </tr>
+        <tr><td>
+            <table id="form_user">
+                <tr>
+                    <td>Nome</td>
+                    <td>Secondo Nome</td>
+                    <td>Cognome</td>
+                </tr>
+                <tr>
+                    <td><input type="text" name="name" placeholder="Nome" /></td>
+                    <td><input type="text" name="second_name" placeholder="Secondo Nome" /></td>
+                    <td><input type="text" name="surname" placeholder="Cognome" /></td>
+                </tr>
+                <tr>
+                    <td>Sesso</td>
+                    <td colspan="2">Città ed indirizzo</td>
+                </tr>
+                <tr>
+                    <td>
+                        <select name="sex">
+                            <option value='maschio'>Maschio</option>
+                            <option value='femmina'>Femmina</option>
+                            <option value='altro'>Altro</option>
+                        </select>
+                    </td>
+                    <td colspan="2"><input size="45" type="text" name="address" placeholder="Città ed indirizzo" /></td>
+                </tr>
+            </table>
+        </td></tr>
+        <tr>
+            <td>
+                <hr color='red'>
+            </td>
+        </tr>
+        <tr><td>
+            <table id="form_info">
+                <tr>
+                    <td>Interessi</td>
+                    <td>Sistema Utilizzato</td>
+                </tr>
+                <tr>
+                    <td>
+                        <table width="265">
+                            <tr>
+                                <td><input type="checkbox" name="interests" value="videogame" /></td>
+                                <td>Videogame</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" name="interests" value="arte" /></td>
+                                <td>Arte</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" name="interests" value="fotografia" /></td>
+                                <td>Fotografia</td>
+                            </tr>
+                            <tr>
+                                <td><input type="checkbox" name="interests" value="alcool" /></td>
+                                <td>Alcool</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>
+                        <table width="265">
+                            <tr>
+                                <td><input type="radio" name="os" value="windows" checked/></td>
+                                <td>Microsoft Windows</td>
+                            </tr>
+                            <tr>
+                                <td><input type="radio" name="os" value="linux" /></td>
+                                <td>Linux</td>
+                            </tr>
+                            <tr>
+                                <td><input type="radio" name="os" value="macos" /></td>
+                                <td>MacOS</td>
+                            </tr>
+                            <tr>
+                                <td><input type="radio" name="os" value="msdos" /></td>
+                                <td>Microsoft DOS</td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td></tr>
+        <tr>
+            <td>
+                <hr color='red'>
+            </td>
+        </tr>
+        <tr><td>
+            <table id="accept_terms" width="530">
+                <tr>
+                    <td>
+                        Accetti le condizioni?
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" name="accept_terms" value="true" /> Accetto</td>
+                </tr>
+            </table>
+            <button style="background-color:rgb(82, 82, 255) "><font color="white">Registrati</font></button>
+        </td></tr>
+    </table>
     </form>
 </body>
 
