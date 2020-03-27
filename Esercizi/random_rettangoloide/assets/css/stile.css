@@ -1,4 +1,137 @@
-#container {
-    background: url('/assets/img/5.png') black;
-    border: 2px black;
+/*
+    REGOLE DEL FOGLIO DI STILE
+
+    .rotate_0
+    .rotate_90
+    .rotate_180
+    .rotate_270
+
+    .container>div
+
+    img
+    
+    h1
+
+    .sol_1
+
+    .sol_2>div
+    .sol_2>img
+    |--.sol_2_1
+    |--.sol_2_1
+
+    .sol_3>div
+    .sol_3>img
+    |--.sol_3_1
+    |--.sol_3_2
+    |--.sol_3_3
+    |--.sol_3_4
+
+*/
+
+
+/*ROTAZIONI */
+
+.rotate_0 {
+    transform: rotate(0deg);
+}
+
+.rotate_90 {
+    transform: rotate(90deg);
+}
+
+.rotate_180 {
+    transform: rotate(180deg);
+}
+
+.rotate_270 {
+    transform: rotate(270deg);
+}
+
+/* SEZIONE ELEMENTI */
+
+.container>div {
+    margin: 50px;
+    display: inline-block;
+    position: relative;
+}
+
+img {
+    padding: 100px;
+}
+h1 {
+    font-size: 100px;
+}
+
+/* 
+SOLUZIONE 1
+Fa uso di un'immagine rettangolare con i 4
+angoli già disegnati. Ovviamente non funziona
+che in alcuni casi molto specifici.        
+*/
+
+.sol_1 {
+    top: 0px;
+    background: url("/assets/img/rettangolo_angoli_neri.png")  no-repeat;
+    background-size: cover;
+}
+
+/* 
+SOLUZIONE 2
+Fa uso di un'immagine rettangolare con disegnati
+2 angoli giacenti sullo stesso lato orizzontale.
+*/
+
+.sol_2>div {
+    padding: 100px;
+    display: inline-block;
+    position: absolute;
+    background: url("/assets/img/lato_angoli.png") no-repeat;
+    background-size: cover;
+}
+
+.sol_2_1 {
+    top: 0px;
+    left: 0px;
+    right: 0px;
+}
+
+.sol_2_2 {
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+}
+
+/* 
+SOLUZIONE 3
+Fa uso di un'immagine quadrata raffigurante
+un angolo. Viene poi replicata 4 volte
+rotandola.
+*/
+
+.sol_3>div {
+    padding: 100px;
+    display: inline-block;
+    position: absolute;
+    background: url("/assets/img/angolo_nero.png") no-repeat;
+    background-size: contain;
+}
+
+.sol_3_1 {
+    top: 0px;
+    left: 0px;
+}
+
+.sol_3_2 {
+    top: 0px;
+    right: 0px;
+}
+
+.sol_3_3 {
+    bottom: 0px;
+    right: 0px;
+}
+
+.sol_3_4 {
+    bottom: 0px;
+    left: 0px;
 }
