@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+
+        .container {
+            display: inline-block;
+            height: fit-content;
+            width: fit-content;
+        }
+
+        .prova_1 {
+            padding: 20px;
+            display: inline-block;
+            position: relative;
+            background: url("/assets/img/rettangolo_angoli_neri.png");
+            background-size: cover;
+        }
+
+        .prova_2 {
+            display: inline-block;
+            position: relative;
+            background-size: cover;
+        }
+
+        .prova_2 > div {
+            padding: 20px;
+            display: inline-block;
+            position: absolute;
+            background: url("/assets/img/lato_angoli.png") no-repeat;
+            background-size: contain;
+        }
+
+        .prova_2_2 {
+            transform: rotate(180deg);
+        }
+    </style>
+    <title>Rettangoloide</title>
+</head>
+
+<body>
+    <div>
+        <div class="container">
+            <div class="prova_1"><img src="assets/img/6.jpg"></div>
+        </div>
+    </div>
+    
+    <div>
+        <div class="container">
+            <div class="prova_2" name="angoli">
+                <div class="prova_2_1 prova_2_2"><img src="assets/img/6.jpg"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
