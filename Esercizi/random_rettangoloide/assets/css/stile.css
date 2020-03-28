@@ -26,6 +26,13 @@
     |--.sol_3_3
     |--.sol_3_4
 
+    .sol_4>div
+    .sol_4>img
+    |--.sol_4_1
+    |--.sol_4_2
+    |--.sol_4_3
+    |--.sol_4_4
+
 */
 
 
@@ -134,4 +141,45 @@ rotandola.
 .sol_3_4 {
     bottom: 0px;
     left: 0px;
+}
+
+/* 
+SOLUZIONE4
+Fa uso 4 div che vengono modificate a
+livello di bordo in modo da definire
+solo gli angoli interessati.
+*/
+
+.sol_4>div {
+    padding: 100px;
+    display: inline-block;
+    position: absolute;
+}
+
+.sol_4_1 {
+    top: 0px;
+    left: 0px;
+    border-top: double black 25px;
+    border-left: double black 25px;
+}
+
+.sol_4_2 {
+    top: 0px;
+    right: 0px;
+    border-top: double black 25px;
+    border-right: double black 25px;
+}
+
+.sol_4_3 {
+    bottom: 0px;
+    right: 0px;
+    border-bottom: double black 25px;
+    border-right: double black 25px;
+}
+
+.sol_4_4 {
+    bottom: 0px;
+    left: 0px;
+    border-bottom: double black 25px;
+    border-left: double black 25px;
 }
