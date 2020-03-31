@@ -60,11 +60,14 @@
     margin: 50px;
     display: inline-block;
     position: relative;
+    min-width: 200px;
+    min-height: 200px;
 }
 
 img {
-    padding: 100px;
+    margin: 200px; /*Avevo usato padding ma non va bene perchè img non ha spaziatura interna (non è tipo il testo).*/
 }
+
 h1 {
     font-size: 100px;
 }
@@ -151,7 +154,7 @@ solo gli angoli interessati.
 */
 
 .sol_4>div {
-    padding: 100px;
+    padding: 50px;
     display: inline-block;
     position: absolute;
 }
@@ -182,4 +185,8 @@ solo gli angoli interessati.
     left: 0px;
     border-bottom: double black 25px;
     border-left: double black 25px;
+}
+
+.sol_4>p {
+    margin: 200px; /*Aggiunto per permettere una giusta visualizzazione del testo.*/
 }
