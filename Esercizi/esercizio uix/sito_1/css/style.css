@@ -270,8 +270,16 @@ nav>ul>li>a.active::after {
     position: absolute;
     width: inherit;
     padding: 0 15px;
+    top: 500px;
+    transition: top 0.5s ease-in-out;
+}
+
+.info_card:hover > .info_card_items {
     top: 200px;
-    transition: top 0.3s ease-in-out;
+}
+
+.info_card_items:hover {
+    top:-90px;
 }
 
 .info_card_items svg,p {
