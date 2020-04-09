@@ -213,38 +213,69 @@ nav>ul>li>a.active::after {
     margin-top: 50px;
     height:362px;
     width:244px;
-
 }
 
 @media (max-width: 768px) {
 
     .show {
-        margin-left: 30%;
+        margin-left: 26.5%;
+        margin-right: 30%;
         padding-right: 200px;
     }
 }
 
 @media (min-width: 768px) and (max-width: 992px) {
     .show {
-        margin-left: 15%;
+        margin-left: 11.5%;
+        margin-right: 15%;
     }
 }
 
 @media (min-width: 992px) and (max-width: 1200px) {
     .show {
-        margin-left: 10%;
+        margin-left: 6.5%;
+        margin-right: 10%;
     }
 }
 
 .info_card {
     display: block;
-    position: relative;
-    padding-left: 15px;
+    height:inherit;
+    width: inherit;
+    border-radius: 15px;
+    background-color: rgba(0,0,0,0.5);
     margin: 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+}
+
+.info_card:hover {
+    opacity: 1;
 }
 
 .info_card p {
     margin: 0 0;
+}
+
+.info_card * {
+    opacity: 1;
+}
+
+.info_card_items {
+    
+    position: absolute;
+    width: inherit;
+    padding: 0 15px;
+    top: 200px;
+    transition: top 0.3s ease-in-out;
+}
+
+.info_card_items svg,p {
+    cursor: pointer;
 }
 
 .title {
