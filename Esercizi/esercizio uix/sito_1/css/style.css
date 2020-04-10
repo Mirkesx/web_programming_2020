@@ -7,6 +7,9 @@
     .my-30  margin tom/bottom 30
     .fw-600 font weight 600
     .white-txt  testo bianco
+    .purple-txt testo viola
+    .white-icon icona bianca
+    .fs-45em riduzione del font a .45em
 
 # NAVBAR
 
@@ -60,6 +63,32 @@
 # FOOTER
     .footer
 
+
+# HERO DETAIL
+
+    .hero-detail
+    .hero-detail::after
+    .btn-hero-detail
+    .btn-hero-detail:hover
+    .btn-hero-detail>svg
+    .movie-info
+    .movie-info h1
+    .info>.info-part-1,.info-part-2
+    .info>.info-part-2
+    .section
+    .content
+    .title>.content
+    .movie-info .trama>.content
+    .movie-info tag p
+    .cast
+    .person
+    .person>span
+    .person>img
+    .person>.name,.more
+    .person>.more
+    .person>.role
+
+
 */
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;800&display=swap');
@@ -88,6 +117,19 @@ body {
 
 .white-txt {
     color: #fff !important;
+}
+
+.purple-txt {
+    color: #853DF5;
+}
+
+.white-icon {
+    fill: #fff;
+    transition: fill .3s ease-in-out;
+}
+
+.fs-45em {
+    font-size: .45em;
 }
 
 nav {
@@ -406,10 +448,6 @@ nav>ul>li>a.active::after {
     opacity: .4;
 }
 
-.purple-txt {
-    color: #853DF5;
-}
-
 .btn-hero-detail {
     margin-right: 15px;
     margin-top: 40px;
@@ -417,15 +455,6 @@ nav>ul>li>a.active::after {
     background-color: rgba(115, 115, 115, .3);
     color: #fff;
     transition: color .3s ease-in-out, background-color .3s ease-in-out;
-}
-
-.white-icon {
-    fill: #fff;
-    transition: fill .3s ease-in-out;
-}
-
-.fs-45em {
-    font-size: .45em;
 }
 
 .btn-hero-detail:hover {
@@ -444,8 +473,7 @@ nav>ul>li>a.active::after {
     font-size: 1.5em;
 }
 
-.info>.info-part-1,
-.info-part-2 {
+.info>.info-part-1,.info-part-2 {
     display: inline-block;
     padding: 0;
 }
@@ -488,7 +516,7 @@ nav>ul>li>a.active::after {
     height: 25px;
     width: 60px;
     padding: 4px 0;
-    margin-right: 20px;
+    margin-right: 10px;
 }
 
 .cast {
