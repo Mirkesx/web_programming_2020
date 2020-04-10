@@ -1,5 +1,68 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;800&display=swap');
+/*
+# GLOBALI
 
+    body
+    .mt-30  margin top 30
+    .mb-30  margin bottom 30
+    .my-30  margin tom/bottom 30
+    .fw-600 font weight 600
+    .white-txt  testo bianco
+
+# NAVBAR
+
+    nav
+    .brand
+    nav>ul
+    nav>ul>li
+    nav>ul>li>a
+    nav>ul>li::after
+    nav>ul>li:hover::after
+    nav>ul>li>a.active::after
+
+# HERO
+
+    .hero
+    .hero .cta>h1
+    .hero .cta>h1::after
+    .hero .cta
+    .hero::after
+    @media (max-width: 767px) .hero::after
+    .hero img
+    .btn
+    .btn-hero
+    .white-icon
+    .btn-hero:hover
+    .btn-hero:hover .white-icon
+    .btn-hero>svg
+
+# LISTA DEI FILM
+
+    .list_films  h2
+    .show
+    .show > div
+    .card
+    @media (max-width: 600px) .show
+    @media (min-width: 600px) and (max-width: 768px) .show
+    @media (min-width: 768px) and (max-width: 992px) .show
+    @media (min-width: 992px) and (max-width: 1200px) .show
+    .info_card
+    .info_card:hover
+    .info_card p
+    .info_card_items
+    .info_card:hover > .info_card_items
+    .info_card_items svg,p
+    .title
+    .year_time
+    .year_time *
+    .trama
+    tag  p
+
+# FOOTER
+    .footer
+
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;800&display=swap');
 body {
     font-family: 'Montserrat', sans-serif;
     font-size: 16px;
@@ -23,6 +86,10 @@ body {
     font-weight: 600;
 }
 
+.white-txt {
+    color: #fff !important;
+}
+
 nav {
     background-color: rgba(0, 0, 0, .4);
     position: fixed;
@@ -30,6 +97,7 @@ nav {
     left: 0;
     right: 0;
     height: 60px;
+    min-width: 500px;
     padding-left: 15px;
     padding-right: 15px;
     z-index: 999;
@@ -88,6 +156,7 @@ nav>ul>li>a.active::after {
     background-color: #000;
     z-index: 1;
     padding: 160px 0 100px 0;
+    min-width: 500px;
 }
 
 .hero .cta>h1 {
@@ -109,7 +178,6 @@ nav>ul>li>a.active::after {
     left: 0;
     bottom: 0;
 }
-
 
 .hero .cta {
     position: relative;
@@ -143,10 +211,6 @@ nav>ul>li>a.active::after {
     z-index: 1;
 }
 
-.white-txt {
-    color: #fff !important;
-}
-
 .btn {
     font-family: 'Montserrat', sans-serif;
     font-size: 16px;
@@ -169,7 +233,6 @@ nav>ul>li>a.active::after {
     transition: color .3s ease-in-out, background-color .3s ease-in-out;
 }
 
-
 .white-icon {
     fill: #fff;
     transition: fill .3s ease-in-out;
@@ -180,7 +243,6 @@ nav>ul>li>a.active::after {
     color: #000;
 }
 
-
 .btn-hero:hover .white-icon {
     fill: #000;
 }
@@ -189,19 +251,22 @@ nav>ul>li>a.active::after {
     margin-right: 5px;
 }
 
-.list_films  h2 {
+.list_films {
+    margin-top: 50px;
+    margin-bottom: 160px;
+}
+
+.list_films h2 {
     margin-top: 50px;
     margin-left: 15px;
 }
 
 .show {
     margin-left: 2.5%;
-    margin-right: 5%;
-    width: 100%;
     transition: margin-left .5s ease-in-out;
 }
 
-.show > div {
+.show>div {
     display: inline-block;
     position: relative;
 }
@@ -211,39 +276,35 @@ nav>ul>li>a.active::after {
     background-repeat: no-repeat;
     background-position: center;
     margin-top: 50px;
-    height:362px;
-    width:244px;
+    height: 362px;
+    width: 244px;
 }
 
 @media (max-width: 768px) {
-
     .show {
-        margin-left: 26.5%;
-        margin-right: 30%;
-        padding-right: 200px;
+        margin-left: 27.5%;
+        padding-right: 10px;
     }
 }
 
 @media (min-width: 768px) and (max-width: 992px) {
     .show {
         margin-left: 11.5%;
-        margin-right: 15%;
     }
 }
 
 @media (min-width: 992px) and (max-width: 1200px) {
     .show {
         margin-left: 6.5%;
-        margin-right: 10%;
     }
 }
 
 .info_card {
     display: block;
-    height:inherit;
+    height: inherit;
     width: inherit;
     border-radius: 15px;
-    background-color: rgba(0,0,0,0.5);
+    background-color: rgba(0, 0, 0, 0.5);
     margin: 0;
     top: 0;
     bottom: 0;
@@ -261,12 +322,7 @@ nav>ul>li>a.active::after {
     margin: 0 0;
 }
 
-.info_card * {
-    opacity: 1;
-}
-
 .info_card_items {
-    
     position: absolute;
     width: inherit;
     padding: 0 15px;
@@ -274,19 +330,15 @@ nav>ul>li>a.active::after {
     transition: top 0.5s ease-in-out;
 }
 
-.info_card:hover > .info_card_items {
+.info_card:hover .info_card_items {
     top: 200px;
 }
 
-.info_card_items:hover {
-    top:-90px;
-}
-
-.info_card_items svg,p {
+.info_card_items svg {
     cursor: pointer;
 }
 
-.title {
+.info_card_items .title {
     font-size: .9em;
     padding-top: 5px;
 }
@@ -301,13 +353,14 @@ nav>ul>li>a.active::after {
     padding-right: 10px;
 }
 
-.trama {
+.info_card_items .trama {
     font-size: .6em;
     line-height: 1.5em;
     padding-bottom: 10px;
 }
 
-tag  p {
+.info_card_items tag p {
+    cursor: pointer;
     display: inline-block;
     border: #fff;
     border-style: solid;
@@ -325,5 +378,152 @@ tag  p {
     padding: 30px 20px;
     background-color: rgb(0, 0, 0);
     position: relative;
-    height:120px;
+    left: 0;
+    right: 0;
+    min-width: 500px;
+    height: 120px;
+}
+
+
+/*
+    PAGINA JOHN WICK
+*/
+
+.hero-detail {
+    background-position: right;
+    background-size: cover;
+    background-repeat: no-repeat;
+    min-width: 500px;
+}
+
+.hero-detail::after {
+    content: '';
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #000;
+    opacity: .4;
+}
+
+.purple-txt {
+    color: #853DF5;
+}
+
+.btn-hero-detail {
+    margin-right: 15px;
+    margin-top: 40px;
+    font-weight: 600;
+    background-color: rgba(115, 115, 115, .3);
+    color: #fff;
+    transition: color .3s ease-in-out, background-color .3s ease-in-out;
+}
+
+.white-icon {
+    fill: #fff;
+    transition: fill .3s ease-in-out;
+}
+
+.fs-45em {
+    font-size: .45em;
+}
+
+.btn-hero-detail:hover {
+    background-color: #853DF5;
+}
+
+.btn-hero-detail>svg {
+    margin-right: 5px;
+}
+
+.movie-info {
+    margin: 50px 0;
+}
+
+.movie-info h1 {
+    font-size: 1.5em;
+}
+
+.info>.info-part-1,
+.info-part-2 {
+    display: inline-block;
+    padding: 0;
+}
+
+.info>.info-part-2 {
+    width: 65%;
+}
+
+.section {
+    font-size: .65em;
+    color: #95989A;
+    padding-bottom: 5px;
+}
+
+.content {
+    font-size: 0.96em;
+    font-weight: 700;
+    color: #fff;
+    padding-bottom: 20px;
+}
+
+.title>.content {
+    font-weight: 700;
+}
+
+.movie-info .trama>.content {
+    font-weight: 600;
+    font-size: .9em;
+}
+
+.movie-info tag p {
+    cursor: pointer;
+    display: inline-block;
+    border: #fff;
+    border-style: solid;
+    text-align: center;
+    border-radius: 15px;
+    border-width: 1px;
+    font-size: 0.65em;
+    height: 25px;
+    width: 60px;
+    padding: 4px 0;
+    margin-right: 20px;
+}
+
+.cast {
+    margin: 20px 5%;
+}
+
+.person {
+    display: inline-block;
+    padding-right: 50px;
+    text-align: center;
+}
+
+.person>span {
+    display: block;
+}
+
+.person>img {
+    align-self: center;
+}
+
+.person>.name,
+.more {
+    padding-top: 7px;
+    font-size: .75em;
+    text-align: center;
+}
+
+.person>.more {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.person>.role {
+    padding-top: 4px;
+    color: #ccc;
+    font-size: .5em;
+    text-align: center;
 }
