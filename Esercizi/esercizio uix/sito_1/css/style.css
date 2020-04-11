@@ -240,6 +240,9 @@ nav>ul>li>a.active::after {
 }
 
 @media (max-width: 767px) {
+    nav {
+        padding-right: 0;
+    }
     .hero::after {
         opacity: 1;
     }
@@ -467,13 +470,15 @@ nav>ul>li>a.active::after {
 
 .movie-info {
     margin: 50px 0;
+    transition: margin-left 0.3s ease-in-out;
 }
 
 .movie-info h1 {
     font-size: 1.5em;
 }
 
-.info>.info-part-1,.info-part-2 {
+.info>.info-part-1,
+.info-part-2 {
     display: inline-block;
     padding: 0;
 }
@@ -502,6 +507,7 @@ nav>ul>li>a.active::after {
 .movie-info .trama>.content {
     font-weight: 600;
     font-size: .9em;
+    min-width: 400px;
 }
 
 .movie-info tag p {
@@ -521,11 +527,12 @@ nav>ul>li>a.active::after {
 
 .cast {
     margin: 20px 5%;
+    min-width: 400px;
 }
 
 .person {
     display: inline-block;
-    padding-right: 50px;
+    padding-right: 30px;
     text-align: center;
 }
 
@@ -554,4 +561,37 @@ nav>ul>li>a.active::after {
     color: #ccc;
     font-size: .5em;
     text-align: center;
+}
+
+@media (max-width: 768px) {
+    .movie-info {
+        margin-left: 15%;
+    }
+    .info>.info-part-1,
+    .info-part-2 {
+        display: block;
+        width: 100%;
+    }
+    .person {
+        padding-right: 20px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+    .movie-info {
+        margin-left: 27.5%;
+    }
+    .info>.info-part-1,
+    .info-part-2 {
+        display: block;
+    }
+}
+
+@media (min-width: 992px) and (max-width: 1200px) {
+    .info>.info-part-1 {
+        margin-right: 50px;
+    }
+    .movie-info {
+        margin-left: 17.5%;
+    }
 }
