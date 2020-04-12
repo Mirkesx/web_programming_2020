@@ -8,7 +8,6 @@
     .fw-600 font weight 600
     .white-txt  testo bianco
     .purple-txt testo viola
-    .white-icon icona bianca
     .fs-45em riduzione del font a .45em
 
 
@@ -22,7 +21,9 @@
     nav>ul>li::after
     nav>ul>li:hover::after
     nav>ul>li>a.active::after
+    @media (max-width: 420px)
 
+    
 
 # HERO
 
@@ -31,7 +32,7 @@
     .hero .cta>h1::after
     .hero .cta
     .hero::after
-    @media (max-width: 767px) .hero::after
+    @media (max-width: 767px)
     .hero img
     .btn
     .btn-hero
@@ -39,28 +40,23 @@
     .btn-hero:hover
     .btn-hero:hover .white-icon
     .btn-hero>svg
+    @media (max-width: 420px)
 
 
 # LISTA DEI FILM
 
     .list_films  h2
-    .show
-    .show > div
     .card
-    @media (max-width: 600px) .show
-    @media (min-width: 600px) and (max-width: 768px) .show
-    @media (min-width: 768px) and (max-width: 992px) .show
-    @media (min-width: 992px) and (max-width: 1200px) .show
     .info_card
     .info_card:hover
     .info_card p
     .info_card_items
     .info_card:hover .info_card_items
-    .info_card_items svg,p
-    .title
+    .info_card_items svg
+    .info_card_items .title
     .year_time
     .year_time *
-    .trama
+    .info_card_items .trama
     tag  p
     tag p:hover
 
@@ -77,11 +73,13 @@
     .btn-hero-detail
     .btn-hero-detail:hover
     .btn-hero-detail>svg
+    @media (max-width: 500px)
 
 # MOVIE-INFO
 
-    .movie-info
-    .movie-info h1
+    .info-title
+    .info-title h1
+    .info
     .info>.info-part-1,.info-part-2
     .info>.info-part-2
     .section
@@ -89,16 +87,15 @@
     .title>.content
     .movie-info .trama>.content
     .movie-info tag p
-    .cast
+    .movie-info .tag_2
+    .cast_table>.content
     .person
-    .person>span
     .person>img
+    .person>span
     .person>.name,.more
     .person>.more
     .person>.role
-    @media (max-width: 768px)
-    @media (min-width: 768px) and (max-width: 992px)
-    @media (min-width: 992px) and (max-width: 1200px)
+    @media (max-width: 767px)
 
 */
 
@@ -134,11 +131,6 @@ body {
     color: #853DF5;
 }
 
-.white-icon {
-    fill: #fff;
-    transition: fill .3s ease-in-out;
-}
-
 .fs-45em {
     font-size: .45em;
 }
@@ -157,7 +149,6 @@ nav {
     left: 0;
     right: 0;
     height: 60px;
-    min-width: 500px;
     z-index: 999;
 }
 
@@ -174,7 +165,7 @@ nav>ul {
 nav>ul>li {
     position: relative;
     display: inline-block;
-    padding: 5px 15px;
+    padding: 5px 10px;
 }
 
 nav>ul>li>a {
@@ -209,6 +200,16 @@ nav>ul>li>a.active::after {
     bottom: -2px;
 }
 
+@media (max-width: 420px) {
+    nav {
+        height: 120px;
+        font-size: .8em;
+    }
+    nav>ul {
+        float: left;
+    }
+}
+
 
 /*
 
@@ -222,7 +223,6 @@ nav>ul>li>a.active::after {
     background-color: #000;
     z-index: 1;
     padding: 160px 0 100px 0;
-    min-width: 500px;
 }
 
 .hero .cta>h1 {
@@ -318,6 +318,19 @@ nav>ul>li>a.active::after {
 
 .btn-hero>svg {
     margin-right: 5px;
+}
+
+@media (max-width: 420px) {
+    .cta {
+        text-align: center;
+        font-size: .6em;
+    }
+    .hero .cta>h1::after {
+        left: 40%;
+    }
+    .btn {
+        font-size: 2em;
+    }
 }
 
 
@@ -446,7 +459,6 @@ tag p:hover {
     position: relative;
     left: 0;
     right: 0;
-    min-width: 500px;
     height: 120px;
 }
 
@@ -495,6 +507,12 @@ tag p:hover {
     margin-right: 5px;
 }
 
+@media (max-width: 500px) {
+    .hero-detail {
+        background-position: top;
+    }
+}
+
 
 /*
 
@@ -512,12 +530,10 @@ tag p:hover {
     font-size: 1.7em;
     width: inherit;
     padding: 0;
-    transition: margin 0.3s ease-in-out;
 }
 
 .info {
     display: block;
-    transition: margin 0.3s ease-in-out;
 }
 
 .info>.info-part-1,
@@ -525,7 +541,6 @@ tag p:hover {
     display: block;
     margin: initial auto;
     padding: 0;
-    transition: margin 0.3s ease-in-out;
 }
 
 .section {
@@ -548,7 +563,6 @@ tag p:hover {
 .movie-info .trama>.content {
     font-weight: 600;
     font-size: .9em;
-    min-width: 400px;
 }
 
 .movie-info tag p {
@@ -557,58 +571,33 @@ tag p:hover {
     text-align: center;
     border-radius: 15px;
     border-width: 1px;
-    font-size: 0.65em;
+    font-size: 0.7em;
     height: 25px;
     width: 60px;
-    padding: 4px 0;
-    margin-right: 10px;
+    padding: 5px 0;
 }
 
-@media (max-width: 991px) {
-    .cast_table {
-        margin-bottom: 100px;
-    }
+.movie-info .tag_2 {
+    margin: 0 20px;
 }
 
-.cast {
-    margin: 20px 0;
-    min-width: 400px;
+.cast_table>.content {
     position: relative;
 }
 
 .person {
+    margin-top: 20px;
+    padding: 0;
+}
+
+.person>img {
+    margin: 0 auto;
     display: block;
-    position: absolute;
-    text-align: center;
-}
-
-.p_1 {
-    left: 0px;
-}
-
-.p_2 {
-    left: 90px;
-}
-
-.p_3 {
-    left: 180px;
-}
-
-.p_4 {
-    left: 270px;
-}
-
-.p_5 {
-    left: 360px;
 }
 
 .person>span {
     display: block;
-}
-
-.person>img {
-    align-self: center;
-    cursor: pointer;
+    text-align: center;
 }
 
 .person>.name,
@@ -628,4 +617,19 @@ tag p:hover {
     color: #ccc;
     font-size: .65em;
     text-align: center;
+}
+
+@media (max-width: 767px) {
+    .trama>.content {
+        margin: 0 20px;
+    }
+    .cast_table {
+        margin-bottom: 100px;
+    }
+    .info-title>h1 {
+        text-align: center;
+    }
+    .info {
+        text-align: center;
+    }
 }
