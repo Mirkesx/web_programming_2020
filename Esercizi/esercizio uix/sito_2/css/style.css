@@ -79,17 +79,14 @@
 
     .info-title
     .info-title h1
-    .info
-    .info>.info-part-1,.info-part-2
-    .info>.info-part-2
+    .info>div
     .section
     .content
-    .title>.content
     .movie-info .trama>.content
     .movie-info tag p
     .movie-info .tag-2
-    .cast-table>.content
     .person
+    .person>img,span
     .person>img
     .person>span
     .person>.name,.more
@@ -521,7 +518,6 @@ tag p:hover {
 */
 
 .info-title {
-    display: block;
     width: 100%;
 }
 
@@ -532,14 +528,7 @@ tag p:hover {
     padding: 0;
 }
 
-.info {
-    display: block;
-}
-
-.info>.info-part-1,
-.info-part-2 {
-    display: block;
-    margin: initial auto;
+.info>div {
     padding: 0;
 }
 
@@ -556,13 +545,9 @@ tag p:hover {
     padding-bottom: 20px;
 }
 
-.title>.content {
-    font-weight: 700;
-}
-
 .movie-info .trama>.content {
     font-weight: 600;
-    font-size: .9em;
+    font-size: 1em;
 }
 
 .movie-info tag p {
@@ -571,18 +556,14 @@ tag p:hover {
     text-align: center;
     border-radius: 15px;
     border-width: 1px;
-    font-size: 0.7em;
+    font-size: 0.9em;
     height: 25px;
-    width: 60px;
-    padding: 5px 0;
+    width: 70px;
+    padding: 3px 0;
 }
 
 .movie-info .tag-2 {
     margin: 0 20px;
-}
-
-.cast-table>.content {
-    position: relative;
 }
 
 .person {
@@ -590,21 +571,23 @@ tag p:hover {
     padding: 0;
 }
 
-.person>img {
-    margin: 0 auto;
+.person>img,
+span {
     display: block;
 }
 
+.person>img {
+    margin: 0 auto;
+}
+
 .person>span {
-    display: block;
     text-align: center;
 }
 
 .person>.name,
 .more {
     padding-top: 7px;
-    font-size: .85em;
-    text-align: center;
+    font-size: 1em;
 }
 
 .person>.more {
@@ -613,10 +596,9 @@ tag p:hover {
 }
 
 .person>.role {
-    padding-top: 4px;
-    color: #ccc;
-    font-size: .65em;
-    text-align: center;
+    padding-top: 6px;
+    color: #aaa;
+    font-size: .8em;
 }
 
 @media (max-width: 767px) {
