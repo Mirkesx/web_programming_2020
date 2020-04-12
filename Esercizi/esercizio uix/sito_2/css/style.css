@@ -45,6 +45,7 @@
 
 # LISTA DEI FILM
 
+    .list-films
     .list-films  h2
     .card
     .info-card
@@ -57,11 +58,12 @@
     .year-time
     .year-time *
     .info-card-items .trama
-    tag  p
+    tag p
     tag p:hover
 
 
 # FOOTER
+
     .footer
     .footer>.brand
     
@@ -79,19 +81,23 @@
 
     .info-title
     .info-title h1
+    .info-part-1
+    .info-part-1 > .col-sm-6
     .info>div
     .section
     .content
     .movie-info .trama>.content
+    .movie-info .type>.content
     .movie-info tag p
     .movie-info .tag-2
     .person
-    .person>img,span
+    .person>img, .person>span
     .person>img
     .person>span
-    .person>.name,.more
+    .person>.name, .person>.more
     .person>.more
     .person>.role
+    @media (min-width: 992px)
     @media (max-width: 767px)
 
 */
@@ -528,6 +534,14 @@ tag p:hover {
     padding: 0;
 }
 
+.info-part-1 {
+    display: inline-block;
+}
+
+.info-part-1 > .col-sm-6 {
+    padding: 0 0;
+}
+
 .info>div {
     padding: 0;
 }
@@ -542,12 +556,17 @@ tag p:hover {
     font-size: 0.96em;
     font-weight: 700;
     color: #fff;
+    padding-top: 0;
     padding-bottom: 20px;
 }
 
 .movie-info .trama>.content {
     font-weight: 600;
     font-size: 1em;
+}
+
+.movie-info .type>.content {
+    padding-top: 0;;
 }
 
 .movie-info tag p {
@@ -557,6 +576,8 @@ tag p:hover {
     border-radius: 15px;
     border-width: 1px;
     font-size: 0.9em;
+    margin-top: 0;
+    margin-bottom: 0;
     height: 25px;
     width: 70px;
     padding: 3px 0;
@@ -585,7 +606,7 @@ tag p:hover {
 }
 
 .person>.name,
-.more {
+.person>.more {
     padding-top: 7px;
     font-size: 1em;
 }
@@ -599,6 +620,12 @@ tag p:hover {
     padding-top: 6px;
     color: #aaa;
     font-size: .8em;
+}
+
+@media (min-width: 992px) {
+    .info-part-1 > .col-sm-6 {
+        width: fit-content;
+    }
 }
 
 @media (max-width: 767px) {
