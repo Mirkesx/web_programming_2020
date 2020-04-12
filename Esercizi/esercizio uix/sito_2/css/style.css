@@ -572,7 +572,7 @@ tag p:hover {
 }
 
 .person>img,
-span {
+.person>span {
     display: block;
 }
 
