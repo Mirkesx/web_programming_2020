@@ -45,18 +45,18 @@
 
 # LISTA DEI FILM
 
-    .list_films  h2
+    .list-films  h2
     .card
-    .info_card
-    .info_card:hover
-    .info_card p
-    .info_card_items
-    .info_card:hover .info_card_items
-    .info_card_items svg
-    .info_card_items .title
-    .year_time
-    .year_time *
-    .info_card_items .trama
+    .info-card
+    .info-card:hover
+    .info-card p
+    .info-card-items
+    .info-card:hover .info-card-items
+    .info-card-items svg
+    .info-card-items .title
+    .year-time
+    .year-time *
+    .info-card-items .trama
     tag  p
     tag p:hover
 
@@ -87,8 +87,8 @@
     .title>.content
     .movie-info .trama>.content
     .movie-info tag p
-    .movie-info .tag_2
-    .cast_table>.content
+    .movie-info .tag-2
+    .cast-table>.content
     .person
     .person>img
     .person>span
@@ -336,16 +336,16 @@ nav>ul>li>a.active::after {
 
 /*
 
-    List_film
+    List-film
 
 */
 
-.list_films {
+.list-films {
     margin-top: 50px;
     margin-bottom: 160px;
 }
 
-.list_films h2 {
+.list-films h2 {
     margin-top: 50px;
     margin-left: 15px;
 }
@@ -363,7 +363,7 @@ nav>ul>li>a.active::after {
     width: 244px;
 }
 
-.info_card {
+.info-card {
     height: inherit;
     width: inherit;
     border-radius: 15px;
@@ -379,15 +379,15 @@ nav>ul>li>a.active::after {
     transition: opacity .3s ease-in-out;
 }
 
-.info_card:hover {
+.info-card:hover {
     opacity: 1;
 }
 
-.info_card p {
+.info-card p {
     margin: 0 0;
 }
 
-.info_card_items {
+.info-card-items {
     position: absolute;
     width: inherit;
     padding: 0 15px;
@@ -395,30 +395,30 @@ nav>ul>li>a.active::after {
     transition: top 0.5s ease-in-out;
 }
 
-.info_card:hover .info_card_items {
+.info-card:hover .info-card-items {
     top: 180px;
 }
 
-.info_card_items svg {
+.info-card-items svg {
     cursor: pointer;
 }
 
-.info_card_items .title {
+.info-card-items .title {
     font-size: 1em;
     padding-top: 5px;
 }
 
-.year_time {
+.year-time {
     padding-top: 5px;
     padding-bottom: 10px;
 }
 
-.year_time * {
+.year-time * {
     font-size: 0.7em;
     padding-right: 10px;
 }
 
-.info_card_items .trama {
+.info-card-items .trama {
     font-size: .7em;
     line-height: 1.5em;
     padding-bottom: 10px;
@@ -577,11 +577,11 @@ tag p:hover {
     padding: 5px 0;
 }
 
-.movie-info .tag_2 {
+.movie-info .tag-2 {
     margin: 0 20px;
 }
 
-.cast_table>.content {
+.cast-table>.content {
     position: relative;
 }
 
@@ -623,7 +623,7 @@ tag p:hover {
     .trama>.content {
         margin: 0 20px;
     }
-    .cast_table {
+    .cast-table {
         margin-bottom: 100px;
     }
     .info-title>h1 {
