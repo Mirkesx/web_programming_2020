@@ -525,21 +525,16 @@ tag p:hover {
 
 .info-title {
     width: 100%;
+    display: inline-block;
 }
 
 .info-title h1 {
-    display: block;
     font-size: 1.7em;
-    width: inherit;
-    padding: 0;
+    padding-left: 0;
 }
 
 .info-part-1 {
     display: inline-block;
-}
-
-.info-part-1 > .col-sm-6 {
-    padding: 0 0;
 }
 
 .info>div {
