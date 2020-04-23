@@ -2,6 +2,18 @@ var num_na = parseInt(Math.random() * 20 + 1);
 
 ///////////////////////////////////////
 
+alert("SOLUZIONE 0");
+
+let sol0 = "";
+
+for (let i = 0; i < 3; i++) {
+    sol0 += "Na";
+    alert(sol0);
+}
+alert(sol0 + ", Batman!");
+
+///////////////////////////////////////
+
 console.log("SOLUZIONE 1");
 
 let sol1 = "";
