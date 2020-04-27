@@ -1,0 +1,33 @@
+body {
+    background-color: black;
+    font-size: 30px;
+    color: white;
+}
+
+.col {
+    width: 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.command_line > * {
+    display: inline-block;
+    position: absolute;
+}
+
+#time {
+    width: fit-content;
+}
+
+#time, .past_time {
+    color: greenyellow;
+    font-weight: bold;
+}
+
+#shell_input {
+    background-color: black;
+    position: absolute;
+    color: white;
+    border: unset;
+    width: 100%
+}
