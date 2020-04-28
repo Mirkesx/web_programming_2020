@@ -24,6 +24,11 @@ body {
     font-weight: bold;
 }
 
+#path, .past_path {
+    color: aqua;
+    font-weight: bold;
+}
+
 #shell_input {
     background-color: black;
     position: absolute;

@@ -23,17 +23,34 @@ function new_command_line() {
     document.getElementById("time").innerHTML = time + " > ";
     document.getElementById("shell_input").value = "";
     document.getElementById("shell_time").value = time;
+    window,location.href = "#shell_input";
+    document.getElementById("shell_input").focus();
 
 }
 
 function parse_command() {
-    const command = document.getElementById("shell_input").value;
+    const line = document.getElementById("shell_input").value;
     const time = document.getElementById("shell_time").value;
 
-    console.log(command);
-    console.log(time);
+    //console.log(line);
+    //console.log(time);
 
-    document.getElementById("past_commands").innerHTML += "<font class='past_time'>" + time + "</font> > " + command + "<br>";
+    document.getElementById("past_commands").innerHTML += "<font class='past_time'>" + time + " > </font> : <font class='past_path'>~</font>$ " + line + "<br>";
+
+    let line_splitted = [line.split(" ",1)[0], line.substr(line.split(" ",1)[0].length+1)];
+    let com = line_splitted[0];
+    let response = "";
+    //console.log(line_splitted);
+
+    if(commands[com] !== undefined) {
+        response = commands[com](line_splitted[1]);
+    }
+    else {
+        response = 'Comando "'+com+'" non trovato! Controllare la sintassi del comando e riprovare!';
+    }
+
+    document.getElementById("past_commands").innerHTML += response + "<br>";
+
     new_command_line();
 }
 
