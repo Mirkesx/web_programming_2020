@@ -1,44 +1,44 @@
 var id_element = 0;
 
 const file_manager = {
-    root : {
-        name : "root",
-        id : id_element++,
-        parent : undefined,
-        type : "dir",
+    root: {
+        name: "root",
+        id: id_element++,
+        parent: undefined,
+        type: "dir",
         //children : function(){return [this.usr,this.etc,this.home]}
     },
-    usr : {
-        name : "usr",
-        id : id_element++,
+    usr: {
+        name: "usr",
+        id: id_element++,
         //parent : function(){return this.root},
-        type : "dir",
+        type: "dir",
         //children : function(){return []}
     },
-    etc : {
-        name : "etc",
-        id : id_element++,
+    etc: {
+        name: "etc",
+        id: id_element++,
         //parent : function(){return this.root},
-        type : "dir",
+        type: "dir",
         //children : function(){return []}
     },
-    home : {
-        name : "home",
-        id : id_element++,
+    home: {
+        name: "home",
+        id: id_element++,
         //parent : function(){return this.root},
-        type : "dir",
+        type: "dir",
         //children : function(){return [this.username]}
     },
-    username : {
-        name : "username",
-        id : id_element++,
+    username: {
+        name: "username",
+        id: id_element++,
         //parent : function(){return this.home},
-        type : "dir",
+        type: "dir",
         //children : function(){return []}
     },
 }
 
-file_manager.root.children = [file_manager.etc,file_manager.usr,file_manager.home];
+file_manager.root.children = [file_manager.etc, file_manager.home, file_manager.usr];
 
 file_manager.usr.parent = file_manager.root;
 file_manager.usr.children = [];
@@ -55,37 +55,44 @@ file_manager.username.children = [];
 //
 
 function printPath(node) {
-    if(node.parent !== undefined)
+    if (node.parent !== undefined)
         return printPath(node.parent) + "/" + node.name;
     else
         return "/" + node.name;
 }
 
 function mkDir(path, nam) {
-    let parent = path.split("/")[path.split("/").length-1];
+    let parent = path.split("/")[path.split("/").length - 1];
     file_manager['name'] = {
-        name : nam,
-        id : id_element++,
-        parent : file_manager[parent],
-        type : "dir",
-        children : []
+        name: nam,
+        id: id_element++,
+        parent: file_manager[parent],
+        type: "dir",
+        children: []
     }
 }
 
 function mkFile(path, nam) {
-    let parent = path.split("/")[path.split("/").length-1];
+    let parent = path.split("/")[path.split("/").length - 1];
     file_manager['name'] = {
-        name : nam,
-        id : id_element++,
-        parent : file_manager[parent],
-        type : "file",
-        children : []
+        name: nam,
+        id: id_element++,
+        parent: file_manager[parent],
+        type: "file",
+        children: []
     }
 }
 
 function printTree(indent, node) {
-    if(node !== undefined) {
-        console.log(node.name);
-        return indent + node.name + "\n" + _.forEach(node.children, (e) => { printTree(indent+"  ", e) });
+    let result = indent + node.name + "\n";
+    console.log(node.children);
+
+    if(node.children && node.children !== []) {
+        indent =  indent.replace("-"," ") + "|- ";
+        for(child of node.children) {
+            console.log(child);
+            result += printTree(indent, child)
+        }
     }
+    return  result;
 }
