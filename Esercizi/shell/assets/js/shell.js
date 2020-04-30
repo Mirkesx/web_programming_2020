@@ -46,9 +46,13 @@ function parse_command() {
     console.log(com);
     console.log(line_splitted[1]);
 
-    if(commands[com] !== undefined) {
+    if(commands[com] !== undefined && (line_splitted[1] !== '--help' && line_splitted[1] !== '-h')) {
         response = commands[com].com(actual_node, line_splitted[1]);
         actual_node = response.node;
+    }
+    else if(commands[com] !== undefined && (line_splitted[1] === '--help' || line_splitted[1] === '-h')){
+        response.com = "showHelp"
+        response.result = commands[com].help;
     }
     else {
         response.com = "none"
