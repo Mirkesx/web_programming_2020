@@ -36,6 +36,21 @@ const file_manager = {
         type: "dir",
         //children : function(){return []}
     },
+    scrivania: {
+        name: "scrivania",
+        id: id_element++,
+        //parent : function(){return this.home},
+        type: "dir",
+        //children : function(){return []}
+    },
+    file6: {
+        name: "file",
+        id: id_element++,
+        //parent : function(){return this.home},
+        type: "file",
+        content: "Hello World",
+        //children : function(){return []}
+    },
 }
 
 file_manager.root.children = [file_manager.etc, file_manager.home, file_manager.usr];
@@ -50,49 +65,9 @@ file_manager.home.parent = file_manager.root;
 file_manager.home.children = [file_manager.username];
 
 file_manager.username.parent = file_manager.home;
-file_manager.username.children = [];
+file_manager.username.children = [file_manager.scrivania];
 
-//
+file_manager.scrivania.parent = file_manager.username;
+file_manager.scrivania.children = [file_manager.file6];
 
-function printPath(node) {
-    if (node.parent !== undefined)
-        return printPath(node.parent) + "/" + node.name;
-    else
-        return "/" + node.name;
-}
-
-function mkDir(path, nam) {
-    let parent = path.split("/")[path.split("/").length - 1];
-    file_manager['name'] = {
-        name: nam,
-        id: id_element++,
-        parent: file_manager[parent],
-        type: "dir",
-        children: []
-    }
-}
-
-function mkFile(path, nam) {
-    let parent = path.split("/")[path.split("/").length - 1];
-    file_manager['name'] = {
-        name: nam,
-        id: id_element++,
-        parent: file_manager[parent],
-        type: "file",
-        children: []
-    }
-}
-
-function printTree(indent, node) {
-    let result = indent + node.name + "\n";
-    console.log(node.children);
-
-    if(node.children && node.children !== []) {
-        indent =  indent.replace("-"," ") + "|- ";
-        for(child of node.children) {
-            console.log(child);
-            result += printTree(indent, child)
-        }
-    }
-    return  result;
-}
+file_manager.file6.parent = file_manager.scrivania;

@@ -4,10 +4,8 @@ body {
     color: white;
 }
 
-.col {
+.col-shell {
     width: 100%;
-    margin-left: 10px;
-    margin-right: 10px;
 }
 
 .command_line > * {
@@ -35,4 +33,12 @@ body {
     color: white;
     border: unset;
     width: 100%
+}
+
+#catArea {
+    background-color: black;
+    position: absolute;
+    color: white;
+    border: unset;
+    width: 100%;
 }
