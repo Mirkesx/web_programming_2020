@@ -5,7 +5,8 @@ body {
 }
 
 .col-shell {
-    width: 100%;
+    position: relative;
+    width: 500;
 }
 
 .command_line > * {
@@ -32,7 +33,6 @@ body {
     position: absolute;
     color: white;
     border: unset;
-    width: 100%
 }
 
 #catArea {

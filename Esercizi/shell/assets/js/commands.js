@@ -35,12 +35,20 @@ const commands = {
         com : nano,
         help : "TO DO"
     },
+    clear : {
+        com : clearPage,
+        help : "TO DO"
+    },
 }
 
 //
 
-function echo(node, text) {
-    let result = text.toString();
+function clearPage(node, param) {
+    location.reload()
+}
+
+function echo(node, param) {
+    let result = param.toString();
     return {node,result};
 }
 

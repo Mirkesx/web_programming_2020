@@ -43,14 +43,16 @@ function parse_command() {
     let line_splitted = [line.split(" ",1)[0], line.substr(line.split(" ",1)[0].length+1)];
     let com = line_splitted[0];
     let response = {};
-    //console.log(line_splitted);
+    console.log(com);
+    console.log(line_splitted[1]);
 
     if(commands[com] !== undefined) {
         response = commands[com].com(actual_node, line_splitted[1]);
         actual_node = response.node;
     }
     else {
-        response = 'Comando "'+com+'" non trovato! Controllare la sintassi del comando e riprovare!';
+        response.com = "none"
+        response.result = 'Comando "'+com+'" non trovato! Controllare la sintassi del comando e riprovare!';
     }
 
     console.log("actual_node ",actual_node);
@@ -77,6 +79,7 @@ function nanoHandler(response) {
     temp_node = response.result;
     document.getElementById("past_commands").innerHTML += "<textarea id='catArea'>"+(temp_node.content !== undefined ? temp_node.content : "");
     document.getElementById("command_line").style.display = "none";
+    document.getElementById("catArea").focus()
 }
 
 // EVENTS
