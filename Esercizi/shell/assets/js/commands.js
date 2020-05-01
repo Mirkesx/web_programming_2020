@@ -44,7 +44,10 @@ const commands = {
 //
 
 function clearPage(node, param) {
-    location.reload()
+    document.getElementById("past_commands").innerHTML = "";
+    new_command_line();
+    actual_node = file_manager.root;
+    temp_node = undefined;
 }
 
 function echo(node, param) {
@@ -79,7 +82,7 @@ function printTreeR(node,indent="") {
     //console.log(node.children);
 
     if(node.children && node.children !== []) {
-        indent = indent/*.replace(/-/g," ",3)*/.replace(/>/g,"-",3) + "|-----> ";
+        indent = indent.replace(/-/g,"&nbsp;",3).replace(/>/g," &nbsp;",3) + "|-----> ";
         for(child of node.children) {
             //console.log(child);
             result += printTreeR(child,indent);

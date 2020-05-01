@@ -1,29 +1,145 @@
 body {
-    background-color: black;
-    font-size: 30px;
+    font-family: "Mono";
+}
+
+.container {
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+#terminal_icon {
+    position: absolute;
+    top: 20px;
+    width: 100px;
     color: white;
 }
 
-.col-shell {
+#terminal_icon:hover>* {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+}
+
+#terminal_icon>img {
+    width: 50px;
+    margin-left: 13px;
+}
+
+#windows-shell {
     position: relative;
-    width: 500;
+    background-color: grey;
+    height: 500px;
+    width: 700px;
+    display: none;
+    border-radius: 10px;
 }
 
-.command_line > * {
-    display: inline-block;
+#title_bar {
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 20px;
+}
+
+#title_bar>div:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+}
+
+#close_button {
     position: absolute;
+    height: 20px;
+    width: 20px;
+    top: 2px;
+    right: 5px;
 }
 
-#time {
+#max_button {
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    top: 2px;
+    right: 25px;
+}
+
+#min_button {
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    top: 2px;
+    right: 45px;
+}
+
+#shell {
+    position: absolute;
+    background-color: black;
+    top: 20px;
+    padding: 4px;
+    margin: 1px;
+    height: 455px;
+    width: 690px;
+    overflow-y: scroll;
+}
+
+
+/* width */
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+
+/* Track */
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 10px 10px black;
+    border-radius: 10px;
+    border: solid 3px transparent;
+}
+
+
+/* Handle */
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    box-shadow: inset 0 0 5px 5px rgb(128, 128, 128);
+    border: solid 3px transparent;
+}
+
+
+/* Handle on hover */
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(64, 64, 64);
+}
+
+#past_commands {
+    display: block;
+    background-color: black;
+    color: white;
+    top: 0;
+    width: 100%;
+}
+
+
+/*#command_line {
+    display: block;
+    width: 100px;
+}*/
+
+
+/*#time {
     width: fit-content;
-}
+}*/
 
-#time, .past_time {
+#time,
+.past_time {
     color: greenyellow;
     font-weight: bold;
 }
 
-#path, .past_path {
+#path,
+.past_path {
     color: aqua;
     font-weight: bold;
 }
@@ -41,4 +157,42 @@ body {
     color: white;
     border: unset;
     width: 100%;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 35px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    z-index: 10;
+}
+
+#min_shell {
+    margin-top: 1px;
+    margin-left: 10px;
+    height: 30px;
+    width: 30px;
+    z-index: 11;
+}
+
+#min_shell:hover>* {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 15px;
+}
+
+#min_shell>img {
+    position: absolute;
+    display: block;
+    height: 25px;
+}
+
+#min_shell>font {
+    position: absolute;
+    top: -5px;
+    left: 11px;
+    font-size: 40px;
+    display: none;
 }
