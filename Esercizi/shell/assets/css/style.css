@@ -21,8 +21,14 @@ body {
 }
 
 #terminal_icon>img {
+    position: relative;
     width: 50px;
     margin-left: 13px;
+}
+
+#terminal_icon>span {
+    position: relative;
+    margin-left: 8px;
 }
 
 #windows-shell {
