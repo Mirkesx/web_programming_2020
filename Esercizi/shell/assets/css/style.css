@@ -164,10 +164,10 @@ body {
 
 #catArea {
     position: absolute;
-    top:20px;
+    top: 20px;
     left: 1px;
     right: 0;
-    bottom:40px;
+    bottom: 40px;
     background-color: black;
     color: white;
     border: unset;
@@ -186,11 +186,11 @@ body {
 }
 
 #topNanoBar {
-    top:0;
+    top: 0;
 }
 
 #botNanoBar {
-    bottom:0;
+    bottom: 0;
     height: 40px;
 }
 
@@ -206,6 +206,7 @@ footer {
 }
 
 #min_shell {
+    position: relative;
     margin-left: 10px;
     height: 30px;
     width: 30px;
@@ -226,9 +227,9 @@ footer {
 
 #min_shell>font {
     position: absolute;
-    top: 0px;
-    left: 11px;
     font-size: 40px;
+    padding-left: 7px;
+    padding-right: 9px;
     display: none;
     cursor: default;
 }

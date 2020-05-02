@@ -22,8 +22,8 @@ function create_shell() {
     isShellMin = false;
     fS = 15;
     document.getElementById("past_commands").innerHTML = "";
-    $("#windows-shell").css({display: "block", fontSize: fS+"px"});
-    $("#shell > *").css({display: "block"});
+    $("#windows-shell").css({ display: "block", fontSize: fS + "px" });
+    $("#shell > *").css({ display: "block" });
     new_command_line();
 }
 
@@ -65,7 +65,7 @@ function click_min_icon() {
 
 function click_icon() {
     if (isShellOpen) {
-        if(isShellMin) {
+        if (isShellMin) {
             resume_shell();
         } else {
             min_shell();
@@ -83,7 +83,7 @@ function new_command_line() {
     const time = hours + ":" + minutes + ":" + seconds;
     const len_str = time.length + 4 + printPath(actual_node).length;
 
-    document.getElementById("path").innerHTML = printPath(actual_node).replace(" ","")+"$";
+    document.getElementById("path").innerHTML = printPath(actual_node).replace(" ", "") + "$";
     document.getElementById("time").innerHTML = time + " > :";
     document.getElementById("shell_input").value = "";
     document.getElementById("shell_time").value = time;
@@ -115,7 +115,7 @@ function parse_command() {
         actual_node = response.node;
     } else if (commands[com] !== undefined && com !== "help" && (line_splitted[1] === '--help' || line_splitted[1] === '-h')) {
         response.com = "showHelp"
-        response.result = "<br>"+commands[com].help+"<br>";
+        response.result = "<br>" + commands[com].help + "<br>";
     } else {
         response.com = "none"
         response.result = 'Comando "' + com + '" non trovato! Controllare la sintassi del comando e riprovare!';
@@ -139,7 +139,7 @@ function nanoHandler(response) {
         document.getElementById("past_commands").innerHTML += response.result + "<br>";
         return;
     }
-    if(response.node === response.result) {
+    if (response.node === response.result) {
         document.getElementById("past_commands").innerHTML += "Indicare un file come parametro." + "<br>";
         return;
     }
@@ -174,7 +174,7 @@ function resizePage() {
 
 // JQUERY
 
-$(document).ready(function () {
+$(document).ready(function() {
     $(window).resize(matchWindowDimensions);
 });
 
@@ -234,25 +234,25 @@ function removingPollinResize() {
 
 function resizeShell() {
     //console.log("ciao");
-    var width =  $("#windows-shell").width();
+    var width = $("#windows-shell").width();
     var height = $("#windows-shell").height();
-    $("#shell").height(height-45).width(width-10);
+    $("#shell").height(height - 45).width(width - 10);
 }
 
 // EVENTS
 
-window.addEventListener('keypress', function (event) {
+window.addEventListener('keypress', function(event) {
     if (event.keyCode === 13) { // Riconoscimento Enter per invio del comando
         parse_command();
     }
 }, false);
 
-document.addEventListener('keydown', function (event) {
+document.addEventListener('keydown', function(event) {
     if (event.ctrlKey && event.key === ',') { // Ingrandire il font
         fS += 1;
         if (fS > 20)
             fS = 20;
-        $("#shell > *").css({fontSize: fS+"px"});
+        $("#shell > *").css({ fontSize: fS + "px" });
         //console.log(document.body.style.fontSize);
     }
 
@@ -260,7 +260,7 @@ document.addEventListener('keydown', function (event) {
         fS -= 1;
         if (fS < 10)
             fS = 10;
-            $("#shell > *").css({fontSize: fS+"px"});
+        $("#shell > *").css({ fontSize: fS + "px" });
         //console.log(document.body.style.fontSize);
     }
 
@@ -294,27 +294,26 @@ document.addEventListener('keydown', function (event) {
         //console.log(document.body.style.fontSize);
     }
 
-    if(event.keyCode === 38) {
-        if(command_history.length > 0) {
-            if(index_history === -1) {
-                index_history = command_history.length-1;
+    if (event.keyCode === 38) {
+        if (command_history.length > 0) {
+            if (index_history === -1) {
+                index_history = command_history.length - 1;
 
             }
-            if(index_history >= 0) {
+            if (index_history >= 0) {
                 $("#shell_input").val(command_history[index_history]);
                 index_history--;
             }
         }
     }
 
-    if(event.keyCode === 40) {
-        if(command_history.length > 0) {
-            if(index_history !== -1) {
-                if(index_history ===  command_history.length) {
+    if (event.keyCode === 40) {
+        if (command_history.length > 0) {
+            if (index_history !== -1) {
+                if (index_history === command_history.length) {
                     $("#shell_input").val("");
                     index_history = -1;
-                }
-                else {
+                } else {
                     $("#shell_input").val(command_history[index_history]);
                     index_history++;
                 }
@@ -328,8 +327,9 @@ document.getElementById("close_button").onclick = close_shell;
 document.getElementById("min_button").onclick = min_shell;
 document.getElementById("min_shell").onclick = click_min_icon;
 document.getElementById("max_button").onclick = resizePage;
+document.getElementById("title_bar").ondblclick = resizePage;
 document.getElementById("title_bar").onmousedown = pressShell;
 document.getElementById("title_bar").onmouseup = releaseShell;
 document.onmousemove = moveShell;
-document.getElementById("windows-shell").onmousedown =  pollingResize;
-document.getElementById("windows-shell").onmouseup =  removingPollinResize;
+document.getElementById("windows-shell").onmousedown = pollingResize;
+document.getElementById("windows-shell").onmouseup = removingPollinResize;
