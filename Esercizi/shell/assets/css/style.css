@@ -9,9 +9,11 @@ body {
 }
 
 #terminal_icon {
-    position: absolute;
+    position: relative;
     top: 20px;
     width: 100px;
+    height: 100px;
+    text-align: center;
     color: white;
 }
 
@@ -21,14 +23,7 @@ body {
 }
 
 #terminal_icon>img {
-    position: relative;
     width: 50px;
-    margin-left: 13px;
-}
-
-#terminal_icon>span {
-    position: relative;
-    margin-left: 8px;
 }
 
 #windows-shell {
@@ -134,17 +129,6 @@ body {
     width: 100%;
 }
 
-
-/*#command_line {
-    display: block;
-    width: 100px;
-}*/
-
-
-/*#time {
-    width: fit-content;
-}*/
-
 #time,
 .past_time {
     color: greenyellow;
@@ -213,9 +197,10 @@ footer {
 #min_shell {
     position: relative;
     margin-left: 10px;
-    height: 30px;
+    height: 40px;
     width: 30px;
     z-index: 11;
+    text-align: center;
 }
 
 #min_shell:hover>* {
@@ -226,15 +211,11 @@ footer {
 #min_shell>img {
     position: absolute;
     display: block;
-    top: 5px;
-    height: 25px;
+    height: 30px;
 }
 
 #min_shell>font {
-    position: absolute;
     font-size: 40px;
-    padding-left: 7px;
-    padding-right: 9px;
     display: none;
     cursor: default;
 }
