@@ -152,6 +152,7 @@ function nanoHandler(response) {
     $("#shell").append('<div class="nanoBar" id="topNanoBar">GNU Nano 4.3</div>');
     $("#shell").append('<div class="nanoBar" id="botNanoBar">CTRL+ALT+S: Salva ed Esci.<br>CTRL+ALT+Q: Esci senza Salvare.</div>');
     $("#catArea").width($("#shell").width()).val(temp_node.content !== undefined ? temp_node.content : "");
+    $("#catArea").height($("#shell").height()-65);
 }
 
 function pressShell(event) {
@@ -229,6 +230,7 @@ function pollingResize() {
 function removingPollinResize() {
     clearInterval(interval);
     $("#catArea").width($("#shell").width());
+    $("#catArea").height($("#shell").height()-65);
     resizeShell();
 }
 
@@ -241,7 +243,7 @@ function resizeShell() {
 
 // EVENTS
 
-window.addEventListener('keypress', function(event) {
+document.getElementById("shell_input").addEventListener('keypress', function(event) {
     if (event.keyCode === 13) { // Riconoscimento Enter per invio del comando
         parse_command();
     }
