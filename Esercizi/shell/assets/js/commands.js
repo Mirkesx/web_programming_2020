@@ -1,43 +1,43 @@
 const commands = {
     echo : {
         com : echo,
-        help : "Stampa il valore che gli si passa in input"
+        help : "echo [text]<br>Print back the text."
     },
     help : {
         com : printAllCommands,
-        help : "Stampa la lista dei comandi disponibili."
+        help : ""
     },
     cd : {
         com : cd,
-        help : "Cambia la directory attiva. Chiede un path relativo/assoluto in input."
+        help : "cd [dir]<br>Change the shell working directory.<br><br>Change the current directory to DIR. The default DIR is the value of the HOME shell variable."
     },
     ls : {
         com : ls,
-        help : "TO DO"
+        help : "ls [OPZIONE]... [FILE]...<br>List information about the FILEs (the current directory by default)."
     },
     tree : {
         com : printTree,
-        help : "TO DO"
+        help : "tree<br>Print the whole file system."
     },
     mk : {
         com : mkFile,
-        help : "TO DO"
+        help : "mkDir [path]<br>Allows you to create a file."
     },
     mkDir : {
         com : mkDir,
-        help : "TO DO"
+        help : "mkDir [path]<br>Allows you to create a directory."
     },
     cat : {
         com : cat,
-        help : "TO DO"
+        help : "cat [file]<br>Allows you to read a file."
     },
     nano : {
         com : nano,
-        help : "TO DO"
+        help : "nano [file]<br>Allows you to modify a file or read it."
     },
     clear : {
         com : clearPage,
-        help : "TO DO"
+        help : "Clean shell text."
     },
 }
 
@@ -48,6 +48,7 @@ function clearPage(node, param) {
     new_command_line();
     actual_node = file_manager.root;
     temp_node = undefined;
+    return {node,result : ""};
 }
 
 function echo(node, param) {
@@ -73,7 +74,7 @@ function printPath(node) {
 
 function printTree(node,param) {
     let result = printTreeR(node);
-    console.log(result);
+    //console.log(result);
     return {node,result};
 }
 
@@ -95,7 +96,7 @@ function ls(node, param = {}) {
     //console.log(param !== '-a' || param !== '--all');
     let result = "";
     for(child of node.children){
-        result += "- " + (child.type == "dir" ? "@" : "#") + child.name + (param === '-a' || param === '--all' ? ", id: " + child.id + ", type: " + child.type + "<br>" : "<br>");
+        result += (child.type == "dir" ? "@" : "#") + child.name + (param === '-a' || param === '--all' ? ", id: " + child.id + ", type: " + child.type + "<br>" : " ");
     }
     return {node,result};
 }
@@ -118,7 +119,8 @@ function getLastNode(node, param) {
 
         switch(int_path) {
             case "..":
-                actual_pos = actual_pos.parent;
+                if(actual_pos.parent !== undefined)
+                    actual_pos = actual_pos.parent;
                 break;
             case ".":
                 actual_pos = actual_pos;
@@ -230,6 +232,9 @@ function mkFile(node, param) {
 }
 
 function cd(node, param) {
+    if(param === "") {
+        return {node : file_manager.username};
+    }
     let dir = getLastNode(node, param);
     if(dir.type === "dir") {
         console.log(dir);
