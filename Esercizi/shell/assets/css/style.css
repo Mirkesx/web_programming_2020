@@ -9,7 +9,7 @@ body {
 }
 
 #terminal_icon {
-    position: relative;
+    position: absolute;
     top: 20px;
     width: 100px;
     height: 100px;
