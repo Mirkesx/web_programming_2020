@@ -171,9 +171,9 @@ function resizePage() {
     } else {
         resizeToMax();
     }
+    $("#shell_input").focus();
+    document.getElementById("shell_input").scrollIntoView(false);
 }
-
-// JQUERY
 
 $(document).ready(function() {
     $(window).resize(matchWindowDimensions);
@@ -231,6 +231,8 @@ function removingPollinResize() {
     clearInterval(interval);
     $("#catArea").width($("#shell").width());
     $("#catArea").height($("#shell").height() - 65);
+    $("#shell_input").focus();
+    document.getElementById("shell_input").scrollIntoView(false);
     resizeShell();
 }
 
