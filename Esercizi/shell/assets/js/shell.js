@@ -25,6 +25,7 @@ function create_shell() {
     $("#windows-shell").css({ display: "block", fontSize: fS + "px" });
     $("#shell > *").css({ display: "block" });
     new_command_line();
+    $("#shell_input").focus();
 }
 
 function close_shell() {
@@ -47,6 +48,7 @@ function min_shell() {
 function resume_shell() {
     document.getElementById("windows-shell").style.display = "block";
     document.getElementById("dot").style.display = "none";
+    $("#shell_input").focus();
     isShellOpen = true;
     isShellMin = false;
 }
@@ -87,10 +89,6 @@ function new_command_line() {
     document.getElementById("time").innerHTML = time + " > :";
     document.getElementById("shell_input").value = "";
     document.getElementById("shell_time").value = time;
-    window, location.href = "#shell_input";
-    document.getElementById("shell_input").focus();
-    $('textarea').prop('selectionStart', len_str);
-
 }
 
 function parse_command() {
@@ -132,6 +130,8 @@ function parse_command() {
                 document.getElementById("past_commands").innerHTML += response.result + "<br>";
     }
     new_command_line();
+    document.getElementById("shell_input").focus();
+    document.getElementById("shell_input").scrollIntoView(false);
 }
 
 function nanoHandler(response) {
@@ -152,7 +152,7 @@ function nanoHandler(response) {
     $("#shell").append('<div class="nanoBar" id="topNanoBar">GNU Nano 4.3</div>');
     $("#shell").append('<div class="nanoBar" id="botNanoBar">CTRL+ALT+S: Salva ed Esci.<br>CTRL+ALT+Q: Esci senza Salvare.</div>');
     $("#catArea").width($("#shell").width()).val(temp_node.content !== undefined ? temp_node.content : "");
-    $("#catArea").height($("#shell").height()-65);
+    $("#catArea").height($("#shell").height() - 65);
 }
 
 function pressShell(event) {
@@ -230,7 +230,7 @@ function pollingResize() {
 function removingPollinResize() {
     clearInterval(interval);
     $("#catArea").width($("#shell").width());
-    $("#catArea").height($("#shell").height()-65);
+    $("#catArea").height($("#shell").height() - 65);
     resizeShell();
 }
 
@@ -278,6 +278,8 @@ document.addEventListener('keydown', function(event) {
             temp_node = undefined;
             $("#catArea").remove();
             $(".nanoBar").remove();
+            document.getElementById("shell_input").focus();
+            document.getElementById("shell_input").scrollIntoView(false);
         }
         //console.log(document.body.style.fontSize);
     }
@@ -292,6 +294,8 @@ document.addEventListener('keydown', function(event) {
             temp_node = undefined;
             $("#catArea").remove();
             $(".nanoBar").remove();
+            document.getElementById("shell_input").focus();
+            document.getElementById("shell_input").scrollIntoView(false);
         }
         //console.log(document.body.style.fontSize);
     }
@@ -324,7 +328,7 @@ document.addEventListener('keydown', function(event) {
     }
 });
 
-document.getElementById("terminal_icon").onclick = click_icon;
+document.getElementById("terminal_icon").ondblclick = click_icon;
 document.getElementById("close_button").onclick = close_shell;
 document.getElementById("min_button").onclick = min_shell;
 document.getElementById("min_shell").onclick = click_min_icon;
@@ -335,3 +339,5 @@ document.getElementById("title_bar").onmouseup = releaseShell;
 document.onmousemove = moveShell;
 document.getElementById("windows-shell").onmousedown = pollingResize;
 document.getElementById("windows-shell").onmouseup = removingPollinResize;
+$("#past_commands").click(() => { $("#shell_input").focus(); });
+$("#windows-shell").click(() => { $("#shell_input").focus(); });
