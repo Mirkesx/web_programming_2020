@@ -230,6 +230,11 @@ function moveShell(event) {
         $("#windows-shell").css({ top: offset.top + (event.pageY - lastY), left: offset.left + (event.pageX - lastX) });
         lastX = event.pageX;
         lastY = event.pageY;
+        if (offset.top + (event.pageY - lastY) > $(".container").height() - 20 - 40) {
+            console.log(offset.top + (event.pageY - lastY))
+            $("#windows-shell").css({ top: $(".container").height() - 20 - 40 });
+            lastY = event.pageY;
+        }
     }
 }
 
@@ -250,6 +255,12 @@ function resizeShell() {
     //console.log("ciao");
     var width = $("#windows-shell").width();
     var height = $("#windows-shell").height();
+    if (width < 300) {
+        $("#windows-shell").width(width = 300);
+    }
+    if (height < 100) {
+        $("#windows-shell").height(height = 100);
+    }
     $("#shell").height(height - 45).width(width - 10);
 }
 
@@ -347,7 +358,7 @@ document.getElementById("min_shell").onclick = click_min_icon;
 document.getElementById("max_button").onclick = resizePage;
 document.getElementById("title_bar").ondblclick = resizePage;
 document.getElementById("title_bar").onmousedown = pressShell;
-document.getElementById("title_bar").onmouseup = releaseShell;
+document. /*getElementById("title_bar").*/ onmouseup = releaseShell;
 document.onmousemove = moveShell;
 document.getElementById("windows-shell").onmousedown = pollingResize;
 document.getElementById("windows-shell").onmouseup = removingPollinResize;
