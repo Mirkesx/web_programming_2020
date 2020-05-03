@@ -18,8 +18,18 @@ var index_history = -1;
 
 function create_shell() {
     console.log("Create a shell!")
-    isShellOpen = true;
+    actual_node = file_manager.username;
+    temp_node = undefined;
+    isShellOpen = false;
     isShellMin = false;
+    isMax = false;
+    tmpHeight = tmpWidth = 0;
+    tmpX = tmpY = 0;
+    lastX = lastY = 0;
+    titleBarPressed = false;
+    interval = undefined;
+    command_history = [];
+    index_history = -1;
     fS = 15;
     document.getElementById("past_commands").innerHTML = "";
     $("#windows-shell").css({ display: "block", fontSize: fS + "px" });
