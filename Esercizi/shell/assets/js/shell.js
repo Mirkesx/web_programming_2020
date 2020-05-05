@@ -110,7 +110,7 @@ function parse_command() {
     //console.log(line);
     //console.log(time);
 
-    document.getElementById("past_commands").innerHTML += "<font class='past_time'>" + time + " > </font> : <font class='past_path'>" + printPath(actual_node) + "</font>$ " + line + "<br>";
+    document.getElementById("past_commands").innerHTML += "<font class='past_time'>" + time + " > :</font> <font class='past_path'>" + printPath(actual_node) + "$</font><br>" + line + "<br>";
 
     let line_splitted = [line.split(" ", 1)[0], line.substr(line.split(" ", 1)[0].length + 1)];
     let com = line_splitted[0];

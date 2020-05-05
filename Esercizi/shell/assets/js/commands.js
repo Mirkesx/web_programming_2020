@@ -39,6 +39,10 @@ const commands = {
         com : clearPage,
         help : "Clean shell text."
     },
+    logout : {
+        com : logout,
+        help : "Logout and close the shell."
+    },
 }
 
 //
@@ -267,4 +271,9 @@ function nano(node, param) {
         result = undefined;
     }    
     return {node, result : file};
+}
+
+function logout(node, param) {
+    close_shell()
+    return {node, result};
 }
