@@ -126,7 +126,7 @@ function parse_command() {
         response.result = "<br>" + commands[com].help + "<br>";
     } else {
         response.com = "none"
-        response.result = 'Comando "' + com + '" non trovato! Controllare la sintassi del comando e riprovare!';
+        response.result = '<br>Comando "' + com + '" non trovato! Controllare la sintassi del comando e riprovare!';
     }
 
     console.log("actual_node ", actual_node);
@@ -137,7 +137,7 @@ function parse_command() {
             break;
         default:
             if (response.result && response.result.length > 0)
-                document.getElementById("past_commands").innerHTML += response.result + "<br>";
+                document.getElementById("past_commands").innerHTML += "<br>" + response.result + "<br>";
     }
     new_command_line();
     document.getElementById("shell_input").focus();
