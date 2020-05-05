@@ -20,7 +20,7 @@ function create_shell() {
     console.log("Create a shell!")
     actual_node = file_manager.username;
     temp_node = undefined;
-    isShellOpen = false;
+    isShellOpen = true;
     isShellMin = false;
     isMax = false;
     tmpHeight = tmpWidth = 0;
