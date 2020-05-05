@@ -195,6 +195,7 @@ function matchWindowDimensions() {
     $(".container").height(bodyheight).width(bodywidth);
     $("#windows-shell").height(bodyheight / 3 - 35).width(bodywidth / 3);
     $("#shell").height(bodyheight / 3 - 80).width(bodywidth / 3 - 10);
+    resizeShell();
 }
 
 function resizeToMax() {
