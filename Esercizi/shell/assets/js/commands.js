@@ -251,7 +251,7 @@ function cat(node, param) {
     let file = getLastNode(node, param);
     let result;
     if(file.type === "file") {
-        result = (file.content !== undefined && file.content !== "" ? file.content : "Il file è vuoto!");
+        result = (file.content !== undefined && file.content !== "" ? file.content.replace(/\n/g,'<br>') : "Il file è vuoto!");
     }
     else {
         result = "Errore! " + param + " non è un file valido!";
