@@ -120,7 +120,10 @@ function parse_command() {
 
     if (commands[com] !== undefined && (line_splitted[1] !== '--help' && line_splitted[1] !== '-h')) {
         response = commands[com].com(actual_node, line_splitted[1]);
-        actual_node = response.node;
+        //console.log("Response com");
+        //console.log(response);
+        if(response && response.node !== undefined)
+            actual_node = response.node;
     } else if (commands[com] !== undefined && com !== "help" && (line_splitted[1] === '--help' || line_splitted[1] === '-h')) {
         response.com = "showHelp"
         response.result = "<br>" + commands[com].help + "<br>";
@@ -134,6 +137,8 @@ function parse_command() {
     switch (com) {
         case "nano":
             nanoHandler(response);
+            break;
+        case "containSTR" :
             break;
         default:
             if (response.result && response.result.length > 0)

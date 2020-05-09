@@ -1,48 +1,52 @@
 const commands = {
     echo : {
         com : echo,
-        help : "echo [text]<br>Print back the text."
+        help : "echo [text]<br>Print back the text.<br>"
     },
     help : {
         com : printAllCommands,
-        help : ""
+        help : "<br>"
     },
     cd : {
         com : cd,
-        help : "cd [dir]<br>Change the shell working directory.<br><br>Change the current directory to DIR. The default DIR is the value of the HOME shell variable."
+        help : "cd [dir]<br>Change the shell working directory.<br><br>Change the current directory to DIR. The default DIR is the value of the HOME shell variable.<br>"
     },
     ls : {
         com : ls,
-        help : "ls [OPZIONE]... [FILE]...<br>List information about the FILEs (the current directory by default)."
+        help : "ls [OPZIONE]... [FILE]...<br>List information about the FILEs (the current directory by default).<br>"
     },
     tree : {
         com : printTree,
-        help : "tree<br>Print the whole file system."
+        help : "tree<br>Print the whole file system.<br>"
     },
     mk : {
         com : mkFile,
-        help : "mkDir [path]<br>Allows you to create a file."
+        help : "mkDir [path]<br>Allows you to create a file.<br>"
     },
     mkDir : {
         com : mkDir,
-        help : "mkDir [path]<br>Allows you to create a directory."
+        help : "mkDir [path]<br>Allows you to create a directory.<br>"
     },
     cat : {
         com : cat,
-        help : "cat [file]<br>Allows you to read a file."
+        help : "cat [file]<br>Allows you to read a file.<br>"
     },
     nano : {
         com : nano,
-        help : "nano [file]<br>Allows you to modify a file or read it."
+        help : "nano [file]<br>Allows you to modify a file or read it.<br>"
     },
     clear : {
         com : clearPage,
-        help : "Clean shell text."
+        help : "Clean shell text.<br>"
     },
     logout : {
         com : logout,
-        help : "Logout and close the shell."
+        help : "Logout and close the shell.<br>"
     },
+    containSTR : {
+        com : containSTR,
+        help : "containSTR word1 word2<br>Remote command.<br>Returns whether word2 is inside word1 or not.<br>"
+    }
 }
 
 //
@@ -276,4 +280,45 @@ function nano(node, param) {
 function logout(node, param) {
     close_shell()
     return {node, result};
+}
+
+function containSTR(node, param) {
+    let w = param.split(" ");
+    $.ajax({
+        url : "http://localhost:3000/php/containSTR.php",
+        data : {
+            w1 : w[0],
+            w2 : w[1]
+        },
+        type : "GET",
+        dataType : "json",
+        /*success : (function(r) {
+            console.log(r);
+            printResult(r);
+        }),
+        fail : (function(xhr, status, errorThrown) {
+        r = "Sorry, there was a problem!";
+        console.log( "Error: " + errorThrown );
+        console.log( "Status: " + status );
+        printResult(r);
+        })*/
+    })
+    .done(function(r) {
+        console.log(r);
+        printResult(r.text);
+    })
+    .fail(function(xhr, status, errorThrown) {
+        console.log(xhr);
+        console.log( "Error: " + errorThrown );
+        console.log( "Status: " + status );
+        printResult("Sorry, there was a problem!");
+    })
+    .always(function(r) {
+        console.log( "The request is complete!" );
+    });
+}
+
+function printResult(result) {
+    console.log(result);
+    document.getElementById("past_commands").innerHTML += result + "<br>";
 }
