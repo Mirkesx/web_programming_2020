@@ -1,372 +1,261 @@
-// GLOBALS
+var shell_id = 0;
 
-var fS; //fontSize del body
-var actual_node = file_manager.username;
-var temp_node = undefined;
-var isShellOpen = false;
-var isShellMin = false;
-var isMax = false;
-var tmpHeight = tmpWidth = 0;
-var tmpX = tmpY = 0;
-var lastX = lastY = 0;
-var titleBarPressed = false;
-var interval = undefined;
-var command_history = [];
-var index_history = -1;
+class shell {
+    constructor() {
+        this.init_state();
+        this.renderShell();
+        this.setListeners();
 
-// FUNCTIONS
+        console.log("Created shell #" + this.id + "!")
+    }
 
-function create_shell() {
-    console.log("Create a shell!")
-    actual_node = file_manager.username;
-    temp_node = undefined;
-    isShellOpen = true;
-    isShellMin = false;
-    isMax = false;
-    tmpHeight = tmpWidth = 0;
-    tmpX = tmpY = 0;
-    lastX = lastY = 0;
-    titleBarPressed = false;
-    interval = undefined;
-    command_history = [];
-    index_history = -1;
-    fS = 15;
-    document.getElementById("past_commands").innerHTML = "";
-    $("#windows-shell").css({ display: "block", fontSize: fS + "px" });
-    $("#shell > *").css({ display: "block" });
-    new_command_line();
-    $("#shell_input").focus();
-}
+    init_state() {
+        this.id = shell_id++;
+        this.actual_node = file_manager.username;
+        this.temp_node = undefined;
+        this.tmpHeight = this.tmpWidth = 0;
+        this.tmpTop = this.tmpLeft = 0;
+        this.command_history = [];
+        this.index_history = -1;
+        this.fS = 15;
+        this.pc = this.cl = undefined;
+    }
 
-function close_shell() {
-    $("#catArea").remove();
-    $(".nanoBar").remove();
-    document.getElementById("past_commands").innerHTML = "";
-    document.getElementById("windows-shell").style.display = "none";
-    document.getElementById("dot").style.display = "none";
-    isShellOpen = false;
-    isShellMin = false;
-}
+    renderShell() {
+        this.window = $("<div class='window' id='shell" + this.id + "'></div>");
+        let title_bar = $('<div class="title_bar"></div>')
+            .append('<font class="title_text">Terminal ' + this.id + '</font>')
+            .append('<div class="close_button" style="background-image: url(assets/img/close.png);"></div>')
+            .append('<div class="min_button" style="background-image: url(assets/img/min.png);"></div>')
+            .append('<div class="max_button" style="background-image: url(assets/img/max.png);"></div>')
+        let shell = $('<div class="shell"></div>')
+            .append('<div class="past_commands" disabled></div>');
+        let command_line = $('<div class="command_line"></div>')
+            .append("<input type='hidden' class='shell_time' />")
+            .append("<font class='time'> :</font><font class='path'>$</font>")
+            .append('<input type="text" class="shell_input" />');
+        shell.append(command_line);
 
-function min_shell() {
-    document.getElementById("windows-shell").style.display = "none";
-    document.getElementById("dot").style.display = "block";
-    isShellOpen = true;
-    isShellMin = true;
-}
+        this.window.append(title_bar).append(shell);
 
-function resume_shell() {
-    document.getElementById("windows-shell").style.display = "block";
-    document.getElementById("dot").style.display = "none";
-    $("#shell_input").focus();
-    isShellOpen = true;
-    isShellMin = false;
-}
+        $('desktop').append(this.window);
+        $('#shell' + this.id).css({
+            top: 0,
+            height: '250px',
+            width: '350px'
+        });
 
-function click_min_icon() {
-    if (isShellMin) {
-        resume_shell();
-    } else {
-        if (isShellOpen) {
-            min_shell();
+        this.footer_icon = $("<div class='footer_icon' id='icon" + this.id + "'></div>")
+            .append("<img src='assets/img/terminal.png'>")
+            .append("<font class='dot'>.</font>")
+        $('footer').append(this.footer_icon);
+        $('#icon' + this.id).css({
+            'margin-left': '10px',
+            height: '40px',
+            width: '30px'
+        });
+
+        $("#shell" + this.id + "shell").css({ fontSize: this.fS + "px" });
+        this.new_command_line();
+        $("#shell" + this.id + "shell").focus();
+    }
+
+    new_command_line() {
+        const today = new Date();
+        const hours = today.getHours().toString().length === 1 ? "0" + today.getHours() : today.getHours();
+        const minutes = today.getMinutes().toString().length === 1 ? "0" + today.getMinutes() : today.getMinutes();
+        const seconds = today.getSeconds().toString().length === 1 ? "0" + today.getSeconds() : today.getSeconds();
+        const time = hours + ":" + minutes + ":" + seconds;
+
+        $("#shell" + this.id + " .path").html(printPath(this.actual_node).replace(" ", "") + "$");
+        $("#shell" + this.id + " .time").html(time + " > :");
+        $("#shell" + this.id + " .shell_input").val("");
+        $("#shell" + this.id + " .shell_time").val(time);
+    }
+
+    parse_command() {
+        const line = $("#shell" + this.id + " .shell_input").val();
+        const time = $("#shell" + this.id + " .shell_time").val();
+        this.command_history.push(line);
+        this.index_history = -1;
+
+        $("#shell" + this.id + " .past_commands").append("<font class='past_time'>" + time + " > :</font> <font class='past_path'>" + printPath(this.actual_node) + "$</font><br>" + line + "<br>");
+
+        let line_splitted = [line.split(" ", 1)[0], line.substr(line.split(" ", 1)[0].length + 1)];
+        let com = line_splitted[0];
+        let response = {};
+
+        if (commands[com] !== undefined && (line_splitted[1] !== '--help' && line_splitted[1] !== '-h')) {
+            response = commands[com].com(this.actual_node, line_splitted[1], this.id);
+            //console.log("Response com");
+            //console.log(response);
+            if (response && response.node !== undefined)
+                this.actual_node = response.node;
+        } else if (commands[com] !== undefined && com !== "help" && (line_splitted[1] === '--help' || line_splitted[1] === '-h')) {
+            response.com = "showHelp"
+            response.result = "<br>" + commands[com].help + "<br>";
         } else {
-            create_shell();
+            response.com = "none"
+            response.result = '<br>Comando "' + com + '" non trovato! Controllare la sintassi del comando e riprovare!';
+        }
+
+        console.log("actual_node ", this.actual_node);
+
+        switch (com) {
+            case "nano":
+                this.nanoHandler(response);
+                return;
+            case "inSTR":
+                break;
+            default:
+                if (response.result && response.result.length > 0)
+                    $("#shell" + this.id + " .past_commands").append("<br>" + response.result + "<br>");
+        }
+        this.new_command_line();
+        //console.log('top_shell_input: ', $("#shell"+this.id+ " .shell_input").offset().top);
+        $("#shell" + this.id + " .shell_input")[0].scrollIntoView(false);
+    }
+
+    nanoHandler(response) {
+        if (typeof response.result === 'string') {
+            $("#shell" + this.id + " .past_commands").append(response.result + "<br>");
+            return;
+        }
+        if (response.node === response.result) {
+            $("#shell" + this.id + " .past_commands").append("Indicare un file come parametro." + "<br>");
+            return;
+        }
+        console.log(response);
+        this.temp_node = response.result;
+        //document.getElementById("past_commands").innerHTML += "<textarea id='catArea'>" + (temp_node.content !== undefined ? temp_node.content : "");
+        this.pc = $("#shell" + this.id + " .past_commands").detach();
+        this.cl = $("#shell" + this.id + " .command_line").detach();
+        console.log(this.pc, this.lc);
+        $("#shell" + this.id+" .shell").append('<textarea class="catArea"></textarea>');
+        $("#shell" + this.id+" .shell").append('<div class="nanoBar topNanoBar">GNU Nano 4.3</div>');
+        $("#shell" + this.id+" .shell").append('<div class="nanoBar botNanoBar">CTRL+ALT+S: Salva ed Esci.<br>CTRL+ALT+Q: Esci senza Salvare.</div>');
+    }
+
+    setListeners() {
+
+        $('#shell' + this.id).draggable({ stack: 'div', cursor: "pointer" }).resizable({ minHeight: 150, minWidth: 250 });
+        $('#shell' + this.id + ' .title_bar').dblclick(this.maximize);
+        $('#shell' + this.id + ' .max_button').click(this.maximize);
+        $('#shell' + this.id + ' .close_button').click(this.close);
+        $('#shell' + this.id + ' .min_button').click(this.minimize);
+        $('#shell' + this.id + ' .shell').click(() => { $('#shell' + this.id + ' .shell_input').focus() })
+        $('#icon' + this.id).click(this.minimize);
+
+        $('#shell'+this.id+' .shell').keydown(this.key_down_actions);
+    }
+
+    maximize = () => {
+        let h = $('desktop').height();
+        let w = $('desktop').width();
+        if (h != $('#shell' + this.id).height() && w != $('#shell' + this.id).width()) {
+            this.tmpHeight = $('#shell' + this.id).height();
+            this.tmpWidth = $('#shell' + this.id).width();
+            this.tmpTop = $('#shell' + this.id).position().top;
+            this.tmpLeft = $('#shell' + this.id).position().left;
+            $('#shell' + this.id).css({ top: 0, left: 0, height: h, width: w });
+        }
+        else {
+            $('#shell' + this.id).css({ top: this.tmpTop, left: this.tmpLeft, height: this.tmpHeight, width: this.tmpWidth });
+            this.tmpHeight = this.tmpWidth = this.tmpTop = this.tmpLeft = 0;
+        }
+    };
+
+    minimize = () => {
+        if ($('#icon' + this.id + ' .dot').css("display") == "none") {
+            this.window.css({ display: "none" });
+            $('#icon' + this.id + ' .dot').css({ display: "block" });
+        }
+        else {
+            this.window.css({ display: "block" });
+            $('#icon' + this.id + ' .dot').css({ display: "none" });
         }
     }
-}
 
-function click_icon() {
-    if (isShellOpen) {
-        if (isShellMin) {
-            resume_shell();
-        } else {
-            min_shell();
+    close = () => {
+        this.window.remove();
+        this.footer_icon.remove();
+    };
+
+    key_down_actions = (event) => {
+        if (event.keyCode === 13) { // Riconoscimento Enter per invio del comando
+            this.parse_command();
         }
-    } else {
-        create_shell();
-    }
-}
 
-function new_command_line() {
-    const today = new Date();
-    const hours = today.getHours().toString().lengthlength === 1 ? "0" + today.getHours() : today.getHours();
-    const minutes = today.getMinutes().toString().length === 1 ? "0" + today.getMinutes() : today.getMinutes();
-    const seconds = today.getSeconds().toString().length === 1 ? "0" + today.getSeconds() : today.getSeconds();
-    const time = hours + ":" + minutes + ":" + seconds;
-    const len_str = time.length + 4 + printPath(actual_node).length;
-
-    document.getElementById("path").innerHTML = printPath(actual_node).replace(" ", "") + "$";
-    document.getElementById("time").innerHTML = time + " > :";
-    document.getElementById("shell_input").value = "";
-    document.getElementById("shell_time").value = time;
-}
-
-function parse_command() {
-    const line = document.getElementById("shell_input").value;
-    const time = document.getElementById("shell_time").value;
-    command_history.push(line);
-    index_history = -1;
-
-    //console.log(line);
-    //console.log(time);
-
-    document.getElementById("past_commands").innerHTML += "<font class='past_time'>" + time + " > :</font> <font class='past_path'>" + printPath(actual_node) + "$</font><br>" + line + "<br>";
-
-    let line_splitted = [line.split(" ", 1)[0], line.substr(line.split(" ", 1)[0].length + 1)];
-    let com = line_splitted[0];
-    let response = {};
-    //console.log(com);
-    //console.log(line_splitted[1]);
-
-    if (commands[com] !== undefined && (line_splitted[1] !== '--help' && line_splitted[1] !== '-h')) {
-        response = commands[com].com(actual_node, line_splitted[1]);
-        //console.log("Response com");
-        //console.log(response);
-        if(response && response.node !== undefined)
-            actual_node = response.node;
-    } else if (commands[com] !== undefined && com !== "help" && (line_splitted[1] === '--help' || line_splitted[1] === '-h')) {
-        response.com = "showHelp"
-        response.result = "<br>" + commands[com].help + "<br>";
-    } else {
-        response.com = "none"
-        response.result = '<br>Comando "' + com + '" non trovato! Controllare la sintassi del comando e riprovare!';
-    }
-
-    console.log("actual_node ", actual_node);
-
-    switch (com) {
-        case "nano":
-            nanoHandler(response);
-            break;
-        case "containSTR" :
-            break;
-        default:
-            if (response.result && response.result.length > 0)
-                document.getElementById("past_commands").innerHTML += "<br>" + response.result + "<br>";
-    }
-    new_command_line();
-    document.getElementById("shell_input").focus();
-    document.getElementById("shell_input").scrollIntoView(false);
-}
-
-function nanoHandler(response) {
-    if (typeof response.result === 'string') {
-        document.getElementById("past_commands").innerHTML += response.result + "<br>";
-        return;
-    }
-    if (response.node === response.result) {
-        document.getElementById("past_commands").innerHTML += "Indicare un file come parametro." + "<br>";
-        return;
-    }
-    console.log(response);
-    temp_node = response.result;
-    //document.getElementById("past_commands").innerHTML += "<textarea id='catArea'>" + (temp_node.content !== undefined ? temp_node.content : "");
-    document.getElementById("past_commands").style.display = "none";
-    document.getElementById("command_line").style.display = "none";
-    $("#shell").append('<textarea id="catArea"></textarea>');
-    $("#shell").append('<div class="nanoBar" id="topNanoBar">GNU Nano 4.3</div>');
-    $("#shell").append('<div class="nanoBar" id="botNanoBar">CTRL+ALT+S: Salva ed Esci.<br>CTRL+ALT+Q: Esci senza Salvare.</div>');
-    $("#catArea").width($("#shell").width()).val(temp_node.content !== undefined ? temp_node.content : "");
-    $("#catArea").height($("#shell").height() - 65);
-}
-
-function pressShell(event) {
-    titleBarPressed = true;
-    lastX = event.pageX;
-    lastY = event.pageY;
-}
-
-function releaseShell(event) {
-    titleBarPressed = false;
-}
-
-function resizePage() {
-    if (isMax) {
-        resizeBack();
-    } else {
-        resizeToMax();
-    }
-    $("#shell_input").focus();
-    document.getElementById("shell_input").scrollIntoView(false);
-}
-
-$(document).ready(function() {
-    $(window).resize(matchWindowDimensions);
-});
-
-function matchWindowDimensions() {
-    var bodyheight = $(window).height();
-    var bodywidth = $(window).width();
-    $(".container").height(bodyheight).width(bodywidth);
-    $("#windows-shell").height(bodyheight / 3 - 35).width(bodywidth / 3);
-    $("#shell").height(bodyheight / 3 - 80).width(bodywidth / 3 - 10);
-    resizeShell();
-}
-
-function resizeToMax() {
-    tmpHeight = $("#windows-shell").height();
-    tmpWidth = $("#windows-shell").width();
-    var offset = $("#windows-shell").offset();
-    tmpX = offset.left;
-    tmpY = offset.top;
-    var conHeight = $(".container").height();
-    var conWidth = $(".container").width();
-    $("#windows-shell").css({ top: 0, left: 0 });
-    $("#windows-shell").height(conHeight - 40).width(conWidth);
-    $("#shell").height(conHeight - 85).width(conWidth - 10);
-    isMax = true;
-}
-
-function resizeBack() {
-    if (tmpHeight > $(window).height() * 3 / 4 && tmpWidth > $(window).width() * 3 / 4) {
-        tmpHeight *= 3 / 8;
-        tmpWidth *= 3 / 8;
-    }
-    $("#windows-shell").css({ top: tmpY, left: tmpX });
-    $("#windows-shell").height(tmpHeight).width(tmpWidth);
-    $("#shell").height(tmpHeight - 45).width(tmpWidth - 10);
-    isMax = false;
-}
-
-function moveShell(event) {
-    //console.log(event);
-    if (titleBarPressed) {
-        //console.log(event);
-        var offset = $("#windows-shell").offset();
-        $("#windows-shell").css({ top: offset.top + (event.pageY - lastY), left: offset.left + (event.pageX - lastX) });
-        lastX = event.pageX;
-        lastY = event.pageY;
-        if (offset.top + (event.pageY - lastY) > $(".container").height() - 20 - 40) {
-            console.log(offset.top + (event.pageY - lastY))
-            $("#windows-shell").css({ top: $(".container").height() - 20 - 40 });
-            lastY = event.pageY;
+        if (event.ctrlKey && event.key === ',') { // Ingrandire il font
+            this.fS += 1;
+            if (this.fS > 20)
+                this.fS = 20;
+            $("#shell" + this.id + " > .shell *").css({ fontSize: this.fS + "px" });
         }
-    }
-}
 
-function pollingResize() {
-    interval = setInterval(resizeShell, 50);
-}
-
-function removingPollinResize() {
-    clearInterval(interval);
-    $("#catArea").width($("#shell").width());
-    $("#catArea").height($("#shell").height() - 65);
-    $("#shell_input").focus();
-    document.getElementById("shell_input").scrollIntoView(false);
-    resizeShell();
-}
-
-function resizeShell() {
-    //console.log("ciao");
-    var width = $("#windows-shell").width();
-    var height = $("#windows-shell").height();
-    if (width < 300) {
-        $("#windows-shell").width(width = 300);
-    }
-    if (height < 100) {
-        $("#windows-shell").height(height = 100);
-    }
-    $("#shell").height(height - 45).width(width - 10);
-}
-
-// EVENTS
-
-document.getElementById("shell_input").addEventListener('keypress', function(event) {
-    if (event.keyCode === 13) { // Riconoscimento Enter per invio del comando
-        parse_command();
-    }
-}, false);
-
-document.addEventListener('keydown', function(event) {
-    if (event.ctrlKey && event.key === ',') { // Ingrandire il font
-        fS += 1;
-        if (fS > 20)
-            fS = 20;
-        $("#shell > *").css({ fontSize: fS + "px" });
-        //console.log(document.body.style.fontSize);
-    }
-
-    if (event.ctrlKey && event.key === '.') { // Diminuire il font
-        fS -= 1;
-        if (fS < 10)
-            fS = 10;
-        $("#shell > *").css({ fontSize: fS + "px" });
-        //console.log(document.body.style.fontSize);
-    }
-
-    if (event.ctrlKey && event.altKey && event.key === 's') { // Per nano. Salvare il file.
-        let $el;
-        if (($el = document.getElementById("catArea")) !== null && $el !== undefined) {
-            console.log(file_manager[temp_node.name + temp_node.id]);
-            file_manager[temp_node.name + temp_node.id].content = $el.value;
-            $el.parentNode.removeChild($el);
-            document.getElementById("past_commands").innerHTML += "Uscita dall'editor. File modificato!" + "<br>";
-            document.getElementById("command_line").style.display = "block";
-            document.getElementById("past_commands").style.display = "block";
-            temp_node = undefined;
-            $("#catArea").remove();
-            $(".nanoBar").remove();
-            document.getElementById("shell_input").focus();
-            document.getElementById("shell_input").scrollIntoView(false);
+        if (event.ctrlKey && event.key === '.') { // Diminuire il font
+            this.fS -= 1;
+            if (this.fS < 10)
+                this.fS = 10;
+            $("#shell" + this.id + " > .shell *").css({ fontSize: this.fS + "px" });
         }
-        //console.log(document.body.style.fontSize);
-    }
 
-    if (event.ctrlKey && event.altKey && event.key === 'q') { // Per nano. Salvare il file.
-        let $el;
-        if (($el = document.getElementById("catArea")) !== null && $el !== undefined) {
-            console.log(file_manager[temp_node.name + temp_node.id]);
-            document.getElementById("past_commands").innerHTML += "Uscita dall'editor." + "<br>";
-            document.getElementById("command_line").style.display = "block";
-            document.getElementById("past_commands").style.display = "block";
-            temp_node = undefined;
-            $("#catArea").remove();
-            $(".nanoBar").remove();
-            document.getElementById("shell_input").focus();
-            document.getElementById("shell_input").scrollIntoView(false);
-        }
-        //console.log(document.body.style.fontSize);
-    }
-
-    if (event.keyCode === 38) {
-        if (command_history.length > 0) {
-            if (index_history === -1) {
-                index_history = command_history.length - 1;
-
-            }
-            if (index_history >= 0) {
-                $("#shell_input").val(command_history[index_history]);
-                index_history--;
+        if (event.ctrlKey && event.altKey && event.key === 's') { // Per nano. Salvare il file.
+            let $el;
+            if (($el = $("#shell" + this.id + " .catArea")) !== null && $el !== undefined) {
+                console.log(file_manager[this.temp_node.name + this.temp_node.id]);
+                file_manager[this.temp_node.name + this.temp_node.id].content = $el.val();
+                this.closeNano();
             }
         }
-    }
 
-    if (event.keyCode === 40) {
-        if (command_history.length > 0) {
-            if (index_history !== -1) {
-                if (index_history === command_history.length) {
-                    $("#shell_input").val("");
-                    index_history = -1;
-                } else {
-                    $("#shell_input").val(command_history[index_history]);
-                    index_history++;
+        if (event.ctrlKey && event.altKey && event.key === 'q') { // Per nano. Uscire senza salvare il file.
+            let $el;
+            if (($el = $("#shell" + this.id + " .catArea")) !== null && $el !== undefined) {
+                console.log(file_manager[this.temp_node.name + this.temp_node.id]);
+                this.closeNano();
+            }
+        }
+
+        if (event.keyCode === 38) {
+            if (this.command_history.length > 0) {
+                if (this.index_history === -1) {
+                    this.index_history = this.command_history.length - 1;
+
+                }
+                if (this.index_history >= 0) {
+                    $("#shell" + this.id + " .shell_input").val(this.command_history[this.index_history]);
+                    this.index_history--;
+                }
+            }
+        }
+
+        if (event.keyCode === 40) {
+            if (this.command_history.length > 0) {
+                if (this.index_history !== -1) {
+                    if (this.index_history === this.command_history.length) {
+                        $("#shell" + this.id + " .shell_input").val("");
+                        this.index_history = -1;
+                    } else {
+                        $("#shell" + this.id + " .shell_input").val(this.command_history[this.index_history]);
+                        this.index_history++;
+                    }
                 }
             }
         }
     }
-});
 
-document.getElementById("terminal_icon").ondblclick = click_icon;
-document.getElementById("close_button").onclick = close_shell;
-document.getElementById("min_button").onclick = min_shell;
-document.getElementById("min_shell").onclick = click_min_icon;
-document.getElementById("max_button").onclick = resizePage;
-document.getElementById("title_bar").ondblclick = resizePage;
-document.getElementById("title_bar").onmousedown = pressShell;
-document. /*getElementById("title_bar").*/ onmouseup = releaseShell;
-document.onmousemove = moveShell;
-document.getElementById("windows-shell").onmousedown = pollingResize;
-document.getElementById("windows-shell").onmouseup = removingPollinResize;
-$("#past_commands").click(() => { $("#shell_input").focus(); });
-$("#windows-shell").click(() => { $("#shell_input").focus(); });
+    closeNano() {
+        $("#shell" + this.id + " .past_commands").append("Uscita dall'editor. File modificato!" + "<br>");
+        $("#shell" + this.id + " .past_commands").css({ display: "block" });
+        $("#shell" + this.id + " .command_line").css({ display: "block" });
+        this.temp_node = undefined;
+        $("#shell" + this.id + " .catArea").remove();
+        $("#shell" + this.id + " .nanoBar").remove();
+        $("#shell" + this.id + " .shell").append(this.pc);
+        $("#shell" + this.id + " .shell").append(this.cl);
+        this.new_command_line();
+        $("#shell" + this.id + " .shell_input").focus();
+        $("#shell" + this.id + " .shell_input")[0].scrollIntoView(false);
+    }
+}

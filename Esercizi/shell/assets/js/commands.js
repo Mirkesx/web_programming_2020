@@ -43,7 +43,7 @@ const commands = {
         com : logout,
         help : "Logout and close the shell.<br>"
     },
-    containSTR : {
+    inSTR : {
         com : containSTR,
         help : "containSTR word1 word2<br>Remote command.<br>Returns whether word2 is inside word1 or not.<br>"
     }
@@ -52,7 +52,7 @@ const commands = {
 //
 
 function clearPage(node, param) {
-    document.getElementById("past_commands").innerHTML = "";
+    param.page.innerHTML = "";
     new_command_line();
     actual_node = file_manager.root;
     temp_node = undefined;
@@ -65,7 +65,6 @@ function echo(node, param) {
 }
 
 function printAllCommands(node) {
-    var keyNames = Object.keys(commands);
     let result = "I comandi disponibili sono:<br>"
     for(com in commands) {
         result += "- "+com+"<br>";
@@ -282,43 +281,34 @@ function logout(node, param) {
     return {node, result};
 }
 
-function containSTR(node, param) {
+function containSTR(node, param, shell_id) {
     let w = param.split(" ");
     $.ajax({
         url : "http://localhost:3000/php/containSTR.php",
         data : {
             w1 : w[0],
-            w2 : w[1]
+            w2 : w[1],
+            id : shell_id,
         },
         type : "GET",
-        dataType : "json",
-        /*success : (function(r) {
-            console.log(r);
-            printResult(r);
-        }),
-        fail : (function(xhr, status, errorThrown) {
-        r = "Sorry, there was a problem!";
-        console.log( "Error: " + errorThrown );
-        console.log( "Status: " + status );
-        printResult(r);
-        })*/
+        dataType : "json"
     })
     .done(function(r) {
         console.log(r);
-        printResult(r.text);
+        printResult(r.text,r.id);
     })
     .fail(function(xhr, status, errorThrown) {
         console.log(xhr);
         console.log( "Error: " + errorThrown );
         console.log( "Status: " + status );
-        printResult("Sorry, there was a problem!");
+        printResult("Sorry, there was a problem!",id);
     })
     .always(function(r) {
         console.log( "The request is complete!" );
     });
 }
 
-function printResult(result) {
+function printResult(result,id) {
     console.log(result);
-    document.getElementById("past_commands").innerHTML += result + "<br>";
+    $("#shell"+id+" .past_commands").append(result + "<br>");
 }

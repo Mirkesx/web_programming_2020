@@ -4,45 +4,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/cupertino/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
     <title>Shell</title>
 </head>
 
-<body onload=matchWindowDimensions() style='background-image: url("assets/img/bk_ubuntu.jpg"); background-size: initial; overflow: hidden; background-repeat: no-repeat;'>
-    <div class="container">
-        <div id="terminal_icon">
-            <img src="assets/img/terminal.png">
-            <span>Terminal</span>
-        </div>
-        <div id="windows-shell">            
-            <div id="title_bar">
-                <font id="title_text">Terminal</font>
-                <div id="close_button" style="background-image: url(assets/img/close.png);"></div>
-                <div id="min_button" style="background-image: url(assets/img/min.png);"></div>
-                <div id="max_button" style="background-image: url(assets/img/max.png);"></div>
-            </div>
-            <div id="shell">
-                <div id="past_commands" disabled></div>
-                <div id="command_line">
-                    <input type='hidden' id='shell_time' />
-                    <font id='time'> </font>:<font id='path'></font>$
-                    <input type="text" id='shell_input'>
-                </div>
-            </div>
-        </div>
-        <footer>
-            <div id="min_shell">
+<body>
+    <div class="container" style='background-image: url("assets/img/bk_ubuntu.jpg"); background-size: initial; overflow: hidden; background-repeat: no-repeat;'>
+        <desktop>
+            <div id="terminal_icon">
                 <img src="assets/img/terminal.png">
-                <font id="dot">.</font>
+                <span>Terminal</span>
             </div>
+        </desktop>
+        <footer>
         </footer>
     </div>
 
     <script src="assets/plugin/js/jquery-3.5.0.min.js"></script>
+    <script src="assets/plugin/js/jquery-ui.js"></script>
     <script src="assets/plugin/js/lodash.js"></script>
     <script src="assets/js/file_manager.js"></script>
     <script src="assets/js/commands.js"></script>
     <script src="assets/js/shell.js"></script>
+    <script src="assets/js/main.js"></script>
 </body>
 
 </html>

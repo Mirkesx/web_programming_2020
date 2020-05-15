@@ -22,4 +22,4 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
   } else {
     $result .= "Method sbagliato! Supporto solo GET";
   }
-  echo json_encode(array("text" => $result));
+  echo json_encode(array("text" => $result, "id" => $_GET['id']));
