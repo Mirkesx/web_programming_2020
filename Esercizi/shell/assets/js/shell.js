@@ -19,6 +19,7 @@ class shell {
         this.index_history = -1;
         this.fS = 15;
         this.pc = this.cl = undefined;
+        this.shell_detached = undefined;
     }
 
     renderShell() {
@@ -127,13 +128,26 @@ class shell {
         }
         console.log(response);
         this.temp_node = response.result;
-        //document.getElementById("past_commands").innerHTML += "<textarea id='catArea'>" + (temp_node.content !== undefined ? temp_node.content : "");
-        this.pc = $("#shell" + this.id + " .past_commands").detach();
-        this.cl = $("#shell" + this.id + " .command_line").detach();
-        console.log(this.pc, this.lc);
-        $("#shell" + this.id+" .shell").append('<textarea class="catArea"></textarea>');
-        $("#shell" + this.id+" .shell").append('<div class="nanoBar topNanoBar">GNU Nano 4.3</div>');
-        $("#shell" + this.id+" .shell").append('<div class="nanoBar botNanoBar">CTRL+ALT+S: Salva ed Esci.<br>CTRL+ALT+Q: Esci senza Salvare.</div>');
+        this.shell_detached = $("#shell" + this.id + " .shell").detach();
+        this.window.append('<div class="nano"></div>');
+        $("#shell" + this.id + " .nano").append('<textarea class="catArea"></textarea>');
+        $("#shell" + this.id + " .nano").append('<div class="nanoBar topNanoBar">GNU Nano 4.3</div>');
+        $("#shell" + this.id + " .nano").append('<div class="nanoBar botNanoBar">CTRL+ALT+S: Salva ed Esci.<br>CTRL+ALT+Q: Esci senza Salvare.</div>');
+        $("#shell" + this.id + " .catArea").val(response.result.content);
+        $('#shell' + this.id + ' .nano').keydown(this.key_down_actions);
+    }
+
+    closeNano() {
+        $("#shell" + this.id + " .past_commands").append("Uscita dall'editor. File modificato!" + "<br>");
+        $("#shell" + this.id + " .past_commands").css({ display: "block" });
+        $("#shell" + this.id + " .command_line").css({ display: "block" });
+        this.temp_node = undefined;
+        $('#shell' + this.id + ' .nano').off('keydown', '**');
+        $("#shell" + this.id + " .nano").remove();
+        this.window.append(this.shell_detached);
+        this.new_command_line();
+        $("#shell" + this.id + " .shell_input").focus();
+        $("#shell" + this.id + " .shell_input")[0].scrollIntoView(false);
     }
 
     setListeners() {
@@ -146,7 +160,7 @@ class shell {
         $('#shell' + this.id + ' .shell').click(() => { $('#shell' + this.id + ' .shell_input').focus() })
         $('#icon' + this.id).click(this.minimize);
 
-        $('#shell'+this.id+' .shell').keydown(this.key_down_actions);
+        $('#shell' + this.id + ' .shell').keydown(this.key_down_actions);
     }
 
     maximize = () => {
@@ -243,19 +257,5 @@ class shell {
                 }
             }
         }
-    }
-
-    closeNano() {
-        $("#shell" + this.id + " .past_commands").append("Uscita dall'editor. File modificato!" + "<br>");
-        $("#shell" + this.id + " .past_commands").css({ display: "block" });
-        $("#shell" + this.id + " .command_line").css({ display: "block" });
-        this.temp_node = undefined;
-        $("#shell" + this.id + " .catArea").remove();
-        $("#shell" + this.id + " .nanoBar").remove();
-        $("#shell" + this.id + " .shell").append(this.pc);
-        $("#shell" + this.id + " .shell").append(this.cl);
-        this.new_command_line();
-        $("#shell" + this.id + " .shell_input").focus();
-        $("#shell" + this.id + " .shell_input")[0].scrollIntoView(false);
     }
 }

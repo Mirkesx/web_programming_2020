@@ -89,9 +89,9 @@ desktop {
     position: absolute;
     background-color: black;
     top: 20px;
-    left: 5px;
-    right: 5px;
-    bottom:5px;
+    left: 0px;
+    right: 0px;
+    bottom: 10px;
     padding: 5px;
     overflow-y: scroll;
 }
@@ -159,11 +159,20 @@ desktop {
     border: unset;
 }
 
+.nano {
+    position: absolute;
+    background-color: black;
+    top: 20px;
+    left: 0px;
+    right: 0px;
+    bottom: 10px;
+}
+
 .catArea {
     position: absolute;
     top: 20px;
     bottom: 40px;
-    width: 100%;
+    width:100%;
     background-color: black;
     color: white;
     border: unset;
