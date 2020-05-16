@@ -7,11 +7,11 @@ class FileSystem {
         this.setListeners();
         this.renderElements(this.actual_node);
 
-        console.log("Created shell #" + this.id + "!")
+        console.log("Created filesys #" + this.id + "!")
     }
 
     init_state() {
-        this.id = shell_id++;
+        this.id = file_id++;
         this.actual_node = file_manager.username;
     }
 
@@ -21,7 +21,7 @@ class FileSystem {
             .append('<font class="title_text">FileSystem ' + this.id + '</font>')
             .append('<div class="close_button" style="background-image: url(assets/img/close.png);"></div>')
             .append('<div class="min_button" style="background-image: url(assets/img/min.png);"></div>')
-            .append('<div class="max_button" style="background-image: url(assets/img/max.png);"></div>')
+            .append('<div class="max_button" style="background-image: url(assets/img/max.png);"></div>');
         let fs_top_bar = $('<div class="file-system-bar"></div>')
             .append('<div class="parent-icon" style="background-image: url(assets/img/parent.png);"></div>')
             .append('<div class="relative-path"></div>')
@@ -39,14 +39,9 @@ class FileSystem {
         });
 
         this.footer_icon = $("<div class='footer_icon' id='fs_icon" + this.id + "'></div>")
-            .append("<img src='assets/img/folder.png'>")
-            .append("<font class='dot'>.</font>")
+            .append("<img class='high_img' src='assets/img/folder.png'>")
+            .append("<img class='dot' src='assets/img/dot.png'>");
         $('footer').append(this.footer_icon);
-        $('#fs_icon' + this.id).css({
-            'margin-left': '10px',
-            height: '40px',
-            width: '30px'
-        });
 
         this.window.css({ fontSize: "15px" });
     }
@@ -79,15 +74,15 @@ class FileSystem {
         $('#file-system' + this.id + ' .max_button').click(this.maximize);
         $('#file-system' + this.id + ' .close_button').click(this.close);
         $('#file-system' + this.id + ' .min_button').click(this.minimize);
-        $('#file-system' + this.id + ' .shell').click(() => { $('#file-system' + this.id + ' .shell_input').focus() });
         $('#fs_icon' + this.id).click(this.minimize);
 
         this.window.find('.parent-icon').click(() => {this.renderElements(this.actual_node.parent)});
+        this.window.find('.new-folder-icon').click(this.mkDir);
     }
 
     maximize = () => {
-        let h = $('desktop').height();
-        let w = $('desktop').width();
+        let h = $('desktop').height()+40;
+        let w = $('desktop').width()+40;
         if (h != $('#file-system' + this.id).height() && w != $('#file-system' + this.id).width()) {
             this.tmpHeight = $('#file-system' + this.id).height();
             this.tmpWidth = $('#file-system' + this.id).width();
@@ -122,6 +117,23 @@ class FileSystem {
         let node = _.filter(file_manager, (e) => e.id == element_id);
         if(node !== [] && node[0].type == 'dir') {
             this.renderElements(node[0]);
+        } else if(node !== []) {
+            createNano(node[0]);
         }
+    };
+
+    mkDir = () => {
+        const nam = 'dir'
+        const idname = nam+id_element++;
+        file_manager[idname] = {
+            name: idname,
+            id: id_element,
+            parent: this.actual_node,
+            type: "dir",
+            children: []
+        };
+        this.actual_node.children.push(file_manager[idname]);
+        console.log(file_manager[idname]);
+        this.renderElements(this.actual_node);
     };
 }

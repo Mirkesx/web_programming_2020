@@ -182,12 +182,11 @@ function mkDir(node, param) {
         return {node,result};
     }
 
-    let idname = nam+id_element;
-
     if(parent && parent !== undefined && parent.type === "dir") {
+        const idname = nam+(id_element++);
         file_manager[idname] = {
             name: nam,
-            id: id_element++,
+            id: id_element,
             parent: parent,
             type: "dir",
             children: []
@@ -216,12 +215,11 @@ function mkFile(node, param) {
         return {node,result};
     }
 
-    let idname = nam+id_element;
-
     if(parent && parent !== undefined && parent.type === "dir") {
+        const idname = nam+(id_element++);
         file_manager[idname] = {
             name: nam,
-            id: id_element++,
+            id: id_element,
             parent: parent,
             type: "file",
             content: "",

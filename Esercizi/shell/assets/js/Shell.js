@@ -47,14 +47,9 @@ class Shell {
         });
 
         this.footer_icon = $("<div class='footer_icon' id='t_icon" + this.id + "'></div>")
-            .append("<img src='assets/img/terminal.png'>")
-            .append("<font class='dot'>.</font>")
+            .append("<img class='high_img' src='assets/img/terminal.png'>")
+            .append("<img class='dot' src='assets/img/dot.png'>");
         $('footer').append(this.footer_icon);
-        $('#t_icon' + this.id).css({
-            'margin-left': '10px',
-            height: '40px',
-            width: '30px'
-        });
 
         $("#shell" + this.id + " .shell").css({ fontSize: this.fS + "px" });
         this.new_command_line();
@@ -164,8 +159,8 @@ class Shell {
     }
 
     maximize = () => {
-        let h = $('desktop').height();
-        let w = $('desktop').width();
+        let h = $('desktop').height()+40;
+        let w = $('desktop').width()+40;
         if (h != $('#shell' + this.id).height() && w != $('#shell' + this.id).width()) {
             this.tmpHeight = $('#shell' + this.id).height();
             this.tmpWidth = $('#shell' + this.id).width();

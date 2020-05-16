@@ -12,7 +12,7 @@ body {
 
 desktop {
     position: absolute;
-    margin: 20px;
+    padding: 20px;
     top: 0;
     left: 0;
     right: 0;
@@ -214,25 +214,27 @@ footer {
 .footer_icon {
     position: relative;
     z-index: 11;
+    display: inline-block;
+    height: 40px;
+    width: 40px;
     text-align: center;
-    display: inline-block
+    background-color: rgba(125, 125, 125, 0.1);
 }
 
-.footer_icon:hover>* {
+.footer_icon:hover {
     background-color: rgba(255, 255, 255, 0.2);
-    border-radius: 15px;
 }
 
-.footer_icon>img {
-    position: absolute;
+.footer_icon>.high_img {
     display: block;
     height: 30px;
+    margin-left: calc(50% - 15px);
 }
 
-.footer_icon>font {
-    font-size: 40px;
+.footer_icon>.dot {
     display: none;
-    cursor: default;
+    width: 5px;
+    margin-left: calc(50% - 2px);
 }
 
 .file-system-bar {
@@ -292,7 +294,7 @@ footer {
     left: 0px;
     right: 0px;
     bottom: 10px;
-    padding: 5px;
+    padding: 0px;
     overflow-y: scroll;
 }
 
@@ -322,4 +324,57 @@ footer {
 .fs_icon>* {
     position: relative;
     display: inline-block;
+}
+
+.upload {
+    position: absolute;
+    background-color: white;
+    top: 20px;
+    left: 0px;
+    right: 0px;
+    bottom: 10px;
+    padding: 10px;
+}
+
+.progressBar {
+    height: 35px;
+    width: 80%;
+    margin-left: 10%;
+    border: 2px solid darkblue;
+}
+
+.progressBarFill {
+    height: 100%;
+    width: 0%;
+    background-color: lightblue;
+    display: flex;
+    align-items: center;
+    transition: width 0.25s;
+}
+
+.progressBarText {
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+.buttonUpload {
+    background-color: blue;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-left: calc(50% - 55px);
+    margin-top: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.inpFile {
+    border: 1px solid black;
+    margin-top: 10px;
+    margin-left: calc(50% - 127px);
+    margin-bottom: 10px;
 }
