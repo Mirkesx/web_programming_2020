@@ -1,6 +1,6 @@
 var shell_id = 0;
 
-class shell {
+class Shell {
     constructor() {
         this.init_state();
         this.renderShell();
@@ -46,19 +46,19 @@ class shell {
             width: '350px'
         });
 
-        this.footer_icon = $("<div class='footer_icon' id='icon" + this.id + "'></div>")
+        this.footer_icon = $("<div class='footer_icon' id='t_icon" + this.id + "'></div>")
             .append("<img src='assets/img/terminal.png'>")
             .append("<font class='dot'>.</font>")
         $('footer').append(this.footer_icon);
-        $('#icon' + this.id).css({
+        $('#t_icon' + this.id).css({
             'margin-left': '10px',
             height: '40px',
             width: '30px'
         });
 
-        $("#shell" + this.id + "shell").css({ fontSize: this.fS + "px" });
+        $("#shell" + this.id + " .shell").css({ fontSize: this.fS + "px" });
         this.new_command_line();
-        $("#shell" + this.id + "shell").focus();
+        $("#shell" + this.id + " .shell_input").focus();
     }
 
     new_command_line() {
@@ -158,7 +158,7 @@ class shell {
         $('#shell' + this.id + ' .close_button').click(this.close);
         $('#shell' + this.id + ' .min_button').click(this.minimize);
         $('#shell' + this.id + ' .shell').click(() => { $('#shell' + this.id + ' .shell_input').focus() })
-        $('#icon' + this.id).click(this.minimize);
+        $('#t_icon' + this.id).click(this.minimize);
 
         $('#shell' + this.id + ' .shell').keydown(this.key_down_actions);
     }
@@ -180,13 +180,13 @@ class shell {
     };
 
     minimize = () => {
-        if ($('#icon' + this.id + ' .dot').css("display") == "none") {
+        if ($('#t_icon' + this.id + ' .dot').css("display") == "none") {
             this.window.css({ display: "none" });
-            $('#icon' + this.id + ' .dot').css({ display: "block" });
+            $('#t_icon' + this.id + ' .dot').css({ display: "block" });
         }
         else {
             this.window.css({ display: "block" });
-            $('#icon' + this.id + ' .dot').css({ display: "none" });
+            $('#t_icon' + this.id + ' .dot').css({ display: "none" });
         }
     }
 
