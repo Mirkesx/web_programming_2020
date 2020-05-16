@@ -22,15 +22,18 @@ class UploadFile {
             .append('<div class="min_button" style="background-image: url(assets/img/min.png);"></div>')
             .append('<div class="max_button" style="background-image: url(assets/img/max.png);"></div>');
         let upload_form = $('<div class="upload"></div>')
-            .append('<form class="uploadForm">\
-                        <input type="file" name="inpFile" class="inpFile"><br>\
-                        <input type="submit" value="Carica" class="buttonUpload">\
+            .append('<span class="titleUpload">Choose a file to upload.</span>')
+            .append('<form class="uploadForm" enctype="multipart/form-data">\
+                        <input type="file" class="inpFile fileInput" name="file">\
+                        <input type="submit" name="submit" class="buttonUpload" value="UPLOAD"/>\
                     </form>')
-            .append('<div class="progressBar">\
-                        <div class="progressBarFill">\
-                            <span class="progressBarText">0%</span>\
+            .append('<input type="button" class="buttonReset" value="Reset">')
+            .append('<div class="progress">\
+                        <div class="progress-bar">\
+                            <span>0%</span>\
                         </div>\
-                    </div>');
+                    </div>')
+            .append('<div class="uploadStatus"></div>');
 
         this.window.append(title_bar).append(upload_form);
 
@@ -57,11 +60,14 @@ class UploadFile {
         $('#upfi' + this.id + ' .close_button').click(this.close);
         $('#upfi' + this.id + ' .min_button').click(this.minimize);
         $('#upfi_icon' + this.id).click(this.minimize);
+
+        this.window.find('.buttonReset').on('click',this.reset);
+        this.window.ready(this.handleUpload);
     }
 
     maximize = () => {
-        let h = $('desktop').height()+40;
-        let w = $('desktop').width()+40;
+        let h = $('desktop').height() + 40;
+        let w = $('desktop').width() + 40;
         if (h != $('#upfi' + this.id).height() && w != $('#upfi' + this.id).width()) {
             this.tmpHeight = $('#upfi' + this.id).height();
             this.tmpWidth = $('#upfi' + this.id).width();
@@ -89,5 +95,72 @@ class UploadFile {
     close = () => {
         this.window.remove();
         this.footer_icon.remove();
+    };
+
+    handleUpload = () => {
+        // File upload via Ajax
+        $(".uploadForm").on('submit', function (e) {
+            $('.buttonUpload').prop('disabled', true).css({'background-color': 'grey'});
+            e.preventDefault();
+            $('.buttonReset').css({'background-color': 'blue'});
+            $.ajax({
+                xhr: function () {
+                    var xhr = new window.XMLHttpRequest();
+                    xhr.upload.addEventListener("progress", function (evt) {
+                        if (evt.lengthComputable) {
+                            var percentComplete = ((evt.loaded / evt.total) * 100);
+                            $(".progress-bar").width(percentComplete + '%');
+                            $(".progress-bar>span").html(percentComplete.toFixed(2) + '%');
+                        }
+                    }, false);
+                    return xhr;
+                },
+                type: 'POST',
+                url: '/php/upload.php',
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData: false,
+                beforeSend: function () {
+                    $(".progress-bar").width('0%');
+                },
+                error: function () {
+                    $('.uploadStatus').html('<p style="color:#EA4335;">File upload failed, please try again.</p>');
+                },
+                success: function (response) {
+                    const resp = {path : response.split("!")[0], type : response.split("!")[1]}
+                    console.log(resp);
+                    console.log(['jpg', 'png', 'jpeg', 'gif'].includes(resp.type));
+                    $('.uploadForm')[0].reset();
+                    $('.uploadStatus').html('<p style="color:#28A74B;">File has been uploaded successfully!</p>')
+                        .append(['jpg', 'png', 'jpeg', 'gif'].includes(resp.type) ? '<img src="/php/'+resp.path+'"><br>' : "")
+                        .append('<a href="/php/'+resp.path+'" target="_blank">Open on browser</a>');
+                }
+            });
+        });
+
+        // File type validation
+        $(".fileInput").change(function () {
+            var allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.ms-office', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
+            var file = this.files[0];
+            var fileType = file.type;
+            if (!allowedTypes.includes(fileType)) {
+                alert('Please select a valid file (PDF/DOC/DOCX/JPEG/JPG/PNG/GIF).');
+                $(".fileInput").val('');
+                return false;
+            }
+        });
+    };
+
+    reset = () => {
+        console.log(this.window.find('.buttonReset').css('background-color'));
+        if(this.window.find('.buttonReset').css('background-color') == 'rgb(0, 0, 255)') {
+            console.log();
+            this.window.remove();
+            this.footer_icon.remove();
+            this.init_state();
+            this.renderFileSystem();
+            this.setListeners();
+        }
     };
 }

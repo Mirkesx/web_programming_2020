@@ -24,7 +24,8 @@ class FileSystem {
             .append('<div class="max_button" style="background-image: url(assets/img/max.png);"></div>');
         let fs_top_bar = $('<div class="file-system-bar"></div>')
             .append('<div class="parent-icon" style="background-image: url(assets/img/parent.png);"></div>')
-            .append('<div class="relative-path"></div>')
+            .append('<div class="relative-path"><input type="text"></div>')
+            .append('<div class="new-file-icon" style="background-image: url(assets/img/new_file.png);"></div>')
             .append('<div class="new-folder-icon" style="background-image: url(assets/img/new_folder.png);"></div>');
         let file_system = $('<div class="file-system"></div>')
         
@@ -54,7 +55,7 @@ class FileSystem {
         } else {
             this.window.find('.parent-icon').show();
         }
-        this.window.find('.relative-path').html(printPath(this.actual_node));
+        this.window.find('.relative-path>input').val(printPath(this.actual_node));
         this.window.find(".file-system > *").remove();
         
         for(const child of this.actual_node.children) {
@@ -75,9 +76,12 @@ class FileSystem {
         $('#file-system' + this.id + ' .close_button').click(this.close);
         $('#file-system' + this.id + ' .min_button').click(this.minimize);
         $('#fs_icon' + this.id).click(this.minimize);
-
+        
+        
+        this.window.find('.relative-path>input').keydown(this.cd);
         this.window.find('.parent-icon').click(() => {this.renderElements(this.actual_node.parent)});
         this.window.find('.new-folder-icon').click(this.mkDir);
+        this.window.find('.new-file-icon').click(this.mkFil);
     }
 
     maximize = () => {
@@ -135,5 +139,33 @@ class FileSystem {
         this.actual_node.children.push(file_manager[idname]);
         console.log(file_manager[idname]);
         this.renderElements(this.actual_node);
+    };
+
+    mkFil = () => {
+        const nam = 'file'
+        const idname = nam+id_element++;
+        file_manager[idname] = {
+            name: idname,
+            id: id_element,
+            parent: this.actual_node,
+            type: "file",
+            content: ''
+        };
+        this.actual_node.children.push(file_manager[idname]);
+        console.log(file_manager[idname]);
+        this.renderElements(this.actual_node);
+    };
+
+    cd = (event) => {
+        if(event.keyCode == '13') {
+            const path = this.window.find('.relative-path>input').val();
+            const result = commands.cd.com(this.actual_node, path);
+            if (result && result.node !== undefined) {
+                this.renderElements(result.node);
+            }
+            else {
+                this.renderElements(this.actual_node);
+            }
+        }
     };
 }

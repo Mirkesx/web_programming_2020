@@ -282,7 +282,7 @@ function logout(node, param) {
 function containSTR(node, param, shell_id) {
     let w = param.split(" ");
     $.ajax({
-        url : "http://localhost:3000/php/containSTR.php",
+        url : "/php/containSTR.php",
         data : {
             w1 : w[0],
             w2 : w[1],

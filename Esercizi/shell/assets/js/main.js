@@ -27,7 +27,7 @@ $("#file_system_icon").dblclick(createFileSystem);
 $("#upload_icon").dblclick(createUpload);
 
 
-$(".app_icon").draggable({ grid: [90, 90] });
+$(".app_icon").draggable({ grid: [100, 100] });
 
 //FUNZIONI
 
