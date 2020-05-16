@@ -299,16 +299,20 @@ footer {
 .fs_icon {
     position: relative;
     display: inline-block;
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     padding: 10px;
     font-size: 10px;
     text-align: center;
     color: black;
 }
 
-.fs_icon:hover>* {
+.fs_icon:hover {
     background-color: rgba(0, 0, 0, 0.2);
+}
+
+.fs_icon>span {
+    width: 100%;
 }
 
 .fs_icon>img {
