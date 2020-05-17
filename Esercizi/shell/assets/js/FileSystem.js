@@ -65,7 +65,7 @@ class FileSystem {
                             <span>'+child.name+'</span>\
                         </div>');
         }
-        this.window.find('.fs_icon').dblclick((event) => {this.open(event)});
+        this.window.find('.fs_icon').click((event) => {this.open(event)});
     }
 
     setListeners() {

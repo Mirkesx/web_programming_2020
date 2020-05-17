@@ -73,6 +73,7 @@ class Nano {
         $('.window').css('z-index',30);
         const window = $(this).detach();
         $('desktop').append(window);
+        window.find('.catArea').focus();
     }
 
     maximize = () => {

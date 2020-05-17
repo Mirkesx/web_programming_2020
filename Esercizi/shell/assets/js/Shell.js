@@ -153,7 +153,7 @@ class Shell {
         $('#shell' + this.id + ' .max_button').click(this.maximize);
         $('#shell' + this.id + ' .close_button').click(this.close);
         $('#shell' + this.id + ' .min_button').click(this.minimize);
-        $('#shell' + this.id + ' .shell').click(() => { $('#shell' + this.id + ' .shell_input').focus() })
+        //$('#shell' + this.id + ' .shell').click(() => { $('#shell' + this.id + ' .shell_input').focus() })
         $('#t_icon' + this.id).click(this.minimize);
 
         $('#shell' + this.id + ' .shell').keydown(this.key_down_actions);
@@ -164,6 +164,8 @@ class Shell {
         $('.window').css('z-index',30);
         const window = $(this).detach();
         $('desktop').append(window);
+        window.find('.shell_input').focus();
+        window.find('.catArea').focus();
     }
 
     maximize = () => {
