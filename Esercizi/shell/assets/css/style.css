@@ -46,9 +46,11 @@ desktop {
 .window {
     overflow: hidden;
     position: absolute;
-    background-color: grey;
+    background-color: lightgray;
+    color: black;
+    border: 1px solid black;
     border-radius: 10px;
-    z-index: 100;
+    z-index: 30;
 }
 
 .title_bar {
@@ -111,7 +113,7 @@ desktop {
 
 /* Track */
 
-::-webkit-scrollbar-track {
+.shell ::-webkit-scrollbar-track {
     box-shadow: inset 0 0 10px 10px black;
     border-radius: 10px;
     border: solid 3px transparent;
@@ -167,6 +169,12 @@ desktop {
     left: 0px;
     right: 0px;
     bottom: 10px;
+}
+
+.nano ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 10px 10px black;
+    border-radius: 10px;
+    border: solid 3px transparent;
 }
 
 .catArea {
@@ -321,6 +329,12 @@ footer {
     overflow-y: scroll;
 }
 
+.file-system ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 10px 10px white;
+    border-radius: 10px;
+    border: solid 3px transparent;
+}
+
 .fs_icon {
     position: relative;
     display: inline-block;
@@ -358,6 +372,12 @@ footer {
     bottom: 10px;
     padding: 20px;
     overflow-y: scroll;
+}
+
+.upload ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 10px 10px white;
+    border-radius: 10px;
+    border: solid 3px transparent;
 }
 
 .inpFile {

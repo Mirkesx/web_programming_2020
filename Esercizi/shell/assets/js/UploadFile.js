@@ -27,7 +27,7 @@ class UploadFile {
                         <input type="file" class="inpFile fileInput" name="file">\
                         <input type="submit" name="submit" class="buttonUpload" value="UPLOAD"/>\
                     </form>')
-            .append('<input type="button" class="buttonReset" value="Reset">')
+            .append('<input type="button" class="buttonReset" value="RESET">')
             .append('<div class="progress">\
                         <div class="progress-bar">\
                             <span>0%</span>\
@@ -54,7 +54,7 @@ class UploadFile {
 
     setListeners() {
 
-        $('#upfi' + this.id).draggable({ stack: 'div', cursor: "pointer" }).resizable({ minHeight: 150, minWidth: 250 });
+        $('#upfi' + this.id).draggable({ /*stack: 'div',*/ cursor: "pointer" }).resizable({ minHeight: 150, minWidth: 250 });
         $('#upfi' + this.id + ' .title_bar').dblclick(this.maximize);
         $('#upfi' + this.id + ' .max_button').click(this.maximize);
         $('#upfi' + this.id + ' .close_button').click(this.close);
@@ -63,6 +63,12 @@ class UploadFile {
 
         this.window.find('.buttonReset').on('click',this.reset);
         this.window.ready(this.handleUpload);
+        $('#upfi'+this.id).on('click',this.stackOnTop);
+    }
+
+    stackOnTop = function() {
+        const window = $(this).detach();
+        $('desktop').append(window);
     }
 
     maximize = () => {

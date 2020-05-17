@@ -58,7 +58,7 @@ class Nano {
 
     setListeners() {
 
-        $('#nano' + this.id).draggable({ stack: 'div', cursor: "pointer" }).resizable({ minHeight: 150, minWidth: 250 });
+        $('#nano' + this.id).draggable({ /*stack: 'div,*/ cursor: "pointer" }).resizable({ minHeight: 150, minWidth: 250 });
         $('#nano' + this.id + ' .title_bar').dblclick(this.maximize);
         $('#nano' + this.id + ' .max_button').click(this.maximize);
         $('#nano' + this.id + ' .close_button').click(this.close);
@@ -66,6 +66,12 @@ class Nano {
         $('#nano' + this.id + ' .nano').click(() => { $('#nano' + this.id + ' .catArea').focus() });
         $('#n_icon' + this.id).click(this.minimize);
         $('#nano' + this.id + ' .nano').keydown(this.key_down_actions);
+        $('#nano'+this.id).on('click',this.stackOnTop);
+    }
+
+    stackOnTop = function() {
+        const window = $(this).detach();
+        $('desktop').append(window);
     }
 
     maximize = () => {

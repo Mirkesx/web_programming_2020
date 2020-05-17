@@ -7,6 +7,7 @@ class Shell {
         this.setListeners();
 
         console.log("Created shell #" + this.id + "!")
+        console.log(this.window);
     }
 
     init_state() {
@@ -147,7 +148,7 @@ class Shell {
 
     setListeners() {
 
-        $('#shell' + this.id).draggable({ stack: 'div', cursor: "pointer" }).resizable({ minHeight: 150, minWidth: 250 });
+        $('#shell' + this.id).draggable({ /*stack: 'div',*/ cursor: "pointer" }).resizable({ minHeight: 150, minWidth: 250 });
         $('#shell' + this.id + ' .title_bar').dblclick(this.maximize);
         $('#shell' + this.id + ' .max_button').click(this.maximize);
         $('#shell' + this.id + ' .close_button').click(this.close);
@@ -156,6 +157,12 @@ class Shell {
         $('#t_icon' + this.id).click(this.minimize);
 
         $('#shell' + this.id + ' .shell').keydown(this.key_down_actions);
+        $('#shell'+this.id).on('click',this.stackOnTop);
+    }
+
+    stackOnTop = function() {
+        const window = $(this).detach();
+        $('desktop').append(window);
     }
 
     maximize = () => {
