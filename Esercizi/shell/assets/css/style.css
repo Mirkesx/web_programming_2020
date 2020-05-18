@@ -465,3 +465,60 @@ footer {
     left: 5%;
     width: 90%;
 }
+
+.select-name{
+    position: absolute;
+    top:0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 300;
+}
+
+.select-name-win{
+    position: relative;
+    top:calc(50% - 100px);
+    left: calc(50% - 150px);
+    height: 200px;
+    width: 300px;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 300;
+    background-color: lightgrey;
+    border-radius: 25px;
+}
+
+.select-name-text{
+    position: relative;
+    padding-top: 20%;
+    left: 20px;
+    display: block;
+}
+
+.select-name-value{
+    position: relative;
+    left: 20px;
+    width: 80%;
+    margin-top: 10px;
+    display: block;
+    border-radius: 15px;
+    padding: 2px 5px;
+}
+
+.select-name-button{
+    position: absolute;
+    left: 0;
+    bottom: -25px;
+    margin-bottom: 25px;
+    width:50%;
+    height:50px;
+}
+
+.invia {
+    border-bottom-left-radius: 25px;
+}
+
+.annulla {
+    left: 50%;
+    border-bottom-right-radius: 25px;
+}

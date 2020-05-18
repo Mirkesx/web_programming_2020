@@ -37,7 +37,7 @@ class Nano {
 
         this.window.append(title_bar).append(nano);
 
-        const footer_icon = $("<div class='footer_icon' id='n_icon" + this.id + "'></div>")
+        this.footer_icon = $("<div class='footer_icon' id='n_icon" + this.id + "'></div>")
             .append("<img class='high_img' src='assets/img/text.png'>")
             .append("<img class='dot' src='assets/img/dot.png'>");
 
@@ -45,12 +45,12 @@ class Nano {
         $("#nano" + this.id + " .catArea").focus();
 
         $('desktop').append(this.window);
-        footer_icon.find('img').css({
+        this.footer_icon.find('img').css({
             'border-radius': '50px',
             'background-color': 'white'
         });
 
-        $('footer').append(footer_icon);
+        $('footer').append(this.footer_icon);
 
 
         $("#nano" + this.id + " .catArea").val(this.actual_node.content);
