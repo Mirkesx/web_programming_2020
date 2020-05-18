@@ -65,7 +65,8 @@ class FileSystem {
                             <span>'+child.name+'</span>\
                         </div>');
         }
-        this.window.find('.fs_icon').click((event) => {this.open(event)});
+        this.window.find('.fs_icon').click(() => $(this).focus());
+        this.window.find('.fs_icon').dblclick((event) => {this.open(event)});
     }
 
     setListeners() {
@@ -88,8 +89,7 @@ class FileSystem {
 
     stackOnTop = function() {
         $('.window').css('z-index',30);
-        const window = $(this).detach();
-        $('desktop').append(window);
+        $(this).css('z-index',45);
     }
 
     maximize = () => {
