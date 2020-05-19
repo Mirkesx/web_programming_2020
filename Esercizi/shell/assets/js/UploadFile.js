@@ -109,7 +109,6 @@ class UploadFile {
         $(".uploadForm").on('submit', function (e) {
             $('.buttonUpload').prop('disabled', true).css({'background-color': 'grey'});
             e.preventDefault();
-            $('.buttonReset').css({'background-color': 'blue'});
             $.ajax({
                 xhr: function () {
                     var xhr = new window.XMLHttpRequest();
@@ -160,14 +159,14 @@ class UploadFile {
     };
 
     reset = () => {
-        console.log(this.window.find('.buttonReset').css('background-color'));
+        //console.log(this.window.find('.buttonReset').css('background-color'));
         if(this.window.find('.buttonReset').css('background-color') == 'rgb(0, 0, 255)') {
-            console.log();
-            this.window.remove();
-            this.footer_icon.remove();
+            this.window.find('.uploadStatus > *').remove();
+            this.window.find(".progress-bar").width('0%');
+            this.window.find('.uploadForm')[0].reset();
+            this.window.find(".progress-bar>span").html('0%');
+            this.window.find('.buttonUpload').prop('disabled', false).css({'background-color': 'blue'});
             this.init_state();
-            this.renderFileSystem();
-            this.setListeners();
         }
     };
 }
