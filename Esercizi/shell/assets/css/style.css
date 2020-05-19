@@ -336,27 +336,33 @@ footer {
     border: solid 3px transparent;
 }
 
-.fs_icon {
+.fs_sprite {
     position: relative;
     display: inline-block;
     width: 60px;
-    height: 60px;
+    height: 80px;
     padding: 10px;
     font-size: 10px;
     text-align: center;
     color: black;
 }
 
-.fs_icon:hover {
+.fs_sprite:hover {
     background-color: rgba(0, 0, 0, 0.2);
 }
 
-.fs_icon>span {
-    width: 100%;
+.fs_sprite:hover {
+    background-color: rgba(0, 0, 0, 0.2);
 }
 
-.fs_icon>img {
-    width: 40px;
+.fs_sprite>span {
+    width: 100%;
+    display: inline-block
+}
+
+.fs_sprite>img {
+    width: 100%;
+    display: inline-block
 }
 
 .fs_icon>* {

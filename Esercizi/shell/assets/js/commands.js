@@ -52,10 +52,6 @@ const commands = {
 //
 
 function clearPage(node, param) {
-    param.page.innerHTML = "";
-    new_command_line();
-    actual_node = file_manager.root;
-    temp_node = undefined;
     return {node,result : ""};
 }
 
@@ -183,7 +179,7 @@ function mkDir(node, param) {
     }
 
     if(parent && parent !== undefined && parent.type === "dir") {
-        const idname = nam+(id_element++);
+        const idname = nam+(++id_element);
         file_manager[idname] = {
             name: nam,
             id: id_element,
@@ -216,7 +212,7 @@ function mkFile(node, param) {
     }
 
     if(parent && parent !== undefined && parent.type === "dir") {
-        const idname = nam+(id_element++);
+        const idname = nam+(++id_element);
         file_manager[idname] = {
             name: nam,
             id: id_element,

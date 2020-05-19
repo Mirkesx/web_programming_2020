@@ -80,20 +80,26 @@ class Shell {
 
         let line_splitted = [line.split(" ", 1)[0], line.substr(line.split(" ", 1)[0].length + 1)];
         let com = line_splitted[0];
+        let param = line_splitted[1];
         let response = {};
 
-        if (commands[com] !== undefined && (line_splitted[1] !== '--help' && line_splitted[1] !== '-h')) {
-            response = commands[com].com(this.actual_node, line_splitted[1], this.id);
-            //console.log("Response com");
-            //console.log(response);
+        if (commands[com] !== undefined && (param !== '--help' && param !== '-h')) {
+            if(com == "clear") {
+                param = "";    
+            }
+            
+            
+            response = commands[com].com(this.actual_node, param, this.id);
+
+
             if (response && response.node !== undefined)
                 this.actual_node = response.node;
-        } else if (commands[com] !== undefined && com !== "help" && (line_splitted[1] === '--help' || line_splitted[1] === '-h')) {
+        } else if (commands[com] !== undefined && com !== "help" && (param === '--help' || param === '-h')) {
             response.com = "showHelp"
             response.result = "<br>" + commands[com].help + "<br>";
         } else {
             response.com = "none"
-            response.result = '<br>Comando "' + com + '" non trovato! Controllare la sintassi del comando e riprovare!';
+            response.result = 'Comando "' + com + '" non trovato! Controllare la sintassi del comando e riprovare!';
         }
 
         console.log("actual_node ", this.actual_node);
@@ -103,6 +109,9 @@ class Shell {
                 this.nanoHandler(response);
                 return;
             case "inSTR":
+                break;
+            case "clear":
+                this.clear();
                 break;
             default:
                 if (response.result && response.result.length > 0)
@@ -130,6 +139,7 @@ class Shell {
         $("#shell" + this.id + " .nano").append('<div class="nanoBar topNanoBar">GNU Nano 4.3</div>');
         $("#shell" + this.id + " .nano").append('<div class="nanoBar botNanoBar">CTRL+ALT+S: Salva ed Esci.<br>CTRL+ALT+Q: Esci senza Salvare.</div>');
         $("#shell" + this.id + " .catArea").val(response.result.content);
+        $("#shell" + this.id + " .catArea").focus();
         $('#shell' + this.id + ' .nano').keydown(this.key_down_actions);
     }
 
@@ -262,5 +272,12 @@ class Shell {
                 }
             }
         }
+    }
+
+    clear() {
+        this.window.find('.past_commands').html("");
+        this.new_command_line();
+        this.actual_node = file_manager.username;
+        this.temp_node = undefined;
     }
 }

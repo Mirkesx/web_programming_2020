@@ -28,7 +28,7 @@ class FileSystem {
             .append('<div class="new-file-icon" style="background-image: url(assets/img/new_file.png);"></div>')
             .append('<div class="new-folder-icon" style="background-image: url(assets/img/new_folder.png);"></div>');
         let file_system = $('<div class="file-system"></div>')
-        
+
 
         this.window.append(title_bar).append(fs_top_bar).append(file_system);
 
@@ -50,23 +50,27 @@ class FileSystem {
     renderElements(node) {
         this.window.find('.fs_icon').off();
         this.actual_node = node;
-        if(this.actual_node == file_manager.root) {
+        if (this.actual_node == file_manager.root) {
             this.window.find('.parent-icon').hide();
         } else {
             this.window.find('.parent-icon').show();
         }
         this.window.find('.relative-path>input').val(printPath(this.actual_node));
         this.window.find(".file-system > *").remove();
-        
-        for(const child of this.actual_node.children) {
+
+        for (const child of this.actual_node.children) {
             this.window.find(".file-system")
-                .append('<div class="fs_icon" id='+child.id+'>\
-                            <img src="assets/img/'+(child.type == "dir" ? 'folder' : 'text')+'.png">\
-                            <span>'+child.name+'</span>\
+                .append('<div class="fs_sprite" id=' + child.id + '>\
+                            <img src="assets/img/'+ (child.type == "dir" ? 'folder' : 'text') + '.png">\
+                            <span>'+ child.name + '</span>\
                         </div>');
+
+            this.window.find('#' + child.id).click(() => {
+                this.window.find('#' + child.id).focus();
+            });
         }
-        this.window.find('.fs_icon').click(() => $(this).focus());
-        this.window.find('.fs_icon').dblclick((event) => {this.open(event)});
+
+        this.window.find('.fs_sprite').dblclick((event) => {this.open(event)});
     }
 
     setListeners() {
@@ -77,24 +81,25 @@ class FileSystem {
         $('#file-system' + this.id + ' .close_button').click(this.close);
         $('#file-system' + this.id + ' .min_button').click(this.minimize);
         $('#fs_icon' + this.id).click(this.minimize);
-        
-        
+
+
         this.window.find('.relative-path>input').keydown(this.cd);
-        this.window.find('.parent-icon').click(() => {this.renderElements(this.actual_node.parent)});
+        this.window.find('.parent-icon').click(() => { this.renderElements(this.actual_node.parent) });
         this.window.find('.new-folder-icon').click(this.getName);
         this.window.find('.new-file-icon').click(this.getName);
 
-        $('#file-system'+this.id).on('click',this.stackOnTop);
+        $('#file-system' + this.id).on('click', this.stackOnTop);
     }
 
-    stackOnTop = function() {
-        $('.window').css('z-index',30);
-        $(this).css('z-index',45);
+    stackOnTop = function () {
+        $('.window').css('z-index', 30);
+        $(this).css('z-index', 45);
+        $(this).focus();
     }
 
     maximize = () => {
-        let h = $('desktop').height()+40;
-        let w = $('desktop').width()+40;
+        let h = $('desktop').height() + 40;
+        let w = $('desktop').width() + 40;
         if (h != $('#file-system' + this.id).height() && w != $('#file-system' + this.id).width()) {
             this.tmpHeight = $('#file-system' + this.id).height();
             this.tmpWidth = $('#file-system' + this.id).width();
@@ -127,23 +132,23 @@ class FileSystem {
     open = (event) => {
         const element_id = event.delegateTarget.id;
         let node = _.filter(file_manager, (e) => e.id == element_id);
-        if(node !== [] && node[0].type == 'dir') {
+        if (node !== [] && node[0].type == 'dir') {
             this.renderElements(node[0]);
-        } else if(node !== []) {
+        } else if (node !== []) {
             createNano(node[0]);
         }
     };
 
     getName = (e) => {
         let type = "";
-        if(e.target.className == "new-folder-icon") {
+        if (e.target.className == "new-folder-icon") {
             type = "dir";
         } else {
             type = "file";
         }
         const element = $('<div class="select-name"></div>');
         const win = $('<div class="select-name-win"></div>')
-            .append('<span class="select-name-text">Indica il nome'+(type=="dir" ? ' della cartella.' : ' del file.')+'</span>')
+            .append('<span class="select-name-text">Indica il nome' + (type == "dir" ? ' della cartella.' : ' del file.') + '</span>')
             .append('<input type="text" class="select-name-value">')
             .append('<input type="button" value="INVIA" class="select-name-button invia">')
             .append('<input type="button" value="ANNULLA" class="select-name-button annulla">');
@@ -153,35 +158,35 @@ class FileSystem {
         $('.select-name-value').focus();
 
         $('.select-name-value').keydown((event) => {
-            if(event.keyCode == 13)
+            if (event.keyCode == 13)
                 $('.invia').trigger('click');
         });
 
-        $('.invia').on('click',type == "dir" ?
-        () => {
-            let name = $('.select-name-value').val();
-            if(name == "")
-                name = "dir";
-            this.mkDir(name);
-            $('.select-name').remove();
-        }
-        :
-        () => {
-            let name = $('.select-name-value').val();
-            if(name == "")
-                name = "file";
-            this.mkFil(name);
-            $('.select-name').remove();
-        });
+        $('.invia').on('click', type == "dir" ?
+            () => {
+                let name = $('.select-name-value').val();
+                if (name == "")
+                    name = "dir";
+                this.mkDir(name);
+                $('.select-name').remove();
+            }
+            :
+            () => {
+                let name = $('.select-name-value').val();
+                if (name == "")
+                    name = "file";
+                this.mkFil(name);
+                $('.select-name').remove();
+            });
 
-        $('.annulla').on('click',(element) => {
+        $('.annulla').on('click', (element) => {
             $('.select-name').remove();
         });
     };
 
     mkDir = (nam) => {
-        const idname = nam+id_element++;
-        if(this.checkSameName(this.actual_node.children, nam)) {
+        const idname = nam + (++id_element);
+        if (this.checkSameName(this.actual_node.children, nam)) {
             nam = idname;
         }
         file_manager[idname] = {
@@ -197,8 +202,8 @@ class FileSystem {
     };
 
     mkFil = (nam) => {
-        const idname = nam+id_element++;
-        if(this.checkSameName(this.actual_node.children, nam)) {
+        const idname = nam + (++id_element);
+        if (this.checkSameName(this.actual_node.children, nam)) {
             nam = idname;
         }
         file_manager[idname] = {
@@ -215,10 +220,10 @@ class FileSystem {
 
     checkSameName = (arr, el) => {
         return _.filter(arr, (e) => e.name == el).length > 0;
-    }; 
+    };
 
     cd = (event) => {
-        if(event.keyCode == '13') {
+        if (event.keyCode == '13') {
             const path = this.window.find('.relative-path>input').val();
             const result = commands.cd.com(this.actual_node, path);
             if (result && result.node !== undefined) {
