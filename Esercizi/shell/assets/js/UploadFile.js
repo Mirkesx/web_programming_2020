@@ -146,7 +146,7 @@ class UploadFile {
             });
         });
 
-        // File type validation
+        // Validazione del tipo di file
         $(".fileInput").change(function () {
             var allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.ms-office', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'image/jpeg', 'image/png', 'image/jpg', 'image/gif'];
             var file = this.files[0];
