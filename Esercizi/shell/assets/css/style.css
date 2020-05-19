@@ -42,6 +42,7 @@ desktop {
 .app_icon>* {
     position: relative;
     display: inline-block;
+    cursor: default;
 }
 
 .window {
@@ -197,6 +198,7 @@ desktop {
     left: 1px;
     right: 0;
     text-align: center;
+    cursor: default;
 }
 
 .topNanoBar {
@@ -357,7 +359,8 @@ footer {
 
 .fs_sprite>span {
     width: 100%;
-    display: inline-block
+    display: inline-block;
+    cursor: default;
 }
 
 .fs_sprite>img {
@@ -387,9 +390,16 @@ footer {
     border: solid 3px transparent;
 }
 
+.titleUpload {
+    top: 15px;
+    position: absolute;
+    left:5%;
+    cursor: default;
+}
+
 .inpFile {
     position: absolute;
-    top:30;
+    top:30px;
     left:5%;
     width: 90%;
     height: 20px;
@@ -457,6 +467,7 @@ footer {
     position: absolute;
     padding: 8px 10px;
     left: 0;
+    cursor: default;
 }
 
 .uploadStatus {
@@ -471,6 +482,10 @@ footer {
 .uploadStatus>img {
     left: 5%;
     width: 90%;
+}
+
+.uploadStatus>p {
+    cursor: default;
 }
 
 .select-name{

@@ -13,6 +13,9 @@ class FileSystem {
     init_state() {
         this.id = file_id++;
         this.actual_node = file_manager.username;
+        this.fS = 10;
+        this.spriteH = 80;
+        this.spriteW = 60;
     }
 
     renderFileSystem() {
@@ -80,8 +83,8 @@ class FileSystem {
         $('#file-system' + this.id + ' .max_button').click(this.maximize);
         $('#file-system' + this.id + ' .close_button').click(this.close);
         $('#file-system' + this.id + ' .min_button').click(this.minimize);
+        //$('#file-system' + this.id).keydown(this.key_down_actions);
         $('#fs_icon' + this.id).click(this.minimize);
-
 
         this.window.find('.relative-path>input').keydown(this.cd);
         this.window.find('.parent-icon').click(() => { this.renderElements(this.actual_node.parent) });
@@ -94,7 +97,6 @@ class FileSystem {
     stackOnTop = function () {
         $('.window').css('z-index', 30);
         $(this).css('z-index', 45);
-        $(this).focus();
     }
 
     maximize = () => {
@@ -128,6 +130,35 @@ class FileSystem {
         this.window.remove();
         this.footer_icon.remove();
     };
+
+    key_down_actions = (event) => {
+        console.log(event.keyCode);
+        if (event.ctrlKey && event.key === ',') { // Ingrandire icone e font
+            console.log("Ingrandire");
+            this.fS += 1;
+            this.spriteH += 4/3;
+            this.spriteW += 3/4;
+            if (this.fS <= 20) {
+                $("#file-system" + this.id + " .fs_sprite span").css({ fontSize: this.fS + "px" });
+                $("#file-system" + this.id + " .fs_sprite ").css({ height: this.spriteH + "px", width: this.spritew });
+            } else {
+                this.fS = 20;
+            }
+        }
+
+        if (event.ctrlKey && event.key === '.') { // Diminuire icone e font
+            console.log("Diminuire");
+            this.fS -= 1;
+            this.spriteH -= 4/3;
+            this.spriteW -= 3/4;
+            if (this.fS >= 10) {
+                $("#file-system" + this.id + " .fs_sprite span").css({ fontSize: this.fS + "px" });
+                $("#file-system" + this.id + " .fs_sprite ").css({ height: this.spriteH + "px", width: this.spritew });
+            } else {
+                this.fS = 10;
+            }
+        }
+    }
 
     open = (event) => {
         const element_id = event.delegateTarget.id;

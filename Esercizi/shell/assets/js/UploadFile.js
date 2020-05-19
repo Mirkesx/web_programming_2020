@@ -73,8 +73,8 @@ class UploadFile {
     }
 
     maximize = () => {
-        let h = $('desktop').height() + 40;
-        let w = $('desktop').width() + 40;
+        let h = $('desktop').height()+40;
+        let w = $('desktop').width()+40;
         if (h != $('#upfi' + this.id).height() && w != $('#upfi' + this.id).width()) {
             this.tmpHeight = $('#upfi' + this.id).height();
             this.tmpWidth = $('#upfi' + this.id).width();
@@ -141,7 +141,7 @@ class UploadFile {
                     $('.uploadForm')[0].reset();
                     $('.uploadStatus').html('<p style="color:#28A74B;">File has been uploaded successfully!</p>')
                         .append(['jpg', 'png', 'jpeg', 'gif'].includes(resp.type) ? '<img src="/php/'+resp.path+'"><br>' : "")
-                        .append('<a href="/php/'+resp.path+'" target="_blank">Open on browser</a>');
+                        .append('<a href="/php/'+resp.path+'" target="_blank">Click here to open it.</a>');
                 }
             });
         });
