@@ -142,6 +142,7 @@ class UploadFile {
                     $('.uploadStatus').html('<p style="color:#28A74B;">File has been uploaded successfully!</p>')
                         .append(['jpg', 'png', 'jpeg', 'gif'].includes(resp.type) ? '<img src="/php/'+resp.path+'"><br>' : "")
                         .append('<a href="/php/'+resp.path+'" target="_blank">Click here to open it.</a>');
+                    getRemoteFiles();
                 }
             });
         });

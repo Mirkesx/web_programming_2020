@@ -396,6 +396,7 @@ footer {
     width: 100%;
     display: inline-block;
     cursor: default;
+    line-height: 13px;
 }
 
 .fs_sprite>.sprite_image {

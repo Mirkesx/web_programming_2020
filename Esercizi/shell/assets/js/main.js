@@ -32,6 +32,7 @@ $(".app_icon").draggable({ grid: [100, 100] });
 //CHIAMATE
 
 getTime();
+getRemoteFiles();
 
 //DEFINIZIONE
 
@@ -68,16 +69,36 @@ function getTime() {
     const months = ['gen', 'feb', 'mar', 'apr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 'nov', 'dic'];
     let data = new Date();
     let day = data.getDay();
-    let date = data.getDate();
+    let date = ""+data.getDate();
     let month = data.getMonth();
-    let hh = data.getHours();
-    let mm = data.getMinutes();
-    let time = days[day] + " " + date + " " + months[month] + " " + hh + ":" + mm;
+    let hh = ""+data.getHours();
+    let mm = ""+data.getMinutes();
+    let time = days[day] + " " + (date.length == 1 ? '0'+date : date) + " " + months[month] + " " + (hh.length == 1 ? '0'+hh : hh) + ":" + (mm.length == 1 ? '0'+mm : mm);
     $(".header-time").html(time);
     //console.log(time);
     window.setTimeout("getTime()", 1000);
 }
 
 function getRemoteFiles() {
-    
+    $.ajax({
+        type: 'GET',
+        url: '/php/getRemoteFiles.php',
+        contentType: false,
+        cache: false,
+        processData: false,
+        error: function (e) {
+            console.log("PHP - Errore!");
+            console.log(e);
+        },
+        success: function (response) {
+            //console.log(JSON.parse(response));
+            setUploadFolder(JSON.parse(response));
+        }
+    });
+}
+
+function setUploadFolder(obj) {
+    for(let o in obj) {
+        file_manager.upload.children.push(obj[o]);
+    }
 }

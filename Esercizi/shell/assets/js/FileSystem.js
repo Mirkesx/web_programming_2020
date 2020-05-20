@@ -62,10 +62,16 @@ class FileSystem {
         this.window.find(".file-system > *").remove();
 
         for (const child of this.actual_node.children) {
+            let name = child.name;
+            if(name.length > 10) {
+                name = name.substr(0,10)+"<br>"+(name.substr(10).length > 10 ? name.substr(10,10) : name.substr(10) );
+            } else {
+                name = name;
+            }
             this.window.find(".file-system")
                 .append('<div class="fs_sprite" id=' + child.id + '>\
                             <img class="sprite_image" src="assets/img/'+ (child.type == "dir" ? 'folder' : 'text') + '.png">\
-                            <span>'+ child.name + '</span>\
+                            <span>'+ name + '</span>\
                             <img src="assets/img/delete.png" class="delete_sprite">\
                         </div>');
 
@@ -169,9 +175,9 @@ class FileSystem {
     open = (event) => {
         const element_id = event.delegateTarget.id;
         let node = _.filter(file_manager, (e) => e.id == element_id);
-        if (node !== [] && node[0].type == 'dir') {
+        if (node !== [] && (node[0].type == 'dir' || node[0].type == 'upload') ) {
             this.renderElements(node[0]);
-        } else if (node !== []) {
+        } else if (node !== [] && node[0].type == 'file') {
             createNano(node[0]);
         }
     };

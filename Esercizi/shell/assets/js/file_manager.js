@@ -42,7 +42,7 @@ const file_manager = {
         name: "upload",
         id: id_element++,
         type: "upload",
-        childrenUrl : [],
+        children : [],
     }
 }
 
