@@ -77,3 +77,7 @@ function getTime() {
     //console.log(time);
     window.setTimeout("getTime()", 1000);
 }
+
+function getRemoteFiles() {
+    
+}

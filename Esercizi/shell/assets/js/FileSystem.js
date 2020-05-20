@@ -240,6 +240,11 @@ class FileSystem {
                 fs.renderElements(this.actual_node);
             } 
         });
+        _.each(shells, (s) => {
+            if(s.actual_node.id == this.actual_node.id) {
+                s.actual_node = this.actual_node;
+            } 
+        });
         this.renderElements(this.actual_node);
     };
 
@@ -296,9 +301,26 @@ class FileSystem {
             _.each(fs_arr, (fs) => {
                 if(fs.id != this.id) {
                     //console.log("Chiusa finestra "+fs.id);
-                    fs.close();
+                    fs.checkExistence(response.node);
                 } 
             });
+            _.each(shells, (s) => {
+                s.checkExistence(response.node);
+            });
+            _.each(nanos, (n) => {
+                n.checkExistence(response.node);
+            });
         }
+    }
+
+    checkExistence(node) {
+        for(let inode in file_manager) {
+            if(file_manager[inode].id == this.actual_node.id) {
+                if(this.actual_node.id === node.id)
+                    this.renderElements(node);
+                return;
+            }
+        }
+        this.close();
     }
 }

@@ -149,4 +149,15 @@ class Nano {
             }
         }
     }
+
+    checkExistence(node) {
+        for(let inode in file_manager) {
+            if(file_manager[inode].id == this.actual_node.id) {
+                if(this.actual_node.id === node.id)
+                    this.renderElements(node);
+                return;
+            }
+        }
+        this.close();
+    }
 }

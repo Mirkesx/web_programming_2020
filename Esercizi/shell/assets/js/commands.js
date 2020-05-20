@@ -209,7 +209,7 @@ function mkFile(node, param) {
     let parent = getLastNode(node, path);
     let result;
 
-    console.log(parent);
+    //console.log(parent);
     if(_.filter(parent.children, (c) => (c.name === nam)).length > 0) {
         result = "Errore! E' presente un file o una directory con lo stesso nome.";
         return {node,result};
@@ -227,7 +227,7 @@ function mkFile(node, param) {
         };
 
         parent.children.push(file_manager[idname]);
-        console.log(file_manager[idname]);
+        //console.log(file_manager[idname]);
         result = "Creato il file "+nam;
         return {node,result};
     }
@@ -334,7 +334,7 @@ function rm(node, param) {
             const children_id = getDescendents(element);
             if(children_id.length > 0) {
                 removeChild(children_id[0]); 
-                for(const inode in file_manager) {
+                for(let inode in file_manager) {
                     //console.log(file_manager[inode]);
                     if(children_id.includes(file_manager[inode].id)) {
 
@@ -346,7 +346,7 @@ function rm(node, param) {
                     }
                 }
             } else {
-                for(const inode in file_manager) {
+                for(let inode in file_manager) {
                     //console.log(file_manager[inode]);
                     if(children_id == file_manager[inode].id) {
 

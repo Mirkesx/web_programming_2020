@@ -92,9 +92,12 @@ class Shell {
             
             response = commands[com].com(this.actual_node, param, this.id);
 
-            if(com == "rm" && response.result === undefined) {
-                this.rmUpdate(response.node);
+            if(response.result === undefined) {
+                if(com == "rm")
+                    this.rmUpdate(response.node);
             } 
+            if(com == "mk" || com == "mkDir")
+                this.mkUpdate(response.node);
 
 
             if (response && response.node !== undefined)
@@ -107,7 +110,7 @@ class Shell {
             response.result = 'Comando "' + com + '" non trovato! Controllare la sintassi del comando e riprovare!';
         }
 
-        console.log("actual_node ", this.actual_node);
+        //console.log("actual_node ", this.actual_node);
 
         switch (com) {
             case "nano":
@@ -289,9 +292,36 @@ class Shell {
 
     rmUpdate = (node) => {
         _.each(fs_arr, (fs) => {
-            if(fs.id != this.id) {
-                //console.log("Chiusa finestra "+fs.id);
-                fs.close();
+            fs.checkExistence(node);
+        });
+        _.each(shells, (s) => {
+            if(s.id != this.id) {
+                s.checkExistence(node);
+            }
+        });
+        _.each(nanos, (n) => {
+            n.checkExistence(node);
+        });
+    };
+
+    checkExistence = (node) => {
+        for(let inode in file_manager) {
+            if(file_manager[inode].id == this.actual_node.id) {
+                return;
+            }
+        }
+        this.close();
+    };
+
+    mkUpdate = (node) =>  {
+        _.each(fs_arr, (fs) => {
+            if(fs.actual_node.id == node.id) {
+                fs.renderElements(node);
+            } 
+        });
+        _.each(shells, (s) => {
+            if(s.id != this.id && s.actual_node.id == node.id) {
+                s.actual_node = node;
             } 
         });
     };
