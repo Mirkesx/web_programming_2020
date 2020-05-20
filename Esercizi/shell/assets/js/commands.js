@@ -382,3 +382,14 @@ function removeChild(id) {
         }
     }
 }
+
+function isAParent(node,par) {
+    while(par) {
+        console.log(par.name);
+        if(par.id == node.parent.id) {
+            return true;
+        }
+        par = par.parent;
+    }
+    return false;
+}

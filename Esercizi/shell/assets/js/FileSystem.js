@@ -235,6 +235,11 @@ class FileSystem {
         };
         this.actual_node.children.push(file_manager[idname]);
         console.log(file_manager[idname]);
+        _.each(fs_arr, (fs) => {
+            if(fs.id != this.id && fs.actual_node.id == this.actual_node.id) {
+                fs.renderElements(this.actual_node);
+            } 
+        });
         this.renderElements(this.actual_node);
     };
 
@@ -252,6 +257,11 @@ class FileSystem {
         };
         this.actual_node.children.push(file_manager[idname]);
         console.log(file_manager[idname]);
+        _.each(fs_arr, (fs) => {
+            if(fs.id != this.id && fs.actual_node.id == this.actual_node.id) {
+                fs.renderElements(this.actual_node);
+            } 
+        });
         this.renderElements(this.actual_node);
     };
 
@@ -283,6 +293,12 @@ class FileSystem {
             } else {
                 this.window.find("#"+id).remove();
             }
+            _.each(fs_arr, (fs) => {
+                if(fs.id != this.id) {
+                    //console.log("Chiusa finestra "+fs.id);
+                    fs.close();
+                } 
+            });
         }
     }
 }

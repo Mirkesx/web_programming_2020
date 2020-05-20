@@ -8,7 +8,7 @@ class Shell {
 
         console.log("Created shell #" + this.id + "!")
         console.log(this.window);
-    }
+    };
 
     init_state() {
         this.id = shell_id++;
@@ -21,7 +21,7 @@ class Shell {
         this.fS = 15;
         this.pc = this.cl = undefined;
         this.shell_detached = undefined;
-    }
+    };
 
     renderShell() {
         this.window = $("<div class='window' id='shell" + this.id + "'></div>");
@@ -55,7 +55,7 @@ class Shell {
         $("#shell" + this.id + " .shell").css({ fontSize: this.fS + "px" });
         this.new_command_line();
         $("#shell" + this.id + " .shell_input").focus();
-    }
+    };
 
     new_command_line() {
         const today = new Date();
@@ -70,7 +70,7 @@ class Shell {
         $("#shell" + this.id + " .shell_time").val(time);
 
         this.index_history = this.command_history.length;
-    }
+    };
 
     parse_command() {
         const line = $("#shell" + this.id + " .shell_input").val();
@@ -88,10 +88,13 @@ class Shell {
         if (commands[com] !== undefined && (param !== '--help' && param !== '-h')) {
             if(com == "clear") {
                 param = "";    
-            }
-            
+            }           
             
             response = commands[com].com(this.actual_node, param, this.id);
+
+            if(com == "rm" && response.result === undefined) {
+                this.rmUpdate(response.node);
+            } 
 
 
             if (response && response.node !== undefined)
@@ -143,7 +146,7 @@ class Shell {
         $("#shell" + this.id + " .catArea").val(response.result.content);
         $("#shell" + this.id + " .catArea").focus();
         $('#shell' + this.id + ' .nano').keydown(this.key_down_actions);
-    }
+    };
 
     closeNano() {
         $("#shell" + this.id + " .past_commands").append("Uscita dall'editor. File modificato!" + "<br>");
@@ -156,7 +159,7 @@ class Shell {
         this.new_command_line();
         $("#shell" + this.id + " .shell_input").focus();
         $("#shell" + this.id + " .shell_input")[0].scrollIntoView(false);
-    }
+    };
 
     setListeners() {
 
@@ -170,7 +173,7 @@ class Shell {
 
         $('#shell' + this.id + ' .shell').keydown(this.key_down_actions);
         $('#shell'+this.id).on('click',this.stackOnTop);
-    }
+    };
 
     stackOnTop = function() {
         $('.window').css('z-index',30);
@@ -178,7 +181,7 @@ class Shell {
         $('desktop').append(window);
         window.find('.shell_input').focus();
         window.find('.catArea').focus();
-    }
+    };
 
     maximize = () => {
         let h = $('desktop').height();
@@ -205,7 +208,7 @@ class Shell {
             this.window.css({ display: "block" });
             $('#t_icon' + this.id + ' .dot').css({ display: "none" });
         }
-    }
+    };
 
     close = () => {
         this.window.remove();
@@ -275,12 +278,21 @@ class Shell {
                 //console.log(this.index_history);
             }
         }
-    }
+    };
 
     clear() {
         this.window.find('.past_commands').html("");
         this.new_command_line();
         this.actual_node = file_manager.username;
         this.temp_node = undefined;
-    }
+    };
+
+    rmUpdate = (node) => {
+        _.each(fs_arr, (fs) => {
+            if(fs.id != this.id) {
+                //console.log("Chiusa finestra "+fs.id);
+                fs.close();
+            } 
+        });
+    };
 }

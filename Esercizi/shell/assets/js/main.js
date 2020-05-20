@@ -39,28 +39,28 @@ function createShell() {
     $('desktop').find('.app_icon').css('z-index', '1');
     _.each($('desktop').find('.window'), (e) => e.style.zIndex = 30);
     let s = new Shell();
-    shells.push(s.id);
+    shells.push(s);
 };
 
 function createFileSystem() {
     $('desktop').find('.app_icon').css('z-index', '1');
     _.each($('desktop').find('.window'), (e) => e.style.zIndex = 30);
     let fs = new FileSystem();
-    fs_arr.push(fs.id);
+    fs_arr.push(fs);
 }
 
 function createNano(data) {
     $('desktop').find('.app_icon').css('z-index', '1');
     _.each($('desktop').find('.window'), (e) => e.style.zIndex = 30);
     let n = new Nano(data);
-    nanos.push(n.id);
+    nanos.push(n);
 }
 
 function createUpload() {
     $('desktop').find('.app_icon').css('z-index', '1');
     _.each($('desktop').find('.window'), (e) => e.style.zIndex = 30);
     let up = new UploadFile();
-    upfis.push(up.id);
+    upfis.push(up);
 }
 
 function getTime() {
