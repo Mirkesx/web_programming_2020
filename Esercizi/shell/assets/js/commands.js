@@ -46,6 +46,10 @@ const commands = {
     inSTR : {
         com : containSTR,
         help : "containSTR word1 word2<br>Remote command.<br>Returns whether word2 is inside word1 or not.<br>"
+    },
+    rm : {
+        com : rm,
+        help : "rm [file/folder]<br>Delete the file/folder passed as parameter.<br>"
     }
 }
 
@@ -305,4 +309,76 @@ function containSTR(node, param, shell_id) {
 function printResult(result,id) {
     console.log(result);
     $("#shell"+id+" .past_commands").append(result + "<br>");
+}
+
+function getDescendents(node) {
+    if(node.children === undefined || node.children === []) {
+        return node.id;
+    } else {
+        let children_id = [node.id];
+        for(let c of node.children) {
+            //console.log(c);
+            children_id = children_id.concat(getDescendents(c));
+        }
+        return children_id;
+    }
+}
+
+function rm(node, param) {
+    if(param === "") {
+        return {node : file_manager.username};
+    }
+    const element = getLastNode(node, param);
+    if(element && !["root","etc","usr","home","username"].includes(element.name)) {
+        if(element.name !== "upload" && (element.parent && element.parent.id !== file_manager.upload.id)) {
+            const children_id = getDescendents(element);
+            if(children_id.length > 0) {
+                removeChild(children_id[0]); 
+                for(const inode in file_manager) {
+                    //console.log(file_manager[inode]);
+                    if(children_id.includes(file_manager[inode].id)) {
+
+                        if(file_manager[inode].id == node.id) {
+                            node = file_manager.root;
+                        }
+                        //console.log(file_manager[inode]);
+                        delete file_manager[inode];
+                    }
+                }
+            } else {
+                for(const inode in file_manager) {
+                    //console.log(file_manager[inode]);
+                    if(children_id == file_manager[inode].id) {
+
+                        if(file_manager[inode].id == node.id) {
+                            node = file_manager.root;
+                        }
+                        //console.log(file_manager[inode]);
+                        delete file_manager[inode];
+                    }
+                }
+            }
+            return {node};
+        } else if(element.name === "upload") {
+            console.log("1");
+        } else if(element.parent && element.parent.id === file_manager.upload.id){
+            console.log("2");
+        }
+    }
+    return {node,result : "Errore! Non hai i permessi per eliminare " + param + "!"};
+}
+
+function removeChild(id) {
+    let idToBeRemoved = -1;
+    for(const inode in file_manager) {
+        for(let i = 0; i < file_manager[inode].children.length; i++) {
+            if(file_manager[inode].children[i].id == id) {
+                idToBeRemoved = i;
+            }
+        }
+        if(idToBeRemoved > -1) {
+            file_manager[inode].children.splice(idToBeRemoved,1);
+            return;
+        }
+    }
 }

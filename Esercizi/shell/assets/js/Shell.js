@@ -68,6 +68,8 @@ class Shell {
         $("#shell" + this.id + " .time").html(time + " > :");
         $("#shell" + this.id + " .shell_input").val("");
         $("#shell" + this.id + " .shell_time").val(time);
+
+        this.index_history = this.command_history.length;
     }
 
     parse_command() {
@@ -158,7 +160,7 @@ class Shell {
 
     setListeners() {
 
-        $('#shell' + this.id).draggable({ stack: 'div', cursor: "pointer" }).resizable({ minHeight: 150, minWidth: 250 });
+        $('#shell' + this.id).draggable({ stack: 'div', cursor: "pointer", containment: 'parent' }).resizable({ minHeight: 150, minWidth: 250 });
         $('#shell' + this.id + ' .title_bar').dblclick(this.maximize);
         $('#shell' + this.id + ' .max_button').click(this.maximize);
         $('#shell' + this.id + ' .close_button').click(this.close);
@@ -179,8 +181,8 @@ class Shell {
     }
 
     maximize = () => {
-        let h = $('desktop').height()+40;
-        let w = $('desktop').width()+40;
+        let h = $('desktop').height();
+        let w = $('desktop').width();
         if (h != $('#shell' + this.id).height() && w != $('#shell' + this.id).width()) {
             this.tmpHeight = $('#shell' + this.id).height();
             this.tmpWidth = $('#shell' + this.id).width();
@@ -208,6 +210,7 @@ class Shell {
     close = () => {
         this.window.remove();
         this.footer_icon.remove();
+        shells = _.filter(shells, (s) => s != this.id);
     };
 
     key_down_actions = (event) => {
@@ -246,30 +249,30 @@ class Shell {
             }
         }
 
-        if (event.keyCode === 38) {
+        if (event.keyCode === 38) { //Storico dei comandi in Su
             if (this.command_history.length > 0) {
-                if (this.index_history === -1) {
-                    this.index_history = this.command_history.length - 1;
-
-                }
-                if (this.index_history >= 0) {
-                    $("#shell" + this.id + " .shell_input").val(this.command_history[this.index_history]);
+                if (this.index_history > 0) {
                     this.index_history--;
+                    $("#shell" + this.id + " .shell_input").val(this.command_history[this.index_history]);
                 }
+                //console.log(this.index_history);
             }
         }
 
-        if (event.keyCode === 40) {
+        if (event.keyCode === 40) { //Storico dei comandi in giù
             if (this.command_history.length > 0) {
-                if (this.index_history !== -1) {
-                    if (this.index_history === this.command_history.length) {
-                        $("#shell" + this.id + " .shell_input").val("");
-                        this.index_history = -1;
-                    } else {
-                        $("#shell" + this.id + " .shell_input").val(this.command_history[this.index_history]);
-                        this.index_history++;
-                    }
+                if (this.index_history === this.command_history.length) {
+                    $("#shell" + this.id + " .shell_input").val("");
+                    this.index_history = this.command_history.length;
                 }
+
+                if (this.index_history < this.command_history.length) {
+                    if (this.index_history === -1)
+                        this.index_history = 0;
+                    this.index_history++;
+                    $("#shell" + this.id + " .shell_input").val(this.command_history[this.index_history]);
+                }
+                //console.log(this.index_history);
             }
         }
     }

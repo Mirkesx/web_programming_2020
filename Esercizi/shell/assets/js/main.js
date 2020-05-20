@@ -25,36 +25,55 @@ let upfis = [];
 $("#terminal_icon").dblclick(createShell);
 $("#file_system_icon").dblclick(createFileSystem);
 $("#upload_icon").dblclick(createUpload);
-
-
 $(".app_icon").draggable({ grid: [100, 100] });
 
 //FUNZIONI
 
+//CHIAMATE
+
+getTime();
+
+//DEFINIZIONE
+
 function createShell() {
-    $('desktop').find('.app_icon').css('z-index','1');
+    $('desktop').find('.app_icon').css('z-index', '1');
     _.each($('desktop').find('.window'), (e) => e.style.zIndex = 30);
     let s = new Shell();
-    shells.push(s);
+    shells.push(s.id);
 };
 
 function createFileSystem() {
-    $('desktop').find('.app_icon').css('z-index','1');
+    $('desktop').find('.app_icon').css('z-index', '1');
     _.each($('desktop').find('.window'), (e) => e.style.zIndex = 30);
     let fs = new FileSystem();
-    fs_arr.push(fs);
+    fs_arr.push(fs.id);
 }
 
 function createNano(data) {
-    $('desktop').find('.app_icon').css('z-index','1');
+    $('desktop').find('.app_icon').css('z-index', '1');
     _.each($('desktop').find('.window'), (e) => e.style.zIndex = 30);
     let n = new Nano(data);
-    nanos.push(n);
+    nanos.push(n.id);
 }
 
 function createUpload() {
-    $('desktop').find('.app_icon').css('z-index','1');
+    $('desktop').find('.app_icon').css('z-index', '1');
     _.each($('desktop').find('.window'), (e) => e.style.zIndex = 30);
     let up = new UploadFile();
-    upfis.push(up);
+    upfis.push(up.id);
+}
+
+function getTime() {
+    const days = ['dom', 'lun', 'mar', 'mer', 'gio', 'ven', 'sab'];
+    const months = ['gen', 'feb', 'mar', 'apr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 'nov', 'dic'];
+    let data = new Date();
+    let day = data.getDay();
+    let date = data.getDate();
+    let month = data.getMonth();
+    let hh = data.getHours();
+    let mm = data.getMinutes();
+    let time = days[day] + " " + date + " " + months[month] + " " + hh + ":" + mm;
+    $(".header-time").html(time);
+    //console.log(time);
+    window.setTimeout("getTime()", 1000);
 }

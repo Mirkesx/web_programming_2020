@@ -54,7 +54,7 @@ class UploadFile {
 
     setListeners() {
 
-        $('#upfi' + this.id).draggable({ stack: 'div', cursor: "pointer" }).resizable({ minHeight: 150, minWidth: 250 });
+        $('#upfi' + this.id).draggable({ stack: 'div', cursor: "pointer", containment: 'parent' }).resizable({ minHeight: 150, minWidth: 250 });
         $('#upfi' + this.id + ' .title_bar').dblclick(this.maximize);
         $('#upfi' + this.id + ' .max_button').click(this.maximize);
         $('#upfi' + this.id + ' .close_button').click(this.close);
@@ -73,8 +73,8 @@ class UploadFile {
     }
 
     maximize = () => {
-        let h = $('desktop').height()+40;
-        let w = $('desktop').width()+40;
+        let h = $('desktop').height();
+        let w = $('desktop').width();
         if (h != $('#upfi' + this.id).height() && w != $('#upfi' + this.id).width()) {
             this.tmpHeight = $('#upfi' + this.id).height();
             this.tmpWidth = $('#upfi' + this.id).width();
@@ -102,6 +102,7 @@ class UploadFile {
     close = () => {
         this.window.remove();
         this.footer_icon.remove();
+        upfis = _.filter(upfis, (up) => up != this.id);
     };
 
     handleUpload = () => {

@@ -64,12 +64,17 @@ class FileSystem {
         for (const child of this.actual_node.children) {
             this.window.find(".file-system")
                 .append('<div class="fs_sprite" id=' + child.id + '>\
-                            <img src="assets/img/'+ (child.type == "dir" ? 'folder' : 'text') + '.png">\
+                            <img class="sprite_image" src="assets/img/'+ (child.type == "dir" ? 'folder' : 'text') + '.png">\
                             <span>'+ child.name + '</span>\
+                            <img src="assets/img/delete.png" class="delete_sprite">\
                         </div>');
 
             this.window.find('#' + child.id).click(() => {
                 this.window.find('#' + child.id).focus();
+            });
+
+            this.window.find('#' + child.id + " .delete_sprite").click(() => {
+                this.deleteElement(child.name, child.id);
             });
         }
 
@@ -78,7 +83,7 @@ class FileSystem {
 
     setListeners() {
 
-        $('#file-system' + this.id).draggable({ stack: 'div', cursor: "pointer" }).resizable({ minHeight: 150, minWidth: 250 });
+        $('#file-system' + this.id).draggable({ stack: 'div', cursor: "pointer", containment: 'parent' }).resizable({ minHeight: 150, minWidth: 250 });
         $('#file-system' + this.id + ' .title_bar').dblclick(this.maximize);
         $('#file-system' + this.id + ' .max_button').click(this.maximize);
         $('#file-system' + this.id + ' .close_button').click(this.close);
@@ -100,8 +105,8 @@ class FileSystem {
     }
 
     maximize = () => {
-        let h = $('desktop').height() + 40;
-        let w = $('desktop').width() + 40;
+        let h = $('desktop').height();
+        let w = $('desktop').width();
         if (h != $('#file-system' + this.id).height() && w != $('#file-system' + this.id).width()) {
             this.tmpHeight = $('#file-system' + this.id).height();
             this.tmpWidth = $('#file-system' + this.id).width();
@@ -129,6 +134,7 @@ class FileSystem {
     close = () => {
         this.window.remove();
         this.footer_icon.remove();
+        fs_arr = _.filter(fs_arr, (fs) => fs != this.id);
     };
 
     key_down_actions = (event) => {
@@ -265,4 +271,18 @@ class FileSystem {
             }
         }
     };
+
+    deleteElement = (path, id) =>  {
+        const response = rm(this.actual_node, printPath(this.actual_node)+"/"+path);
+
+        if(response.result) {
+            console.log(response.result);
+        } else {
+            if(response.node.id !== this.actual_node.id) {
+                this.renderElements(response.node);
+            } else {
+                this.window.find("#"+id).remove();
+            }
+        }
+    }
 }
