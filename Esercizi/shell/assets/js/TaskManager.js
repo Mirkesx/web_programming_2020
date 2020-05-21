@@ -59,43 +59,63 @@ class TaskManager {
 
     renderActivities() {
         this.window.find(".task-body").html("");
+        let htmlToAppend = "";
 
-        this.window.find(".task-body").append('<h3>Terminal Attivi</h3><ul>');
-        for (let s of shells) {
-            this.window.find(".task-body").append("<li><span class='text_task'>Terminal " + s.id + "</span><img src='assets/img/delete.png' class='delete_task' id='shell_" + s.id + "'></li>");
+        if (shells.length > 0) {
+            htmlToAppend = "<div><h4>Terminal Attivi</h4><ul>";
+            for (let s of shells) {
+                htmlToAppend += "<li><span class='text_task'>Terminal " + s.id + "</span><img src='assets/img/delete.png' class='delete_task' id='shell_" + s.id + "'></li>";
+            }
+            htmlToAppend += '</ul></div>';
+            this.window.find(".task-body").append(htmlToAppend);
         }
-        this.window.find(".task-body").append('</ul>');
 
-        this.window.find(".task-body").append('<h3>FileSystem Attivi</h3><ul>');
-        for (let s of fs_arr) {
-            this.window.find(".task-body").append("<li><span class='text_task'>FileSystem " + s.id + "</span><img src='assets/img/delete.png' class='delete_task' id='fs_" + s.id + "'></li>");
+        if (fs_arr.length > 0) {
+            htmlToAppend = '<div><h4>FileSystem Attivi</h4><ul>';
+            for (let s of fs_arr) {
+                htmlToAppend += "<li><span class='text_task'>FileSystem " + s.id + "</span><img src='assets/img/delete.png' class='delete_task' id='fs_" + s.id + "'></li>";
+            }
+            htmlToAppend += '</ul></div>';
+            this.window.find(".task-body").append(htmlToAppend);
         }
-        this.window.find(".task-body").append('</ul>');
 
-        this.window.find(".task-body").append('<h3>Upload Attivi</h3><ul>');
-        for (let s of upfis) {
-            this.window.find(".task-body").append("<li><span class='text_task'>Upload " + s.id + "</span><img src='assets/img/delete.png' class='delete_task' id='upload_" + s.id + "'></li>");
+        if (upfis.length > 0) {
+            htmlToAppend = '<div><h4>Upload Attivi</h4><ul>';
+            for (let s of upfis) {
+                htmlToAppend += "<li><span class='text_task'>Upload " + s.id + "</span><img src='assets/img/delete.png' class='delete_task' id='upload_" + s.id + "'></li>";
+            }
+            htmlToAppend += '</ul></div>';
+            this.window.find(".task-body").append(htmlToAppend);
         }
-        this.window.find(".task-body").append('</ul>');
 
-        this.window.find(".task-body").append('<h3>Nano Attivi</h3><ul>');
-        for (let s of nanos) {
-            this.window.find(".task-body").append("<li><span class='text_task'>Nano " + s.id + "</span><img src='assets/img/delete.png' class='delete_task' id='nano_" + s.id + "'></li>");
+        if (nanos.length > 0) {
+            htmlToAppend = '<div><h4>Nano Attivi</h4><ul>';
+            for (let s of nanos) {
+                htmlToAppend += "<li><span class='text_task'>Nano " + s.id + "</span><img src='assets/img/delete.png' class='delete_task' id='nano_" + s.id + "'></li>";
+            }
+            htmlToAppend += '</ul></div>';
+            this.window.find(".task-body").append(htmlToAppend);
         }
-        this.window.find(".task-body").append('</ul>');
 
-        this.window.find(".task-body").append('<h3>Drawer Attivi</h3><ul>');
-        for (let s of drawers) {
-            this.window.find(".task-body").append("<li><span class='text_task'>Drawer " + s.id + "</span><img src='assets/img/delete.png' class='delete_task' id='drawer_" + s.id + "'></li>");
+        if (drawers.length > 0) {
+            htmlToAppend = '<div><h4>Drawer Attivi</h4><ul>';
+            for (let s of drawers) {
+                htmlToAppend += "<li><span class='text_task'>Drawer " + s.id + "</span><img src='assets/img/delete.png' class='delete_task' id='drawer_" + s.id + "'></li>";
+            }
+            htmlToAppend += '</ul></div>';
+            this.window.find(".task-body").append(htmlToAppend);
         }
-        this.window.find(".task-body").append('</ul>');
 
-        this.window.find(".task-body").append('<h3>Reader Attivi</h3><ul>');
-        for (let s of readers) {
-            this.window.find(".task-body").append("<li><span class='text_task'>Reader " + s.id + "</span><img src='assets/img/delete.png' class='delete_task' id='reader_" + s.id + "'></li>");
+        if (readers.length > 0) {
+            htmlToAppend = '<div><h4>Reader Attivi</h4><ul>';
+            for (let s of readers) {
+                htmlToAppend += "<li><span class='text_task'>Reader " + s.id + "</span><img src='assets/img/delete.png' class='delete_task' id='reader_" + s.id + "'></li>";
+            }
+            htmlToAppend += '</ul></div>';
+            this.window.find(".task-body").append(htmlToAppend);
         }
-        this.window.find(".task-body").append('</ul>');
 
+        this.window.find('h4').click(this.closeUL);
         this.window.find(".delete_task").click(this.deleteItem);
     }
 
@@ -111,31 +131,31 @@ class TaskManager {
         </tr>\
         <tr>\
             <td>Nome OS</dh>\
-            <td id="os_name">'+this.specs.os_name+'</td>\
+            <td id="os_name">'+ this.specs.os_name + '</td>\
         </tr>\
         <tr>\
             <td>Versione OS</dh>\
-              <td id="os_version">'+this.specs.os_version+'</td>\
+              <td id="os_version">'+ this.specs.os_version + '</td>\
         </tr>\
         <tr>\
             <td>Architettura</dh>\
-              <td id="os_machine">'+this.specs.os_machine+'</td>\
+              <td id="os_machine">'+ this.specs.os_machine + '</td>\
         </tr>\
         <tr>\
             <td>CPU usata (avg)</dh>\
-              <td id="cpu_avg">'+this.specs.cpu_avg+'</td>\
+              <td id="cpu_avg">'+ this.specs.cpu_avg + '</td>\
         </tr>\
         <tr>\
             <td>RAM usata</dh>\
-              <td id="memory_used">'+this.specs.memory_used+'</td>\
+              <td id="memory_used">'+ this.specs.memory_used + '</td>\
         </tr>\
         <tr>\
             <td>RAM totale</dh>\
-              <td id="memory_all">'+this.specs.memory_all+'</td>\
+              <td id="memory_all">'+ this.specs.memory_all + '</td>\
         </tr>\
         <tr>\
             <td>Ram usata/totale</dh>\
-              <td id="memory_prc">'+this.specs.memory_prc+'</td>\
+              <td id="memory_prc">'+ this.specs.memory_prc + '</td>\
         </tr>\
         </table>');
 
@@ -204,6 +224,16 @@ class TaskManager {
         this.footer_icon.remove();
     };
 
+    closeUL = (event) => {
+        console.log($(event.target).parent().find('ul'));
+        const element = $(event.target).parent().find('li');
+        if(element.css('display') == 'list-item') {
+            element.css('display','none');
+        } else {
+            element.css('display','list-item');
+        }
+    };
+
     deleteItem = (event) => {
         const split = event.target.id.split('_');
         const type = split[0];
@@ -247,14 +277,14 @@ class TaskManager {
             contentType: false,
             cache: false,
             callFunction: (obj) => {
-                if(info) {
+                if (info) {
                     info.specs = obj;
 
                     const window = $(this)[0].window;
 
-                    if(window.find('table').length > 0) {
-                        for(let o in obj) {
-                            window.find("#"+o).html(obj[o]);
+                    if (window.find('table').length > 0) {
+                        for (let o in obj) {
+                            window.find("#" + o).html(obj[o]);
                         }
                     }
                 }
@@ -269,7 +299,7 @@ class TaskManager {
             }
         });
 
-        if(this.state == 1)
+        if (this.state == 1)
             window.setTimeout(this.getOSInfo, 1000);
     };
 }
