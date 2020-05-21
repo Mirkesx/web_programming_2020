@@ -61,13 +61,13 @@ class UploadFile {
         $('#upfi' + this.id + ' .min_button').click(this.minimize);
         $('#upfi_icon' + this.id).click(this.minimize);
 
-        this.window.find('.buttonReset').on('click',this.reset);
+        this.window.find('.buttonReset').on('click', this.reset);
         this.window.ready(this.handleUpload);
-        $('#upfi'+this.id).on('click',this.stackOnTop);
+        $('#upfi' + this.id).on('click', this.stackOnTop);
     }
 
-    stackOnTop = function() {
-        $('.window').css('z-index',30);
+    stackOnTop = function () {
+        $('.window').css('z-index', 30);
         const window = $(this).detach();
         $('desktop').append(window);
     }
@@ -103,12 +103,14 @@ class UploadFile {
         this.window.remove();
         this.footer_icon.remove();
         upfis = _.filter(upfis, (up) => up != this.id);
+        if (info && info.state == 0)
+            info.renderActivities();
     };
 
     handleUpload = () => {
         // File upload via Ajax
         $(".uploadForm").on('submit', function (e) {
-            $('.buttonUpload').prop('disabled', true).css({'background-color': 'grey'});
+            $('.buttonUpload').prop('disabled', true).css({ 'background-color': 'grey' });
             e.preventDefault();
             $.ajax({
                 xhr: function () {
@@ -131,18 +133,29 @@ class UploadFile {
                 beforeSend: function () {
                     $(".progress-bar").width('0%');
                 },
+                syncLocalFiles: () => {
+                    _.each(fs_arr, (fs) => {
+                        if (fs.actual_node.id == 7)
+                            fs.renderElements(file_manager.upload);
+                    });
+                    _.each(shells, (s) => {
+                        if (s.actual_node.id == 7)
+                            s.actual_node = file_manager.upload;
+                    });
+                },
                 error: function () {
                     $('.uploadStatus').html('<p style="color:#EA4335;">File upload failed, please try again.</p>');
                 },
                 success: function (response) {
-                    const resp = {path : response.split("!")[0], type : response.split("!")[1]}
-                    console.log(resp);
-                    console.log(['jpg', 'png', 'jpeg', 'gif'].includes(resp.type));
+                    const resp = { path: response.split("!")[0], type: response.split("!")[1] }
+                    //console.log(resp);
+                    //console.log(['jpg', 'png', 'jpeg', 'gif'].includes(resp.type));
                     $('.uploadForm')[0].reset();
                     $('.uploadStatus').html('<p style="color:#28A74B;">File has been uploaded successfully!</p>')
-                        .append(['jpg', 'png', 'jpeg', 'gif'].includes(resp.type) ? '<img src="/php/'+resp.path+'"><br>' : "")
-                        .append('<a href="/php/'+resp.path+'" target="_blank">Click here to open it.</a>');
+                        .append(['jpg', 'png', 'jpeg', 'gif'].includes(resp.type) ? '<img src="/php/' + resp.path + '"><br>' : "")
+                        .append('<a href="/php/' + resp.path + '" target="_blank">Click here to open it.</a>');
                     getRemoteFiles();
+                    setTimeout(this.syncLocalFiles, 1000);
                 }
             });
         });
@@ -162,12 +175,12 @@ class UploadFile {
 
     reset = () => {
         //console.log(this.window.find('.buttonReset').css('background-color'));
-        if(this.window.find('.buttonReset').css('background-color') == 'rgb(0, 0, 255)') {
+        if (this.window.find('.buttonReset').css('background-color') == 'rgb(0, 0, 255)') {
             this.window.find('.uploadStatus > *').remove();
             this.window.find(".progress-bar").width('0%');
             this.window.find('.uploadForm')[0].reset();
             this.window.find(".progress-bar>span").html('0%');
-            this.window.find('.buttonUpload').prop('disabled', false).css({'background-color': 'blue'});
+            this.window.find('.buttonUpload').prop('disabled', false).css({ 'background-color': 'blue' });
             this.init_state();
         }
     };

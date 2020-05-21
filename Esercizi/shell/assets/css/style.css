@@ -591,3 +591,94 @@ footer {
     left: 50%;
     border-bottom-right-radius: 25px;
 }
+
+.drawer {
+    position: absolute;
+    background-color: white;
+    top: 20px;
+    left: 0px;
+    right: 0px;
+    bottom: 10px;
+    background-repeat: round;
+}
+
+.drawer > iframe {
+    height: 100%;
+    width: 100%;
+}
+
+.reader {
+    position: absolute;
+    background-color: white;
+    top: 20px;
+    left: 0px;
+    right: 0px;
+    bottom: 10px;
+}
+
+.reader > iframe {
+    height: 100%;
+    width: 100%;
+}
+
+.infoos {
+    position: absolute;
+    background-color: white;
+    top: 20px;
+    left: 0px;
+    right: 0px;
+    bottom: 10px;
+}
+
+.infoos > iframe {
+    height: 100%;
+    width: 100%;
+}
+
+.task {
+    position: absolute;
+    background-color: white;
+    top: 20px;
+    left: 0px;
+    right: 0px;
+    bottom: 10px;
+}
+
+.task-bar {
+    position: absolute;
+    top:0;
+    height: 20px;
+    left:0;
+    right:0;
+}
+
+.task-bar input {
+    width: 50%;
+    height: 100%;
+    position: absolute;
+}
+
+.task-bar > .button-left {
+    left: 0;
+}
+
+.task-bar > .button-right {
+    left: 50%;
+}
+
+.task-body {
+    position: absolute;
+    top:20px;
+    bottom: 20px;
+    left:0;
+    right:0;
+    overflow-y: scroll;
+}
+
+.delete_task {
+    position: absolute;
+    top: inherit;
+    right: 0;
+    width: 20px;
+    display: inline-block;
+}

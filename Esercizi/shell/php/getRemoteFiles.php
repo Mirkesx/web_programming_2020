@@ -9,7 +9,7 @@ $i = 0;
 foreach($files as $f) {
     error_log('uploads/'.$f);
     if($f != "." && $f != "..") {
-        $file_list["file_uploaded".$i] = array("name" => explode(".",$f)[0], "type" => pathinfo('uploads/'.$f, PATHINFO_EXTENSION), "path" => '/php/uploads/'.$f,  "size" => filesize('uploads/'.$f));
+        $file_list["file_uploaded".$i] = array("name" => explode(".",$f)[0], "ext" => pathinfo('uploads/'.$f, PATHINFO_EXTENSION), "path" => '/php/uploads/'.$f,  "size" => filesize('uploads/'.$f), 'id' => 'remote'.$i);
         $i++;
     }
 }

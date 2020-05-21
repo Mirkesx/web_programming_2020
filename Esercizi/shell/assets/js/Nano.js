@@ -66,11 +66,11 @@ class Nano {
         $('#nano' + this.id + ' .nano').click(() => { $('#nano' + this.id + ' .catArea').focus() });
         $('#n_icon' + this.id).click(this.minimize);
         $('#nano' + this.id + ' .nano').keydown(this.key_down_actions);
-        $('#nano'+this.id).on('click',this.stackOnTop);
+        $('#nano' + this.id).on('click', this.stackOnTop);
     }
 
-    stackOnTop = function() {
-        $('.window').css('z-index',30);
+    stackOnTop = function () {
+        $('.window').css('z-index', 30);
         const window = $(this).detach();
         $('desktop').append(window);
         window.find('.catArea').focus();
@@ -107,14 +107,8 @@ class Nano {
         this.window.remove();
         this.footer_icon.remove();
         nanos = _.filter(nanos, (n) => n != this.id);
-    };
-
-    open = (event) => {
-        const element_id = event.delegateTarget.id;
-        let node = _.filter(file_manager, (e) => e.id == element_id);
-        if(node !== [] && node[0].type == 'dir') {
-            this.renderElements(node[0]);
-        }
+        if (info && info.state == 0)
+            info.renderActivities();
     };
 
     key_down_actions = (event) => {
@@ -151,9 +145,9 @@ class Nano {
     }
 
     checkExistence(node) {
-        for(let inode in file_manager) {
-            if(file_manager[inode].id == this.actual_node.id) {
-                if(this.actual_node.id === node.id)
+        for (let inode in file_manager) {
+            if (file_manager[inode].id == this.actual_node.id) {
+                if (this.actual_node.id === node.id)
                     this.renderElements(node);
                 return;
             }

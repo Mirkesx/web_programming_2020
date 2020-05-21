@@ -31,7 +31,7 @@ class Shell {
             .append('<div class="min_button" style="background-image: url(assets/img/min.png);"></div>')
             .append('<div class="max_button" style="background-image: url(assets/img/max.png);"></div>')
         let shell = $('<div class="shell"></div>')
-            .append('<div class="past_commands" disabled></div>');
+            .append('<div class="past_commands"></div>');
         let command_line = $('<div class="command_line"></div>')
             .append("<input type='hidden' class='shell_time' />")
             .append("<font class='time'> :</font><font class='path'>$</font>")
@@ -65,7 +65,7 @@ class Shell {
         const time = hours + ":" + minutes + ":" + seconds;
 
         $("#shell" + this.id + " .path").html(printPath(this.actual_node).replace(" ", "") + "$");
-        $("#shell" + this.id + " .time").html(time + " > :");
+        $("#shell" + this.id + " .time").html(time + " > : ");
         $("#shell" + this.id + " .shell_input").val("");
         $("#shell" + this.id + " .shell_time").val(time);
 
@@ -216,7 +216,9 @@ class Shell {
     close = () => {
         this.window.remove();
         this.footer_icon.remove();
-        shells = _.filter(shells, (s) => s != this.id);
+        shells = _.filter(shells, (s) => s.id != this.id);
+        if(info && info.state == 0)
+            info.renderActivities();
     };
 
     key_down_actions = (event) => {

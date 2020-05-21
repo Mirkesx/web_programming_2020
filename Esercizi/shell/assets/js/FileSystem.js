@@ -1,8 +1,8 @@
 var file_id = 0;
 
 class FileSystem {
-    constructor() {
-        this.init_state();
+    constructor(node) {
+        this.init_state(node);
         this.renderFileSystem();
         this.setListeners();
         this.renderElements(this.actual_node);
@@ -10,9 +10,12 @@ class FileSystem {
         console.log("Created filesys #" + this.id + "!")
     }
 
-    init_state() {
+    init_state(node) {
         this.id = file_id++;
-        this.actual_node = file_manager.username;
+        if (node)
+            this.actual_node = node;
+        else
+            this.actual_node = file_manager.username;
         this.fS = 10;
         this.spriteH = 80;
         this.spriteW = 60;
@@ -63,14 +66,34 @@ class FileSystem {
 
         for (const child of this.actual_node.children) {
             let name = child.name;
-            if(name.length > 10) {
-                name = name.substr(0,10)+"<br>"+(name.substr(10).length > 10 ? name.substr(10,10) : name.substr(10) );
+            if (name.length > 10) {
+                name = name.substr(0, 10) + "<br>" + (name.substr(10).length > 10 ? name.substr(10, 10) : name.substr(10));
             } else {
                 name = name;
             }
+            let type = "";
+            switch (child.type) {
+                case "dir":
+                    type = 'folder';
+                    break;
+                case "file":
+                    type = 'text';
+                    break;
+                case "img":
+                    type = 'image';
+                    break;
+                case "upload":
+                    type = 'upload_icon';
+                    break;
+                case "rem_file":
+                    type = 'rem_file';
+                    break;
+                default:
+                    type = 'folder';
+            }
             this.window.find(".file-system")
                 .append('<div class="fs_sprite" id=' + child.id + '>\
-                            <img class="sprite_image" src="assets/img/'+ (child.type == "dir" ? 'folder' : 'text') + '.png">\
+                            <img class="sprite_image" src="assets/img/'+ type + '.png">\
                             <span>'+ name + '</span>\
                             <img src="assets/img/delete.png" class="delete_sprite">\
                         </div>');
@@ -84,7 +107,7 @@ class FileSystem {
             });
         }
 
-        this.window.find('.fs_sprite').dblclick((event) => {this.open(event)});
+        this.window.find('.fs_sprite').dblclick((event) => { this.open(event) });
     }
 
     setListeners() {
@@ -141,6 +164,8 @@ class FileSystem {
         this.window.remove();
         this.footer_icon.remove();
         fs_arr = _.filter(fs_arr, (fs) => fs != this.id);
+        if(info && info.state == 0)
+            info.renderActivities();
     };
 
     key_down_actions = (event) => {
@@ -148,8 +173,8 @@ class FileSystem {
         if (event.ctrlKey && event.key === ',') { // Ingrandire icone e font
             console.log("Ingrandire");
             this.fS += 1;
-            this.spriteH += 4/3;
-            this.spriteW += 3/4;
+            this.spriteH += 4 / 3;
+            this.spriteW += 3 / 4;
             if (this.fS <= 20) {
                 $("#file-system" + this.id + " .fs_sprite span").css({ fontSize: this.fS + "px" });
                 $("#file-system" + this.id + " .fs_sprite ").css({ height: this.spriteH + "px", width: this.spritew });
@@ -161,8 +186,8 @@ class FileSystem {
         if (event.ctrlKey && event.key === '.') { // Diminuire icone e font
             console.log("Diminuire");
             this.fS -= 1;
-            this.spriteH -= 4/3;
-            this.spriteW -= 3/4;
+            this.spriteH -= 4 / 3;
+            this.spriteW -= 3 / 4;
             if (this.fS >= 10) {
                 $("#file-system" + this.id + " .fs_sprite span").css({ fontSize: this.fS + "px" });
                 $("#file-system" + this.id + " .fs_sprite ").css({ height: this.spriteH + "px", width: this.spritew });
@@ -174,11 +199,24 @@ class FileSystem {
 
     open = (event) => {
         const element_id = event.delegateTarget.id;
-        let node = _.filter(file_manager, (e) => e.id == element_id);
-        if (node !== [] && (node[0].type == 'dir' || node[0].type == 'upload') ) {
-            this.renderElements(node[0]);
-        } else if (node !== [] && node[0].type == 'file') {
-            createNano(node[0]);
+        let node;
+        if (element_id.includes('remote')) {
+            node = _.filter(file_manager.upload.children, (e) => e.id == element_id);
+            if (node !== [] && node[0].type == 'img') {
+                console.log(node);
+                createDrawer(node[0]);
+            } else if (node !== [] && node[0].type == 'rem_file') {
+                //window.open(node[0].path, '_blank');
+                createReader(node[0]);
+            }
+        }
+        else {
+            node = _.filter(file_manager, (e) => e.id == element_id);
+            if (node !== [] && (node[0].type == 'dir' || node[0].type == 'upload')) {
+                this.renderElements(node[0]);
+            } else if (node !== [] && node[0].type == 'file') {
+                createNano(node[0]);
+            }
         }
     };
 
@@ -242,14 +280,14 @@ class FileSystem {
         this.actual_node.children.push(file_manager[idname]);
         console.log(file_manager[idname]);
         _.each(fs_arr, (fs) => {
-            if(fs.id != this.id && fs.actual_node.id == this.actual_node.id) {
+            if (fs.id != this.id && fs.actual_node.id == this.actual_node.id) {
                 fs.renderElements(this.actual_node);
-            } 
+            }
         });
         _.each(shells, (s) => {
-            if(s.actual_node.id == this.actual_node.id) {
+            if (s.actual_node.id == this.actual_node.id) {
                 s.actual_node = this.actual_node;
-            } 
+            }
         });
         this.renderElements(this.actual_node);
     };
@@ -269,9 +307,9 @@ class FileSystem {
         this.actual_node.children.push(file_manager[idname]);
         console.log(file_manager[idname]);
         _.each(fs_arr, (fs) => {
-            if(fs.id != this.id && fs.actual_node.id == this.actual_node.id) {
+            if (fs.id != this.id && fs.actual_node.id == this.actual_node.id) {
                 fs.renderElements(this.actual_node);
-            } 
+            }
         });
         this.renderElements(this.actual_node);
     };
@@ -293,36 +331,45 @@ class FileSystem {
         }
     };
 
-    deleteElement = (path, id) =>  {
-        const response = rm(this.actual_node, printPath(this.actual_node)+"/"+path);
-
-        if(response.result) {
-            console.log(response.result);
-        } else {
-            if(response.node.id !== this.actual_node.id) {
-                this.renderElements(response.node);
+    deleteElement = (path, id) => {
+        const response = rm(this.actual_node, printPath(this.actual_node) + "/" + path);
+        if (response) {
+            if (response.result) {
+                console.log(response.result);
+                return;
             } else {
-                this.window.find("#"+id).remove();
+                if (response.node.id !== this.actual_node.id) {
+                    this.renderElements(response.node);
+                    return;
+                } else {
+                    this.window.find("#" + id).remove();
+                }
             }
-            _.each(fs_arr, (fs) => {
-                if(fs.id != this.id) {
-                    //console.log("Chiusa finestra "+fs.id);
-                    fs.checkExistence(response.node);
-                } 
-            });
-            _.each(shells, (s) => {
-                s.checkExistence(response.node);
-            });
-            _.each(nanos, (n) => {
-                n.checkExistence(response.node);
-            });
         }
+        _.each(fs_arr, (fs) => {
+            if (fs.id != this.id) {
+                //console.log("Chiusa finestra "+fs.id);
+                fs.checkExistence(response.node);
+            }
+        });
+        _.each(shells, (s) => {
+            s.checkExistence(response.node);
+        });
+        _.each(nanos, (n) => {
+            n.checkExistence(response.node);
+        });
+        _.each(drawers, (d) => {
+            d.checkExistence(response.node);
+        });
+        _.each(readers, (r) => {
+            r.checkExistence(response.node);
+        });
     }
 
     checkExistence(node) {
-        for(let inode in file_manager) {
-            if(file_manager[inode].id == this.actual_node.id) {
-                if(this.actual_node.id === node.id)
+        for (let inode in file_manager) {
+            if (file_manager[inode].id == this.actual_node.id) {
+                if (this.actual_node.id === node.id)
                     this.renderElements(node);
                 return;
             }
