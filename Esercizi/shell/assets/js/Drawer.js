@@ -98,7 +98,7 @@ class Drawer {
     close = () => {
         this.window.remove();
         this.footer_icon.remove();
-        drawers = _.filter(drawers, (n) => n != this.id);
+        drawers = _.filter(drawers, (n) => n.id != this.id);
         if (info && info.state == 0)
             info.renderActivities();
     };

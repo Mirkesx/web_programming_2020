@@ -682,3 +682,16 @@ footer {
     width: 20px;
     display: inline-block;
 }
+
+.task-body > table {
+    width: 100%;
+    text-align: center;
+}
+
+.task-body > table *{
+    border-bottom: 1px solid;
+}
+
+.task-body > table *{
+    width: 50%;
+}

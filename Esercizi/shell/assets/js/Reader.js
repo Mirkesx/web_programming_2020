@@ -96,7 +96,7 @@ class Reader {
     close = () => {
         this.window.remove();
         this.footer_icon.remove();
-        readers = _.filter(readers, (n) => n != this.id);
+        readers = _.filter(readers, (n) => n.id != this.id);
         if (info && info.state == 0)
             info.renderActivities();
     };

@@ -102,7 +102,7 @@ class UploadFile {
     close = () => {
         this.window.remove();
         this.footer_icon.remove();
-        upfis = _.filter(upfis, (up) => up != this.id);
+        upfis = _.filter(upfis, (up) => up.id != this.id);
         if (info && info.state == 0)
             info.renderActivities();
     };

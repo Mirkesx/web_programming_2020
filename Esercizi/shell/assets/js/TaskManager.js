@@ -12,6 +12,8 @@ class TaskManager {
     init_state() {
         this.id = task_id++;
         this.state = 0;
+        this.specs = {};
+        this.getOSInfo();
     }
 
     renderTaskManager() {
@@ -99,6 +101,45 @@ class TaskManager {
 
     renderSysInfo() {
         this.window.find(".task-body").html("");
+
+        this.window.find(".task-body")
+            .append('\
+        <table>\
+        <tr>\
+            <th>Spec</th>\
+            <th>Valore</th>\
+        </tr>\
+        <tr>\
+            <td>Nome OS</dh>\
+            <td id="os_name">'+this.specs.os_name+'</td>\
+        </tr>\
+        <tr>\
+            <td>Versione OS</dh>\
+              <td id="os_version">'+this.specs.os_version+'</td>\
+        </tr>\
+        <tr>\
+            <td>Architettura</dh>\
+              <td id="os_machine">'+this.specs.os_machine+'</td>\
+        </tr>\
+        <tr>\
+            <td>CPU usata (avg)</dh>\
+              <td id="cpu_avg">'+this.specs.cpu_avg+'</td>\
+        </tr>\
+        <tr>\
+            <td>RAM usata</dh>\
+              <td id="memory_used">'+this.specs.memory_used+'</td>\
+        </tr>\
+        <tr>\
+            <td>RAM totale</dh>\
+              <td id="memory_all">'+this.specs.memory_all+'</td>\
+        </tr>\
+        <tr>\
+            <td>Ram usata/totale</dh>\
+              <td id="memory_prc">'+this.specs.memory_prc+'</td>\
+        </tr>\
+        </table>');
+
+        window.setTimeout(this.getOSInfo, 1000);
     }
 
     setListeners() {
@@ -112,13 +153,13 @@ class TaskManager {
         $('#task' + this.id).on('click', this.stackOnTop);
 
         this.window.find('.button-left').click(() => {
-            if(this.state == 1) {
+            if (this.state == 1) {
                 this.state = 0;
                 this.renderActivities();
             }
         });
-        this.window.find('.button-right').click(() =>{
-            if(this.state == 0) {
+        this.window.find('.button-right').click(() => {
+            if (this.state == 0) {
                 this.state = 1;
                 this.renderSysInfo();
             }
@@ -196,6 +237,39 @@ class TaskManager {
             default:
                 break;
         }
-        $('#'+event.target.id).parent().remove();
+        $('#' + event.target.id).parent().remove();
+    };
+
+    getOSInfo = () => {
+        $.ajax({
+            url: "/php/getInfos.php",
+            method: "GET",
+            contentType: false,
+            cache: false,
+            callFunction: (obj) => {
+                if(info) {
+                    info.specs = obj;
+
+                    const window = $(this)[0].window;
+
+                    if(window.find('table').length > 0) {
+                        for(let o in obj) {
+                            window.find("#"+o).html(obj[o]);
+                        }
+                    }
+                }
+            },
+            processData: false,
+            error: function (e) {
+                console.log("PHP - Errore!");
+                console.log(e);
+            },
+            success: function (response) {
+                this.callFunction(JSON.parse(response));
+            }
+        });
+
+        if(this.state == 1)
+            window.setTimeout(this.getOSInfo, 1000);
     };
 }

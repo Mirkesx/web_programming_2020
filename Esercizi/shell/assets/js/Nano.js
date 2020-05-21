@@ -106,7 +106,7 @@ class Nano {
     close = () => {
         this.window.remove();
         this.footer_icon.remove();
-        nanos = _.filter(nanos, (n) => n != this.id);
+        nanos = _.filter(nanos, (n) => n.id != this.id);
         if (info && info.state == 0)
             info.renderActivities();
     };

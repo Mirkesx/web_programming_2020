@@ -163,7 +163,7 @@ class FileSystem {
     close = () => {
         this.window.remove();
         this.footer_icon.remove();
-        fs_arr = _.filter(fs_arr, (fs) => fs != this.id);
+        fs_arr = _.filter(fs_arr, (fs) => fs.id != this.id);
         if(info && info.state == 0)
             info.renderActivities();
     };
