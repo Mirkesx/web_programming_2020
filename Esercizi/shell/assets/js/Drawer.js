@@ -13,13 +13,12 @@ class Drawer {
 
     init_state() {
         this.id = drawer_id++;
-        this.fS = 15;
     }
 
     renderDrawer() {
         this.window = $("<div class='window' id='drawer" + this.id + "'></div>");
         const title_bar = $('<div class="title_bar"></div>')
-            .append('<font class="title_text">Drawer ' + this.id + '</font>')
+            .append('<font class="title_text">' +this.actual_node.name + '</font>')
             .append('<div class="close_button" style="background-image: url(assets/img/close.png);"></div>')
             .append('<div class="min_button" style="background-image: url(assets/img/min.png);"></div>')
             .append('<div class="max_button" style="background-image: url(assets/img/max.png);"></div>');
@@ -103,12 +102,13 @@ class Drawer {
             info.renderActivities();
     };
 
-    checkExistence() {
-        for (let inode in file_manager) {
+    checkExistence(node) {
+        /*for (let inode in file_manager) {
             if (file_manager[inode].id == this.actual_node.id) {
                 return;
             }
-        }
-        this.close();
+        }*/
+        if(node.name == this.actual_node.name)
+            this.close();
     }
 }

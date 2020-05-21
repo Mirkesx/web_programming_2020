@@ -55,7 +55,7 @@ desktop {
     top: 20px;
     left: 0;
     right: 0;
-    bottom: 40px;
+    bottom: 45px;
 }
 
 .app_icon {
@@ -253,12 +253,13 @@ desktop {
 footer {
     position: absolute;
     bottom: 0;
-    left: 0;
+    left: 45px;
     right: 0;
-    height: 40px;
+    height: 45px;
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
     z-index: 9999;
+    overflow-y: scroll;
 }
 
 .footer_icon {
@@ -285,6 +286,72 @@ footer {
     display: none;
     width: 5px;
     margin-left: calc(50% - 2px);
+}
+
+footer-menu {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 45px;
+    height: 45px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    z-index: 9999;
+}
+
+footer-menu > img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 45px;
+
+}
+
+footer-menu>img:hover {
+    background-color: rgba(255,255,255,0.3);
+    border-radius: 50px;
+}
+
+.menu-back{
+    position: absolute;
+    top:0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 9000;
+}
+
+.menu-drawer{
+    position: absolute;
+    top:20%;
+    left: 20%;
+    bottom: 20%;
+    right: 20%;
+    z-index: 9001;
+    overflow-y: scroll;
+}
+
+.menu-icon{
+    position: relative;
+    display: inline-block;
+    height: 150px;
+    width: 150px;
+    color: white;
+    font-weight: bolder;
+    text-align: center;
+    overflow: hidden;
+}
+
+.menu-icon:hover{
+    background-color: rgba(255,255,255,0.3);
+}
+
+.menu-icon > img{
+    position: relative;
+    display: block;
+    left: 10px;
+    width: 130px;
 }
 
 .file-system-bar {

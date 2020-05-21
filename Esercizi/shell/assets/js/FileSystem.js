@@ -61,6 +61,13 @@ class FileSystem {
         } else {
             this.window.find('.parent-icon').show();
         }
+        if (this.actual_node == file_manager.upload) {
+            this.window.find('.new-file-icon').hide();
+            this.window.find('.new-folder-icon').hide();
+        } else {
+            this.window.find('.new-folder-icon').show();
+            this.window.find('.new-file-icon').show();
+        }
         this.window.find('.relative-path>input').val(printPath(this.actual_node));
         this.window.find(".file-system > *").remove();
 
@@ -332,6 +339,7 @@ class FileSystem {
     };
 
     deleteElement = (path, id) => {
+        const node = getLastNode(this.actual_node,path);
         const response = rm(this.actual_node, printPath(this.actual_node) + "/" + path);
         if (response) {
             if (response.result) {
@@ -346,24 +354,27 @@ class FileSystem {
                 }
             }
         }
-        _.each(fs_arr, (fs) => {
-            if (fs.id != this.id) {
-                //console.log("Chiusa finestra "+fs.id);
-                fs.checkExistence(response.node);
-            }
-        });
-        _.each(shells, (s) => {
-            s.checkExistence(response.node);
-        });
         _.each(nanos, (n) => {
-            n.checkExistence(response.node);
+            n.checkExistence();
         });
         _.each(drawers, (d) => {
-            d.checkExistence(response.node);
+            d.checkExistence(node);
         });
         _.each(readers, (r) => {
-            r.checkExistence(response.node);
+            r.checkExistence(node);
         });
+
+        setTimeout(() => {
+            _.each(fs_arr, (fs) => {
+                if (fs.id != this.id) {
+                    //console.log("Chiusa finestra "+fs.id);
+                    fs.checkExistence(response.node);
+                }
+            });
+            _.each(shells, (s) => {
+                s.checkExistence(response.node);
+            });
+        }, 500);
     }
 
     checkExistence(node) {

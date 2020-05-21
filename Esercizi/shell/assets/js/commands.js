@@ -400,7 +400,7 @@ function rm(node, param) {
                 }
             });
             getRemoteFiles();
-            return { node };
+            return { node, element };
         }
     }
     return { node, result: "Errore! Non hai i permessi per eliminare " + param + "!" };

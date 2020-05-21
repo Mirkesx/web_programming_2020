@@ -19,7 +19,7 @@ class Nano {
     renderNano() {
         this.window = $("<div class='window' id='nano" + this.id + "'></div>");
         const title_bar = $('<div class="title_bar"></div>')
-            .append('<font class="title_text">Nano ' + this.id + '</font>')
+            .append('<font class="title_text">' +this.actual_node.name + '</font>')
             .append('<div class="close_button" style="background-image: url(assets/img/close.png);"></div>')
             .append('<div class="min_button" style="background-image: url(assets/img/min.png);"></div>')
             .append('<div class="max_button" style="background-image: url(assets/img/max.png);"></div>');
@@ -144,11 +144,9 @@ class Nano {
         }
     }
 
-    checkExistence(node) {
+    checkExistence() {
         for (let inode in file_manager) {
             if (file_manager[inode].id == this.actual_node.id) {
-                if (this.actual_node.id === node.id)
-                    this.renderElements(node);
                 return;
             }
         }

@@ -94,7 +94,7 @@ class Shell {
 
             if(response.result === undefined) {
                 if(com == "rm")
-                    this.rmUpdate(response.node);
+                    this.rmUpdate(response.node,response.element);
             } 
             if(com == "mk" || com == "mkDir")
                 this.mkUpdate(response.node);
@@ -292,23 +292,36 @@ class Shell {
         this.temp_node = undefined;
     };
 
-    rmUpdate = (node) => {
-        _.each(fs_arr, (fs) => {
-            fs.checkExistence(node);
-        });
-        _.each(shells, (s) => {
-            if(s.id != this.id) {
-                s.checkExistence(node);
-            }
-        });
+    rmUpdate = (node, last_node) => {
         _.each(nanos, (n) => {
-            n.checkExistence(node);
+            n.checkExistence();
         });
+        if(last_node) {
+            _.each(drawers, (d) => {
+                d.checkExistence(last_node);
+            });
+            _.each(readers, (r) => {
+                r.checkExistence(last_node);
+            });
+        }
+
+        setTimeout(() => {
+            _.each(fs_arr, (fs) => {
+                fs.checkExistence(node);
+            });
+            _.each(shells, (s) => {
+                if(s.id != this.id) {
+                    s.checkExistence(node);
+                }
+            });
+        }, 500);
     };
 
     checkExistence = (node) => {
         for(let inode in file_manager) {
             if(file_manager[inode].id == this.actual_node.id) {
+                if (this.actual_node.id === node.id)
+                    this.actual_node = node;
                 return;
             }
         }

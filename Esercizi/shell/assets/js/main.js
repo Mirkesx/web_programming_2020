@@ -29,11 +29,10 @@ $("#terminal_icon").dblclick(createShell);
 $("#file_system_icon").dblclick(() => createFileSystem(file_manager.username));
 $("#upload_icon").dblclick(createUpload);
 $(".app_icon").draggable({ grid: [100, 100] });
+$("footer-menu > img").on('click', openMenu);
 $(document).keydown((event) => {
     if (event.ctrlKey && event.altKey && event.keyCode == '80') {
-        if (info)
-            info.close();
-        info = new InfoOS();
+        createInfoOS();
     }
 
     if (event.ctrlKey && event.altKey && event.keyCode == '79') {
@@ -52,60 +51,6 @@ getRemoteFiles();
 
 //DEFINIZIONE
 
-function createShell() {
-    $('desktop').find('.app_icon').css('z-index', '1');
-    _.each($('desktop').find('.window'), (e) => e.style.zIndex = 30);
-    let s = new Shell();
-    shells.push(s);
-    if(info && info.state == 0)
-        info.renderActivities();
-};
-
-function createFileSystem(data) {
-    $('desktop').find('.app_icon').css('z-index', '1');
-    _.each($('desktop').find('.window'), (e) => e.style.zIndex = 30);
-    let fs = new FileSystem(data);
-    fs_arr.push(fs);
-    if(info && info.state == 0)
-        info.renderActivities();
-}
-
-function createNano(data) {
-    $('desktop').find('.app_icon').css('z-index', '1');
-    _.each($('desktop').find('.window'), (e) => e.style.zIndex = 30);
-    let n = new Nano(data);
-    nanos.push(n);
-    if(info && info.state == 0)
-        info.renderActivities();
-}
-
-function createUpload() {
-    $('desktop').find('.app_icon').css('z-index', '1');
-    _.each($('desktop').find('.window'), (e) => e.style.zIndex = 30);
-    let up = new UploadFile();
-    upfis.push(up);
-    if(info && info.state == 0)
-        info.renderActivities();
-}
-
-function createDrawer(data) {
-    $('desktop').find('.app_icon').css('z-index', '1');
-    _.each($('desktop').find('.window'), (e) => e.style.zIndex = 30);
-    let d = new Drawer(data);
-    drawers.push(d);
-    if(info && info.state == 0)
-        info.renderActivities();
-}
-
-function createReader(data) {
-    $('desktop').find('.app_icon').css('z-index', '1');
-    _.each($('desktop').find('.window'), (e) => e.style.zIndex = 30);
-    let r = new Reader(data);
-    readers.push(r);
-    if(info && info.state == 0)
-        info.renderActivities();
-}
-
 function getTime() {
     const days = ['dom', 'lun', 'mar', 'mer', 'gio', 'ven', 'sab'];
     const months = ['gen', 'feb', 'mar', 'apr', 'mag', 'giu', 'lug', 'ago', 'set', 'ott', 'nov', 'dic'];
@@ -119,7 +64,7 @@ function getTime() {
     $(".header-time").html(time);
     //console.log(time);
     window.setTimeout("getTime()", 1000);
-}
+};
 
 function getRemoteFiles() {
     file_manager.upload.children = [];
@@ -138,7 +83,7 @@ function getRemoteFiles() {
             setUploadFolder(JSON.parse(response));
         }
     });
-}
+};
 
 function setUploadFolder(obj) {
     for (let o in obj) {
@@ -150,4 +95,38 @@ function setUploadFolder(obj) {
         obj[o].parent = file_manager.upload;
         file_manager.upload.children.push(obj[o]);
     }
-}
+};
+
+function openMenu() {
+    let menu = $("desktop").find('.menu-back');
+    console.log(menu)
+    if (menu.length == 0) {
+        menu = $('<div class="menu-back"></div>');
+        const drawer = $('<div class="menu-drawer"></div>');
+
+        for (let app in apps) {
+            drawer.append('<div class="menu-icon">\
+                                <img src="'+ apps[app].icon + '">\
+                                <span>'+ apps[app].name + '</span>\
+                                <input type="hidden" value="'+app+'">\
+                            </div>')
+        }
+        menu.append(drawer);
+        $("desktop").append(menu);
+
+        $("desktop").find(".menu-icon").on('click', openApp);
+        $("desktop").find(".menu-back").on('click', closeMenu);
+    } else {
+        closeMenu();
+    }
+};
+
+function openApp(event) {
+    const element = $(event.target).parent().find('input');
+    apps[element.val()].open();
+    closeMenu();
+};
+
+function closeMenu() {
+    $(".container").find('.menu-back').remove();
+};
