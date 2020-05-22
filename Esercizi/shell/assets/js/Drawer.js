@@ -98,8 +98,8 @@ class Drawer {
         this.window.remove();
         this.footer_icon.remove();
         drawers = _.filter(drawers, (n) => n.id != this.id);
-        if (info && info.state == 0)
-            info.renderActivities();
+        if (task && task.state == 0)
+            task.renderActivities();
     };
 
     checkExistence(node) {

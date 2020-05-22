@@ -34,7 +34,7 @@ class InfoOS {
         this.window.find('.infoos').append('<iframe src="http://localhost:3000/php/phpsysinfo/index.php" title="SysInfo"></iframe>');
 
         this.footer_icon = $("<div class='footer_icon' id='ios_icon" + this.id + "'></div>")
-            .append("<img class='high_img' src='assets/img/sysinfo.png'>")
+            .append("<img class='high_img' src='assets/img/info.png'>")
             .append("<img class='dot' src='assets/img/dot.png'>");
 
         $('desktop').append(this.window);

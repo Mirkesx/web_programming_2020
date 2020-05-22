@@ -33,9 +33,9 @@ function createInfoOS() {
 };
 
 function createTaskManager() {
-    if (info)
-        info.close();
-    info = new TaskManager();
+    if (task)
+        task.close();
+    task = new TaskManager();
 };
 
 function createShell() {
@@ -43,8 +43,8 @@ function createShell() {
     _.each($('desktop').find('.window'), (e) => e.style.zIndex = 30);
     let s = new Shell();
     shells.push(s);
-    if (info && info.state == 0)
-        info.renderActivities();
+    if (task && task.state == 0)
+        task.renderActivities();
 };
 
 function createFileSystem(data) {
@@ -52,8 +52,8 @@ function createFileSystem(data) {
     _.each($('desktop').find('.window'), (e) => e.style.zIndex = 30);
     let fs = new FileSystem(data);
     fs_arr.push(fs);
-    if (info && info.state == 0)
-        info.renderActivities();
+    if (task && task.state == 0)
+        task.renderActivities();
 };
 
 function createNano(data) {
@@ -61,8 +61,8 @@ function createNano(data) {
     _.each($('desktop').find('.window'), (e) => e.style.zIndex = 30);
     let n = new Nano(data);
     nanos.push(n);
-    if (info && info.state == 0)
-        info.renderActivities();
+    if (task && task.state == 0)
+        task.renderActivities();
 };
 
 function createUpload() {
@@ -70,8 +70,8 @@ function createUpload() {
     _.each($('desktop').find('.window'), (e) => e.style.zIndex = 30);
     let up = new UploadFile();
     upfis.push(up);
-    if (info && info.state == 0)
-        info.renderActivities();
+    if (task && task.state == 0)
+        task.renderActivities();
 };
 
 function createDrawer(data) {
@@ -79,8 +79,8 @@ function createDrawer(data) {
     _.each($('desktop').find('.window'), (e) => e.style.zIndex = 30);
     let d = new Drawer(data);
     drawers.push(d);
-    if (info && info.state == 0)
-        info.renderActivities();
+    if (task && task.state == 0)
+        task.renderActivities();
 };
 
 function createReader(data) {
@@ -88,6 +88,6 @@ function createReader(data) {
     _.each($('desktop').find('.window'), (e) => e.style.zIndex = 30);
     let r = new Reader(data);
     readers.push(r);
-    if (info && info.state == 0)
-        info.renderActivities();
+    if (task && task.state == 0)
+        task.renderActivities();
 };

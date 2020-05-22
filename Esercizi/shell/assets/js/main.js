@@ -22,6 +22,7 @@ let upfis = [];
 let drawers = [];
 let readers = [];
 let info;
+let task;
 
 //JQUERY
 
@@ -36,9 +37,7 @@ $(document).keydown((event) => {
     }
 
     if (event.ctrlKey && event.altKey && event.keyCode == '79') {
-        if (info)
-            info.close();
-        info = new TaskManager();
+        createTaskManager()
     }
 });
 

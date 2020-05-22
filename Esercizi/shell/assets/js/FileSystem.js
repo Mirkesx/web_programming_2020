@@ -171,8 +171,8 @@ class FileSystem {
         this.window.remove();
         this.footer_icon.remove();
         fs_arr = _.filter(fs_arr, (fs) => fs.id != this.id);
-        if(info && info.state == 0)
-            info.renderActivities();
+        if(task && task.state == 0)
+            task.renderActivities();
     };
 
     key_down_actions = (event) => {

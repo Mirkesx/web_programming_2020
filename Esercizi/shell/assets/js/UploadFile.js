@@ -103,8 +103,8 @@ class UploadFile {
         this.window.remove();
         this.footer_icon.remove();
         upfis = _.filter(upfis, (up) => up.id != this.id);
-        if (info && info.state == 0)
-            info.renderActivities();
+        if (task && task.state == 0)
+            task.renderActivities();
     };
 
     handleUpload = () => {

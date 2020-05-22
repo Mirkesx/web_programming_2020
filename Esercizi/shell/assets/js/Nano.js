@@ -107,8 +107,8 @@ class Nano {
         this.window.remove();
         this.footer_icon.remove();
         nanos = _.filter(nanos, (n) => n.id != this.id);
-        if (info && info.state == 0)
-            info.renderActivities();
+        if (task && task.state == 0)
+            task.renderActivities();
     };
 
     key_down_actions = (event) => {

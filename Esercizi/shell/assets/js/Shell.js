@@ -19,7 +19,6 @@ class Shell {
         this.command_history = [];
         this.index_history = -1;
         this.fS = 15;
-        this.pc = this.cl = undefined;
         this.shell_detached = undefined;
     };
 
@@ -217,8 +216,8 @@ class Shell {
         this.window.remove();
         this.footer_icon.remove();
         shells = _.filter(shells, (s) => s.id != this.id);
-        if(info && info.state == 0)
-            info.renderActivities();
+        if(task && task.state == 0)
+            task.renderActivities();
     };
 
     key_down_actions = (event) => {

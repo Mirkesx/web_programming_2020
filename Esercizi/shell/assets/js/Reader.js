@@ -97,8 +97,8 @@ class Reader {
         this.window.remove();
         this.footer_icon.remove();
         readers = _.filter(readers, (n) => n.id != this.id);
-        if (info && info.state == 0)
-            info.renderActivities();
+        if (task && task.state == 0)
+            task.renderActivities();
     };
 
     checkExistence(node) {

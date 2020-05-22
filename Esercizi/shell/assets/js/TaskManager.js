@@ -238,36 +238,47 @@ class TaskManager {
         const split = event.target.id.split('_');
         const type = split[0];
         const id = split[1];
+        let empty;
         let el;
         switch (type) {
             case "shell":
                 el = _.filter(shells, (e) => e.id == id);
                 el[0].close();
+                empty = shells == 0;
                 break;
             case "fs":
                 el = _.filter(fs_arr, (e) => e.id == id);
                 el[0].close();
+                empty = fs_arr == 0;
                 break;
             case "upload":
                 el = _.filter(upfis, (e) => e.id == id);
                 el[0].close();
+                empty = upfis == 0;
                 break;
             case "nano":
                 el = _.filter(nanos, (e) => e.id == id);
                 el[0].close();
+                empty = nanos == 0;
                 break;
             case "drawer":
                 el = _.filter(drawers, (e) => e.id == id);
                 el[0].close();
+                empty = drawers == 0;
                 break;
             case "reader":
                 el = _.filter(readers, (e) => e.id == id);
                 el[0].close();
+                empty = readers == 0;
                 break;
             default:
                 break;
         }
+        const h3 = $('#' + event.target.id).parent().parent().parent();
         $('#' + event.target.id).parent().remove();
+        if(empty)
+            h3.remove();
+            
     };
 
     getOSInfo = () => {
@@ -277,8 +288,8 @@ class TaskManager {
             contentType: false,
             cache: false,
             callFunction: (obj) => {
-                if (info) {
-                    info.specs = obj;
+                if (task) {
+                    task.specs = obj;
 
                     const window = $(this)[0].window;
 
