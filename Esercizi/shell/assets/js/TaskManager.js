@@ -129,7 +129,19 @@ class TaskManager {
             <th>Spec</th>\
             <th>Valore</th>\
         </tr>\
-        <tr>\
+        </table>');
+
+
+        for (let spec in this.specs) {
+            this.window.find('table')
+                .append('\
+                            <tr>\
+                            <td>'+ spec + '</td>\
+                            <td>'+ this.specs[spec] + '</td>\
+                            </tr>');
+        }
+
+        /*<tr>\
             <td>Nome OS</dh>\
             <td id="os_name">'+ this.specs.os_name + '</td>\
         </tr>\
@@ -156,8 +168,7 @@ class TaskManager {
         <tr>\
             <td>Ram usata/totale</dh>\
               <td id="memory_prc">'+ this.specs.memory_prc + '</td>\
-        </tr>\
-        </table>');
+        </tr>\*/
 
         window.setTimeout(this.getOSInfo, 1000);
     }
@@ -227,10 +238,10 @@ class TaskManager {
     closeUL = (event) => {
         console.log($(event.target).parent().find('ul'));
         const element = $(event.target).parent().find('li');
-        if(element.css('display') == 'list-item') {
-            element.css('display','none');
+        if (element.css('display') == 'list-item') {
+            element.css('display', 'none');
         } else {
-            element.css('display','list-item');
+            element.css('display', 'list-item');
         }
     };
 
@@ -267,7 +278,7 @@ class TaskManager {
             default:
                 break;
         }
-        
+
         $('#' + event.target.id).parent().remove();
     };
 
@@ -284,8 +295,14 @@ class TaskManager {
                     const window = $(this)[0].window;
 
                     if (window.find('table').length > 0) {
+                        window.find('table').html("");
                         for (let o in obj) {
-                            window.find("#" + o).html(obj[o]);
+                            window.find('table')
+                                .append('\
+                            <tr>\
+                            <td>'+ o + '</td>\
+                            <td>'+ obj[o] + '</td>\
+                            </tr>');
                         }
                     }
                 }
