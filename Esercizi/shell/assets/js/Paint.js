@@ -152,6 +152,7 @@ class Paint {
         } else if(id == "clear") {
             clear();
             background(255);
+            $(document).find('#pencil').addClass('border2bl');
         }
     }
 }
