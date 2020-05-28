@@ -1,17 +1,14 @@
 //ADD ICONS
 
-$("desktop").append('<div class="app_icon" id="terminal_icon">\
-                        <img src="assets/img/terminal.png">\
-                        <span>Terminal</span>\
-                    </div>');
-$("desktop").append('<div class="app_icon" id="file_system_icon">\
-                    <img src="assets/img/folder.png">\
-                    <span>FileSys</span>\
-                </div>');
-$("desktop").append('<div class="app_icon" id="upload_icon">\
-                <img src="assets/img/upload.png">\
-                <span>Upload</span>\
-            </div>');
+_.each(apps, (a) => {
+    if (a.idName) {
+        $("desktop").append('<div class="app_icon" id="'+a.idName+'">\
+                        <img src="'+ a.icon + '">\
+                        <span>'+ a.name + '</span>\
+                        </div>');
+        $("#"+a.idName).dblclick(() => a.open());
+    }
+});
 
 //VARIABILI
 
@@ -21,14 +18,12 @@ let nanos = [];
 let upfis = [];
 let drawers = [];
 let readers = [];
+let paints = [];
 let info;
 let task;
 
 //JQUERY
 
-$("#terminal_icon").dblclick(createShell);
-$("#file_system_icon").dblclick(() => createFileSystem(file_manager.username));
-$("#upload_icon").dblclick(createUpload);
 $(".app_icon").draggable({ grid: [100, 100] });
 $("footer-menu > img").on('click', openMenu);
 $(document).keydown((event) => {
@@ -107,7 +102,7 @@ function openMenu() {
             drawer.append('<div class="menu-icon">\
                                 <img src="'+ apps[app].icon + '">\
                                 <span>'+ apps[app].name + '</span>\
-                                <input type="hidden" value="'+app+'">\
+                                <input type="hidden" value="'+ app + '">\
                             </div>')
         }
         menu.append(drawer);

@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
         $total_RAM = round($free_cmd[9] / 1024 / 1024, 2) . "GB";
         $rem_Size = explode("\tuploads/", shell_exec('du -csh uploads/'))[0]."B";
 
-        $distro_size = explode("\t../../shell/", shell_exec('du -csh ../../shell/'))[0]."B";
+        $distro_size = explode("\t../assets/", shell_exec('du -csh ../assets/'))[0]."B";
 
         $df_cmd = explode("\n", shell_exec('df --total'));
         $df_cmd = $df_cmd[count($df_cmd) - 2];

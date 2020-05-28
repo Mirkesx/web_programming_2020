@@ -762,3 +762,44 @@ footer-menu>img:hover {
 .task-body > table *{
     width: 50%;
 }
+
+.paint {
+    position: absolute;
+    background-color: rgb(64, 64, 64);
+    top: 50px;
+    left: 0px;
+    right: 0px;
+    bottom: 10px;
+    background-repeat: round;
+    /*overflow: scroll;*/
+}
+
+.tool-bar {
+    position: absolute;
+    background-color: lightgray;
+    top:20px;
+    left: 0px;
+    right: 0px;
+    height: 30px;
+}
+
+.tool-bar > div {
+    position: absolute;
+    display: block;
+    height:  100%;
+}
+
+.color-picker {
+    left: 0;
+    width: 22%;
+}
+
+.radius-weight {
+    left:25%;
+    width: 35%;
+}
+
+.paint-icons {
+  left: 75%;
+  width: 25%;
+}

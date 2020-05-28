@@ -1,30 +1,41 @@
 apps = {
-    file_manager : {
-        name : "FileManager",
-        icon : "assets/img/folder.png",
-        open : createFileSystem,
+    file_manager: {
+        name: "File Manager",
+        idName: "file_system_icon",
+        icon: "assets/img/folder.png",
+        open: createFileSystem,
     },
-    info : {
-        name : "System Info",
-        icon : "assets/img/info.png",
-        open : createInfoOS,
+    info: {
+        name: "System Info",
+        icon: "assets/img/info.png",
+        open: createInfoOS,
     },
-    task : {
-        name : "TaskManager",
-        icon : "assets/img/sysinfo.png",
-        open : createTaskManager,
+    task: {
+        name: "Task Manager",
+        icon: "assets/img/sysinfo.png",
+        open: createTaskManager,
     },
-    terminal : {
-        name : "Terminale",
-        icon : "assets/img/terminal.png",
-        open : createShell,
+    terminal: {
+        name: "Terminale",
+        idName: "terminal_icon",
+        icon: "assets/img/terminal.png",
+        open: createShell,
     },
-    upload : {
-        name : "Upload",
-        icon : "assets/img/upload.png",
-        open : createUpload,
+    upload: {
+        name: "Upload",
+        idName: "upload_icon",
+        icon: "assets/img/upload.png",
+        open: createUpload,
+    },
+    paint: {
+        name: "Paint",
+        idName: "paint_icon",
+        icon: "assets/img/paint.png",
+        open: createPaint,
     },
 }
+
+apps = _.orderBy(apps, "name");
 
 function createInfoOS() {
     if (info)
@@ -90,4 +101,15 @@ function createReader(data) {
     readers.push(r);
     if (task && task.state == 0)
         task.renderActivities();
+};
+
+function createPaint(data) {
+    if (!isPaintOpen) {
+        $('desktop').find('.app_icon').css('z-index', '1');
+        _.each($('desktop').find('.window'), (e) => e.style.zIndex = 30);
+        let p = new Paint(data);
+        paints.push(p);
+        if (task && task.state == 0)
+            task.renderActivities();
+    }
 };

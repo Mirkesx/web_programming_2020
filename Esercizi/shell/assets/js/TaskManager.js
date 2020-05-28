@@ -140,36 +140,6 @@ class TaskManager {
                             <td>'+ this.specs[spec] + '</td>\
                             </tr>');
         }
-
-        /*<tr>\
-            <td>Nome OS</dh>\
-            <td id="os_name">'+ this.specs.os_name + '</td>\
-        </tr>\
-        <tr>\
-            <td>Versione OS</dh>\
-              <td id="os_version">'+ this.specs.os_version + '</td>\
-        </tr>\
-        <tr>\
-            <td>Architettura</dh>\
-              <td id="os_machine">'+ this.specs.os_machine + '</td>\
-        </tr>\
-        <tr>\
-            <td>CPU usata (avg)</dh>\
-              <td id="cpu_avg">'+ this.specs.cpu_avg + '</td>\
-        </tr>\
-        <tr>\
-            <td>RAM usata</dh>\
-              <td id="memory_used">'+ this.specs.memory_used + '</td>\
-        </tr>\
-        <tr>\
-            <td>RAM totale</dh>\
-              <td id="memory_all">'+ this.specs.memory_all + '</td>\
-        </tr>\
-        <tr>\
-            <td>Ram usata/totale</dh>\
-              <td id="memory_prc">'+ this.specs.memory_prc + '</td>\
-        </tr>\*/
-
         window.setTimeout(this.getOSInfo, 1000);
     }
 

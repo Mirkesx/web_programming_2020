@@ -12,6 +12,7 @@ class FileSystem {
 
     init_state(node) {
         this.id = file_id++;
+        console.log(node);
         if (node)
             this.actual_node = node;
         else
@@ -119,7 +120,7 @@ class FileSystem {
 
     setListeners() {
 
-        $('#file-system' + this.id).draggable({ stack: 'div', cursor: "pointer", containment: 'parent' }).resizable({ minHeight: 150, minWidth: 250 });
+        $('#file-system' + this.id).draggable({ handle: '.title_bar', stack: 'div', cursor: "pointer", containment: 'parent' }).resizable({ minHeight: 150, minWidth: 250 });
         $('#file-system' + this.id + ' .title_bar').dblclick(this.maximize);
         $('#file-system' + this.id + ' .max_button').click(this.maximize);
         $('#file-system' + this.id + ' .close_button').click(this.close);

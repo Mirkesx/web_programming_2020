@@ -48,7 +48,7 @@ class InfoOS {
 
     setListeners() {
 
-        $('#infoos' + this.id).draggable({ stack: 'div', cursor: "pointer", containment: 'parent' }).resizable({ minHeight: 150, minWidth: 250 });
+        $('#infoos' + this.id).draggable({ handle: '.title_bar', stack: 'div', cursor: "pointer", containment: 'parent' }).resizable({ minHeight: 150, minWidth: 250 });
         $('#infoos' + this.id + ' .title_bar').dblclick(this.maximize);
         $('#infoos' + this.id + ' .max_button').click(this.maximize);
         $('#infoos' + this.id + ' .close_button').click(this.close);

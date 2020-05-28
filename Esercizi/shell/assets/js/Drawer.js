@@ -51,7 +51,7 @@ class Drawer {
 
     setListeners() {
 
-        $('#drawer' + this.id).draggable({ stack: 'div', cursor: "pointer", containment: 'parent' }).resizable({ minHeight: 150, minWidth: 250 });
+        $('#drawer' + this.id).draggable({handle: '.title_bar', stack: 'div', cursor: "pointer", containment: 'parent' }).resizable({ minHeight: 150, minWidth: 250 });
         $('#drawer' + this.id + ' .title_bar').dblclick(this.maximize);
         $('#drawer' + this.id + ' .max_button').click(this.maximize);
         $('#drawer' + this.id + ' .close_button').click(this.close);

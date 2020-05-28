@@ -165,7 +165,7 @@ class Shell {
 
     setListeners() {
 
-        $('#shell' + this.id).draggable({ stack: 'div', cursor: "pointer", containment: 'parent' }).resizable({ minHeight: 150, minWidth: 250 });
+        $('#shell' + this.id).draggable({ handle: '.title_bar', stack: 'div', cursor: "pointer", containment: 'parent' }).resizable({ minHeight: 150, minWidth: 250 });
         $('#shell' + this.id + ' .title_bar').dblclick(this.maximize);
         $('#shell' + this.id + ' .max_button').click(this.maximize);
         $('#shell' + this.id + ' .close_button').click(this.close);
