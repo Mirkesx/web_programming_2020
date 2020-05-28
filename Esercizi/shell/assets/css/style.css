@@ -766,7 +766,7 @@ footer-menu>img:hover {
 .paint {
     position: absolute;
     background-color: rgb(64, 64, 64);
-    top: 50px;
+    top: 60px;
     left: 0px;
     right: 0px;
     bottom: 10px;
@@ -780,7 +780,8 @@ footer-menu>img:hover {
     top:20px;
     left: 0px;
     right: 0px;
-    height: 30px;
+    height: 40px;
+    padding-top: 5px;
 }
 
 .tool-bar > div {
@@ -800,6 +801,16 @@ footer-menu>img:hover {
 }
 
 .paint-icons {
-  left: 75%;
-  width: 25%;
+  left: 65%;
+  width: 35%;
+}
+
+.paint-icons > img {
+    display: inline-block;
+    height: 30px;
+    border: 2px solid lightgray;
+}
+
+.border2bl {
+    border: 2px solid black !important;
 }

@@ -45,7 +45,11 @@ class Paint {
                         Size : <input type="range" min="10" max="50" value="'+ sWeight + '" id="radius_weight">\
                     </div>')
             .append('<div class="paint-icons">\
-                        <div class="paint-icon>Matita</div>\
+                        <img id="pencil" class="border2bl" src="assets/img/pencil.png">\
+                        <img id="fill" src="assets/img/fill.png">\
+                        <img id="rubber" src="assets/img/rubber.png">\
+                        <img id="clear" src="assets/img/clear.png">\
+                        <img id="save" src="assets/img/save.png">\
                     </div>');
 
         const paint = $('<div class="paint" style="background-image: url(\'' + this.actual_node.path + '\');"></div>').append(this.canvas);
@@ -82,6 +86,7 @@ class Paint {
         this.window.find('canvas').on('click', this.stackOnTop);
         this.window.find('canvas').on('mousedown', () => loop());
         this.window.find('canvas').on('mouseup', () => noLoop());
+        this.window.find('.tool-bar img').on('click', (event) => this.pickTool(event));
     }
 
     stackOnTop = function () {
@@ -133,6 +138,22 @@ class Paint {
             }
         }
     };
+
+    pickTool = (event) => {
+        this.window.find('.tool-bar img').removeClass('border2bl');
+        let id = $(event.target).attr('id');
+        console.log($(event.target).attr('id'))
+        if(id == "pencil") {
+            $(event.target).addClass('border2bl');
+        } else if(id == "fill") {
+            $(event.target).addClass('border2bl');
+        } else if(id == "rubber") {
+            $(event.target).addClass('border2bl');
+        } else if(id == "clear") {
+            clear();
+            background(255);
+        }
+    }
 }
 
 function setup(w, h) {
@@ -144,8 +165,13 @@ function setup(w, h) {
 
 function draw() {
     if (mouseIsPressed) {
-        strokeWeight($(document).find('#radius_weight').val());
-        line(mouseX, mouseY, pmouseX, pmouseY)
+        let mode = $(document).find('.border2bl').attr('id');
+        if(mode == "pencil") {
+            strokeWeight($(document).find('#radius_weight').val());
+            line(mouseX, mouseY, pmouseX, pmouseY);
+        } else if(mode == "fill") {
+
+        }
     }
 
 };
