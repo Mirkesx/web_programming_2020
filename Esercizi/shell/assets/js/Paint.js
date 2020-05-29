@@ -177,7 +177,8 @@ class Paint {
             if (this.path)
                 save(this.actual_node.name + "." + this.actual_node.ext);
             else
-                save();
+                save("new_sketch");
+            $(document).find('#pencil').addClass('border2bl');
         }
     }
 
