@@ -788,16 +788,17 @@ footer-menu>img:hover {
     position: absolute;
     display: block;
     height:  100%;
+    font-size: 10px;
 }
 
 .color-picker {
-    left: 0;
+    left: 1%;
     width: 22%;
 }
 
 .radius-weight {
-    left:25%;
-    width: 35%;
+    left:23%;
+    width: 38%;
 }
 
 .paint-icons {
@@ -813,4 +814,8 @@ footer-menu>img:hover {
 
 .border2bl {
     border: 2px solid black !important;
+}
+
+canvas {
+    cursor: url('../../assets/ico/pencil.ico'), -128 -128;
 }

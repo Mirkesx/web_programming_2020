@@ -25,7 +25,7 @@ class Paint {
         c = "#000000";
         sWeight = 10;
         //Resetto il canvas
-        setup(this.width, this.height - 30);
+        setup(this.width, this.height - 70);
         this.canvas = $('canvas').detach();
     }
 
@@ -71,6 +71,9 @@ class Paint {
             'border-radius': '50px',
             'background-color': 'white'
         });
+
+        //this.window.find('canvas').css('cursor','url("../../assets/ico/'+this.window.find('.border2bl').attr('id')+'.ico"), grab');
+        //console.log(this.window.find('canvas').css('cursor'));
 
         $('footer').append(this.footer_icon);
     }
@@ -154,6 +157,7 @@ class Paint {
             background(255);
             $(document).find('#pencil').addClass('border2bl');
         }
+        this.window.find('canvas').css('cursor','url("../../assets/ico/'+this.window.find('.border2bl').attr('id')+'.ico"), default');
     }
 }
 
@@ -167,11 +171,11 @@ function setup(w, h) {
 function draw() {
     if (mouseIsPressed) {
         let mode = $(document).find('.border2bl').attr('id');
-        if(mode == "pencil") {
+        if(mode == "fill") {
+            
+        } else {
             strokeWeight($(document).find('#radius_weight').val());
             line(mouseX, mouseY, pmouseX, pmouseY);
-        } else if(mode == "fill") {
-
         }
     }
 
@@ -179,7 +183,11 @@ function draw() {
 
 function mousePressed() { // different function (not in the continuous draw loop) with a condition of pressing the mouse
     // each time the mouse is pressed over these coordinates (the random rect), then the rect color will change color
+    let mode = $(document).find('.border2bl').attr('id');
     if ((mouseX > 0) && (mouseX < width) && (mouseY > 0) && (mouseY < height)) {
-        stroke($(document).find('#color_canvas').val())
+        if(mode == "pencil")
+            stroke($(document).find('#color_canvas').val())
+        else if(mode == "rubber")
+            stroke("#ffffff")
     }
 };
