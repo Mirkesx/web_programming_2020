@@ -2,7 +2,6 @@ var paint_id = 0;
 var isPaintOpen = false;
 var img;
 var firstIter;
-var filling;
 
 class Paint {
     constructor(node) {
@@ -30,7 +29,6 @@ class Paint {
         this.id = paint_id++;
         isPaintOpen = true;
         firstIter = true;
-        filling = false;
         preload(this.path);
         setup(this.width, this.height - 70, this.path);
         this.canvas = $('canvas').detach();
@@ -68,11 +66,6 @@ class Paint {
             width: 600
         });
 
-        /*this.canvasContainer.css({
-            height: this.height -65,
-            width: this.width+5
-        });*/
-
         this.window.append(title_bar).append(tool_bar).append(paint);
 
         this.footer_icon = $("<div class='footer_icon' id='p_icon" + this.id + "'></div>")
@@ -88,6 +81,9 @@ class Paint {
         this.window.find('canvas').css('cursor', 'url("../../assets/ico/' + this.window.find('.border2bl').attr('id') + '.ico") 0 32, grab');
 
         $('footer').append(this.footer_icon);
+
+        if(img)
+            window.setTimeout("image(img,0,0)",200);
     }
 
     setListeners() {
@@ -99,8 +95,8 @@ class Paint {
         $('#paint' + this.id + ' .min_button').click(this.minimize);
         $('#p_icon' + this.id).click(this.minimize);
         this.window.find('.title_bar').on('click', this.stackOnTop);
-        this.window.find('canvas').on('mousedown', () => loop());
-        this.window.find('canvas').on('mouseup', () => noLoop());
+        $('canvas').on('mousedown', () => loop());
+        $('canvas').on('mouseup', () => noLoop());
         this.window.find('.tool-bar img').on('click', (event) => this.pickTool(event));
         this.canvasContainer.resizable({ stop: this.resCanvas });
     }
@@ -130,15 +126,18 @@ class Paint {
     minimize = () => {
         if ($('#p_icon' + this.id + ' .dot').css("display") == "none") {
             this.window.css({ display: "none" });
+            img = get();
             $('#p_icon' + this.id + ' .dot').css({ display: "block" });
         }
         else {
             this.window.css({ display: "block" });
+            image(img, 0, 0);
             $('#p_icon' + this.id + ' .dot').css({ display: "none" });
         }
     }
 
     close = () => {
+        $('canvas').unbind();
         this.window.remove();
         this.footer_icon.remove();
         paints = _.filter(paints, (n) => n.id != this.id);
@@ -186,7 +185,7 @@ class Paint {
         img = get();
         resizeCanvas($(this).width() - 5, $(this).height() - 5, true);
         background(255);
-        image(img,0,0);
+        image(img, 0, 0);
     }
 }
 
@@ -203,20 +202,15 @@ function setup(w, h) {
     createCanvas(w, h);
     background(255);
     colorMode(RGB);
+    noLoop();
 };
 
 function draw() {
-    if (img && firstIter) {
-        image(img, 0, 0);
-        firstIter = false;
-    }
-    else{
-        if (mouseIsPressed) {
-            let mode = $(document).find('.border2bl').attr('id');
-            if (mode != "fill") {
-                strokeWeight($(document).find('#radius_weight').val());
-                line(mouseX, mouseY, pmouseX, pmouseY);
-            }
+    if (mouseIsPressed) {
+        let mode = $(document).find('.border2bl').attr('id');
+        if (mode != "fill") {
+            strokeWeight($(document).find('#radius_weight').val());
+            line(mouseX, mouseY, pmouseX, pmouseY);
         }
     }
 };
@@ -234,14 +228,13 @@ function mousePressed() { // different function (not in the continuous draw loop
 
 function mouseClicked() { //function used to fill just once
     let mode = $(document).find('.border2bl').attr('id');
-    if(mode == "fill")
+    if (mode == "fill")
         fillSameColors(mouseX, mouseY, $(document).find('#color_canvas').val());
 }
 
 function fillSameColors(mx, my, fill_color) {
     let c = get(mx, my);
     fill_color = color(fill_color);
-    print(c, fill_color);
 
     loadPixels();
     for (let i = 0; i < pixels.length; i += 4) {
