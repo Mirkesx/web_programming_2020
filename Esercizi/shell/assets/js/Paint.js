@@ -1,5 +1,7 @@
 var paint_id = 0;
 var isPaintOpen = false;
+var img;
+var firstIter;
 
 class Paint {
     constructor(node) {
@@ -11,28 +13,31 @@ class Paint {
     }
 
     init_state(node) {
-        //console.log(node);
+        console.log(node);
         if (node) {
             this.actual_node = node;
-            this.image_url = node.path;
-            this.height = 600;
-            this.width = 600;
+            this.height = this.actual_node.height;
+            this.width = this.actual_node.width;
+            this.path = this.actual_node.path;
         }
         else {
-            this.height = 1200;
+            this.actual_node = undefined;
+            this.height = 600;
             this.width = 600;
+            this.path = undefined;
         }
-        this.actual_node = file_manager.username;
         this.id = paint_id++;
         isPaintOpen = true;
-        setup(this.width, this.height - 70, this.image_url);
+        firstIter = true;
+        preload(this.path);
+        setup(this.width, this.height - 70, this.path);
         this.canvas = $('canvas').detach();
     }
 
     renderPaint() {
         this.window = $("<div class='window' id='paint" + this.id + "'></div>");
         const title_bar = $('<div class="title_bar"></div>')
-            .append('<font class="title_text">' + this.actual_node.name + '</font>')
+            .append('<font class="title_text">Paint</font>')
             .append('<div class="close_button" style="background-image: url(assets/img/close.png);"></div>')
             .append('<div class="min_button" style="background-image: url(assets/img/min.png);"></div>')
             .append('<div class="max_button" style="background-image: url(assets/img/max.png);"></div>');
@@ -42,7 +47,7 @@ class Paint {
                         Color : <input type="color" id="color_canvas" name="color_canvas" value="#000000">\
                     </div>')
             .append('<div class="radius-weight">\
-                        Size : <input type="range" min="10" max="50" value="10" id="radius_weight">\
+                        <input type="range" min="10" max="50" value="10" id="radius_weight">\
                     </div>')
             .append('<div class="paint-icons">\
                         <img id="pencil" class="border2bl" src="assets/img/pencil.png">\
@@ -53,7 +58,7 @@ class Paint {
                     </div>');
 
         this.canvasContainer = $('<div class="container-canvas"></div>').append(this.canvas);
-        const paint = $('<div class="paint" style="background-image: url(\'' + this.actual_node.path + '\');"></div>').append(this.canvasContainer);
+        const paint = $('<div class="paint"></div>').append(this.canvasContainer);
 
         this.window.css({
             top: 0,
@@ -168,7 +173,11 @@ class Paint {
             $(document).find('#pencil').addClass('border2bl');
             this.window.find('canvas').css('cursor','url("../../assets/ico/'+this.window.find('.border2bl').attr('id')+'.ico") 0 32, grab');
         } else if(id == "save") {
-            save();
+            //console.log(this.actual_node);
+            if(this.path)
+                save(this.actual_node.name+"."+this.actual_node.ext);
+            else
+                save();
         }
     }
 
@@ -178,18 +187,31 @@ class Paint {
     }
 }
 
-function setup(w, h, path) {
+function preload(path) {
+    //print(path);
+    if(path)
+        img = loadImage(path);
+    else
+        img = undefined;
+    //print(img);
+}
+
+function setup(w, h) {
     createCanvas(w, h);
     background(255);
     colorMode(RGB);
     noLoop();
-    if(path) {
-        img = loadImage(path);
-        image(path, 0, 0);
+    if(img) {
+        image(img, 0, 0);
     }
 };
 
 function draw() {
+    if(img && firstIter) {
+        image(img, 0, 0);
+        firstIter = false;
+    }
+
     if (mouseIsPressed) {
         let mode = $(document).find('.border2bl').attr('id');
         if(mode == "fill") {

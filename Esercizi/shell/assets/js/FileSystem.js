@@ -12,7 +12,7 @@ class FileSystem {
 
     init_state(node) {
         this.id = file_id++;
-        console.log(node);
+        //console.log(node);
         if (node)
             this.actual_node = node;
         else
@@ -104,11 +104,18 @@ class FileSystem {
                             <img class="sprite_image" src="assets/img/'+ type + '.png">\
                             <span>'+ name + '</span>\
                             <img src="assets/img/delete.png" class="delete_sprite">\
+                            '+(child.ext && ['jpg','png','jpeg'].includes(child.ext) ? '<img src="assets/img/pencil.png" class="pencil_sprite">' : '')+'\
                         </div>');
 
             this.window.find('#' + child.id).click(() => {
                 this.window.find('#' + child.id).focus();
             });
+
+            if(child.ext && ['jpg','png','jpeg'].includes(child.ext)) {
+                this.window.find('#' + child.id + " .pencil_sprite").click(() => {
+                    createPaint(child);
+                });
+            }
 
             this.window.find('#' + child.id + " .delete_sprite").click(() => {
                 this.deleteElement(child.name, child.id);

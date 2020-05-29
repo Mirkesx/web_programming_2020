@@ -299,22 +299,21 @@ footer-menu {
     z-index: 9999;
 }
 
-footer-menu > img {
+footer-menu>img {
     position: absolute;
     top: 0;
     left: 0;
     width: 45px;
-
 }
 
 footer-menu>img:hover {
-    background-color: rgba(255,255,255,0.3);
+    background-color: rgba(255, 255, 255, 0.3);
     border-radius: 50px;
 }
 
-.menu-back{
+.menu-back {
     position: absolute;
-    top:0;
+    top: 0;
     left: 0;
     bottom: 0;
     right: 0;
@@ -322,9 +321,9 @@ footer-menu>img:hover {
     z-index: 9000;
 }
 
-.menu-drawer{
+.menu-drawer {
     position: absolute;
-    top:20%;
+    top: 20%;
     left: 20%;
     bottom: 20%;
     right: 20%;
@@ -332,7 +331,7 @@ footer-menu>img:hover {
     overflow-y: scroll;
 }
 
-.menu-icon{
+.menu-icon {
     position: relative;
     display: inline-block;
     height: 150px;
@@ -343,11 +342,11 @@ footer-menu>img:hover {
     overflow: hidden;
 }
 
-.menu-icon:hover{
-    background-color: rgba(255,255,255,0.3);
+.menu-icon:hover {
+    background-color: rgba(255, 255, 255, 0.3);
 }
 
-.menu-icon > img{
+.menu-icon>img {
     position: relative;
     display: block;
     left: 10px;
@@ -389,7 +388,7 @@ footer-menu>img:hover {
 
 .relative-path>input {
     position: absolute;
-    top:0;
+    top: 0;
     bottom: 0;
     width: calc(100% - 14px);
     padding: 1px 5px;
@@ -407,6 +406,7 @@ footer-menu>img:hover {
     height: 20px;
     background-size: cover;
 }
+
 .new-file-icon:hover {
     background-color: rgba(0, 0, 0, 0.2);
     border-radius: 15px;
@@ -422,6 +422,7 @@ footer-menu>img:hover {
     height: 20px;
     background-size: cover;
 }
+
 .new-folder-icon:hover {
     background-color: rgba(0, 0, 0, 0.2);
     border-radius: 15px;
@@ -479,7 +480,16 @@ footer-menu>img:hover {
 .delete_sprite {
     position: absolute;
     top: 0;
-    right:0;
+    right: 0;
+    width: 20px;
+    display: inline-block;
+    z-index: 46;
+}
+
+.pencil_sprite {
+    position: absolute;
+    top: 0;
+    right: 25px;
     width: 20px;
     display: inline-block;
     z-index: 46;
@@ -505,14 +515,14 @@ footer-menu>img:hover {
 .titleUpload {
     top: 15px;
     position: absolute;
-    left:5%;
+    left: 5%;
     cursor: default;
 }
 
 .inpFile {
     position: absolute;
-    top:30px;
-    left:5%;
+    top: 30px;
+    left: 5%;
     width: 90%;
     height: 20px;
     border: 1px solid black;
@@ -522,7 +532,7 @@ footer-menu>img:hover {
 
 .buttonUpload {
     position: absolute;
-    top:70px;
+    top: 70px;
     height: 40px;
     right: 50%;
     width: 100px;
@@ -540,7 +550,7 @@ footer-menu>img:hover {
 
 .buttonReset {
     position: absolute;
-    top:70px;
+    top: 70px;
     height: 40px;
     left: 50%;
     width: 100px;
@@ -558,7 +568,7 @@ footer-menu>img:hover {
 
 .progress {
     position: absolute;
-    top:130px;
+    top: 130px;
     left: 5%;
     height: 35px;
     width: 90%;
@@ -584,7 +594,7 @@ footer-menu>img:hover {
 
 .uploadStatus {
     position: absolute;
-    top:180px;
+    top: 180px;
     left: 5%;
     width: 90%;
     margin-bottom: 20px;
@@ -600,9 +610,9 @@ footer-menu>img:hover {
     cursor: default;
 }
 
-.select-name{
+.select-name {
     position: absolute;
-    top:0;
+    top: 0;
     left: 0;
     bottom: 0;
     right: 0;
@@ -610,9 +620,9 @@ footer-menu>img:hover {
     z-index: 300;
 }
 
-.select-name-win{
+.select-name-win {
     position: relative;
-    top:calc(50% - 100px);
+    top: calc(50% - 100px);
     left: calc(50% - 150px);
     height: 200px;
     width: 300px;
@@ -622,7 +632,7 @@ footer-menu>img:hover {
     border-radius: 25px;
 }
 
-.select-name-text{
+.select-name-text {
     position: relative;
     padding-top: 20%;
     padding-left: 5px;
@@ -630,7 +640,7 @@ footer-menu>img:hover {
     display: block;
 }
 
-.select-name-value{
+.select-name-value {
     position: relative;
     left: 5px;
     right: 5px;
@@ -641,13 +651,13 @@ footer-menu>img:hover {
     padding: 2px 5px;
 }
 
-.select-name-button{
+.select-name-button {
     position: absolute;
     left: 0;
     bottom: -25px;
     margin-bottom: 25px;
-    width:50%;
-    height:50px;
+    width: 50%;
+    height: 50px;
 }
 
 .invia {
@@ -669,7 +679,7 @@ footer-menu>img:hover {
     background-repeat: round;
 }
 
-.drawer > iframe {
+.drawer>iframe {
     height: 100%;
     width: 100%;
 }
@@ -683,7 +693,7 @@ footer-menu>img:hover {
     bottom: 10px;
 }
 
-.reader > iframe {
+.reader>iframe {
     height: 100%;
     width: 100%;
 }
@@ -697,7 +707,7 @@ footer-menu>img:hover {
     bottom: 10px;
 }
 
-.infoos > iframe {
+.infoos>iframe {
     height: 100%;
     width: 100%;
 }
@@ -713,10 +723,10 @@ footer-menu>img:hover {
 
 .task-bar {
     position: absolute;
-    top:0;
+    top: 0;
     height: 20px;
-    left:0;
-    right:0;
+    left: 0;
+    right: 0;
 }
 
 .task-bar input {
@@ -725,20 +735,20 @@ footer-menu>img:hover {
     position: absolute;
 }
 
-.task-bar > .button-left {
+.task-bar>.button-left {
     left: 0;
 }
 
-.task-bar > .button-right {
+.task-bar>.button-right {
     left: 50%;
 }
 
 .task-body {
     position: absolute;
-    top:20px;
+    top: 20px;
     bottom: 20px;
-    left:0;
-    right:0;
+    left: 0;
+    right: 0;
     overflow-y: scroll;
 }
 
@@ -750,16 +760,16 @@ footer-menu>img:hover {
     display: inline-block;
 }
 
-.task-body > table {
+.task-body>table {
     width: 100%;
     text-align: center;
 }
 
-.task-body > table *{
+.task-body>table * {
     border-bottom: 1px solid;
 }
 
-.task-body > table *{
+.task-body>table * {
     width: 50%;
 }
 
@@ -777,47 +787,46 @@ footer-menu>img:hover {
 .tool-bar {
     position: absolute;
     background-color: lightgray;
-    top:20px;
+    top: 20px;
     left: 0px;
     right: 0px;
     height: 40px;
     padding-top: 5px;
 }
 
-.tool-bar > div {
+.tool-bar>div {
     position: absolute;
     display: block;
-    height:  100%;
+    height: 100%;
     font-size: 10px;
     cursor: default;
 }
 
 .color-picker {
-    left: 1%;
-    width: 22%;
+    left: 10px;
 }
 
-.color-picker > input {
+.color-picker>input {
     cursor: pointer;
 }
 
 .radius-weight {
-    left:23%;
-    width: 38%;
+    left: 30%;
+    width: 40%;
 }
 
-.radius-weight > input {
+.radius-weight>input {
     cursor: pointer;
+    width: 100%;
 }
 
 .paint-icons {
-  left: 65%;
-  width: 35%;
+    right: 10px;
 }
 
-.paint-icons > img {
+.paint-icons>img {
     display: inline-block;
-    height: 30px;
+    height: 20px;
     border: 2px solid lightgray;
     cursor: pointer;
 }

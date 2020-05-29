@@ -41,7 +41,7 @@ $(document).keydown((event) => {
 //CHIAMATE
 
 getTime();
-getRemoteFiles();
+timeoutRefreshRemoteFile();
 
 //DEFINIZIONE
 
@@ -58,6 +58,11 @@ function getTime() {
     $(".header-time").html(time);
     //console.log(time);
     window.setTimeout("getTime()", 1000);
+};
+
+function timeoutRefreshRemoteFile() {
+    getRemoteFiles();
+    window.setTimeout("timeoutRefreshRemoteFile()",2500);
 };
 
 function getRemoteFiles() {
