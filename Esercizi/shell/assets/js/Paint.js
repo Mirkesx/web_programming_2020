@@ -1,7 +1,5 @@
 var paint_id = 0;
 var isPaintOpen = false;
-var c;
-var sWeight;
 
 class Paint {
     constructor(node) {
@@ -14,18 +12,20 @@ class Paint {
 
     init_state(node) {
         //console.log(node);
-        if (node)
+        if (node) {
             this.actual_node = node;
-        //else
+            this.image_url = node.path;
+            this.height = 600;
+            this.width = 600;
+        }
+        else {
+            this.height = 1200;
+            this.width = 600;
+        }
         this.actual_node = file_manager.username;
         this.id = paint_id++;
-        this.height = 600;
-        this.width = 600;
         isPaintOpen = true;
-        c = "#000000";
-        sWeight = 10;
-        //Resetto il canvas
-        setup(this.width, this.height - 70);
+        setup(this.width, this.height - 70, this.image_url);
         this.canvas = $('canvas').detach();
     }
 
@@ -39,10 +39,10 @@ class Paint {
 
         const tool_bar = $('<div class="tool-bar"></div>')
             .append('<div class="color-picker">\
-                        Color : <input type="color" id="color_canvas" name="color_canvas" value="'+ c + '">\
+                        Color : <input type="color" id="color_canvas" name="color_canvas" value="#000000">\
                     </div>')
             .append('<div class="radius-weight">\
-                        Size : <input type="range" min="10" max="50" value="'+ sWeight + '" id="radius_weight">\
+                        Size : <input type="range" min="10" max="50" value="10" id="radius_weight">\
                     </div>')
             .append('<div class="paint-icons">\
                         <img id="pencil" class="border2bl" src="assets/img/pencil.png">\
@@ -52,13 +52,19 @@ class Paint {
                         <img id="save" src="assets/img/save.png">\
                     </div>');
 
-        const paint = $('<div class="paint" style="background-image: url(\'' + this.actual_node.path + '\');"></div>').append(this.canvas);
+        this.canvasContainer = $('<div class="container-canvas"></div>').append(this.canvas);
+        const paint = $('<div class="paint" style="background-image: url(\'' + this.actual_node.path + '\');"></div>').append(this.canvasContainer);
 
         this.window.css({
             top: 0,
-            height: this.height,
-            width: this.width
+            height: 600,
+            width: 600
         });
+
+        /*this.canvasContainer.css({
+            height: this.height -65,
+            width: this.width+5
+        });*/
 
         this.window.append(title_bar).append(tool_bar).append(paint);
 
@@ -72,7 +78,7 @@ class Paint {
             'background-color': 'white'
         });
 
-        //this.window.find('canvas').css('cursor','url("../../assets/ico/'+this.window.find('.border2bl').attr('id')+'.ico"), grab');
+        this.window.find('canvas').css('cursor','url("../../assets/ico/'+this.window.find('.border2bl').attr('id')+'.ico") 0 32, grab');
         //console.log(this.window.find('canvas').css('cursor'));
 
         $('footer').append(this.footer_icon);
@@ -86,10 +92,11 @@ class Paint {
         $('#paint' + this.id + ' .close_button').click(this.close);
         $('#paint' + this.id + ' .min_button').click(this.minimize);
         $('#p_icon' + this.id).click(this.minimize);
-        this.window.find('canvas').on('click', this.stackOnTop);
+        //this.window.find('canvas').on('click', this.stackOnTop);
         this.window.find('canvas').on('mousedown', () => loop());
         this.window.find('canvas').on('mouseup', () => noLoop());
         this.window.find('.tool-bar img').on('click', (event) => this.pickTool(event));
+        this.canvasContainer.resizable({stop : this.resCanvas});
     }
 
     stackOnTop = function () {
@@ -145,27 +152,41 @@ class Paint {
     pickTool = (event) => {
         this.window.find('.tool-bar img').removeClass('border2bl');
         let id = $(event.target).attr('id');
-        console.log($(event.target).attr('id'))
+        //console.log($(event.target).attr('id'))
         if(id == "pencil") {
             $(event.target).addClass('border2bl');
+            this.window.find('canvas').css('cursor','url("../../assets/ico/'+this.window.find('.border2bl').attr('id')+'.ico") 0 32, grab');
         } else if(id == "fill") {
             $(event.target).addClass('border2bl');
+            this.window.find('canvas').css('cursor','url("../../assets/ico/'+this.window.find('.border2bl').attr('id')+'.ico") 0 28, grab');
         } else if(id == "rubber") {
             $(event.target).addClass('border2bl');
+            this.window.find('canvas').css('cursor','url("../../assets/ico/'+this.window.find('.border2bl').attr('id')+'.ico") 0 28, grab');
         } else if(id == "clear") {
             clear();
             background(255);
             $(document).find('#pencil').addClass('border2bl');
+            this.window.find('canvas').css('cursor','url("../../assets/ico/'+this.window.find('.border2bl').attr('id')+'.ico") 0 32, grab');
+        } else if(id == "save") {
+            save();
         }
-        this.window.find('canvas').css('cursor','url("../../assets/ico/'+this.window.find('.border2bl').attr('id')+'.ico"), default');
+    }
+
+    resCanvas() {
+        resizeCanvas($(this).width()-5, $(this).height()-5, true);
+        background(255);
     }
 }
 
-function setup(w, h) {
+function setup(w, h, path) {
     createCanvas(w, h);
     background(255);
     colorMode(RGB);
     noLoop();
+    if(path) {
+        img = loadImage(path);
+        image(path, 0, 0);
+    }
 };
 
 function draw() {

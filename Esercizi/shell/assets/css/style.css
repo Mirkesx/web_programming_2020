@@ -771,7 +771,7 @@ footer-menu>img:hover {
     right: 0px;
     bottom: 10px;
     background-repeat: round;
-    /*overflow: scroll;*/
+    overflow: scroll;
 }
 
 .tool-bar {
@@ -789,6 +789,7 @@ footer-menu>img:hover {
     display: block;
     height:  100%;
     font-size: 10px;
+    cursor: default;
 }
 
 .color-picker {
@@ -796,9 +797,17 @@ footer-menu>img:hover {
     width: 22%;
 }
 
+.color-picker > input {
+    cursor: pointer;
+}
+
 .radius-weight {
     left:23%;
     width: 38%;
+}
+
+.radius-weight > input {
+    cursor: pointer;
 }
 
 .paint-icons {
@@ -810,12 +819,15 @@ footer-menu>img:hover {
     display: inline-block;
     height: 30px;
     border: 2px solid lightgray;
+    cursor: pointer;
 }
 
 .border2bl {
     border: 2px solid black !important;
 }
 
-canvas {
-    cursor: url('../../assets/ico/pencil.ico'), -128 -128;
+.container-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
 }
