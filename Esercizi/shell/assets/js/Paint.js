@@ -2,6 +2,7 @@ var paint_id = 0;
 var isPaintOpen = false;
 var img;
 var firstIter;
+var filling;
 
 class Paint {
     constructor(node) {
@@ -22,13 +23,14 @@ class Paint {
         }
         else {
             this.actual_node = undefined;
-            this.height = 600;
-            this.width = 600;
+            this.height = 400;
+            this.width = 400;
             this.path = undefined;
         }
         this.id = paint_id++;
         isPaintOpen = true;
         firstIter = true;
+        filling = false;
         preload(this.path);
         setup(this.width, this.height - 70, this.path);
         this.canvas = $('canvas').detach();
@@ -83,8 +85,7 @@ class Paint {
             'background-color': 'white'
         });
 
-        this.window.find('canvas').css('cursor','url("../../assets/ico/'+this.window.find('.border2bl').attr('id')+'.ico") 0 32, grab');
-        //console.log(this.window.find('canvas').css('cursor'));
+        this.window.find('canvas').css('cursor', 'url("../../assets/ico/' + this.window.find('.border2bl').attr('id') + '.ico") 0 32, grab');
 
         $('footer').append(this.footer_icon);
     }
@@ -97,16 +98,16 @@ class Paint {
         $('#paint' + this.id + ' .close_button').click(this.close);
         $('#paint' + this.id + ' .min_button').click(this.minimize);
         $('#p_icon' + this.id).click(this.minimize);
-        //this.window.find('canvas').on('click', this.stackOnTop);
+        this.window.find('.title_bar').on('click', this.stackOnTop);
         this.window.find('canvas').on('mousedown', () => loop());
         this.window.find('canvas').on('mouseup', () => noLoop());
         this.window.find('.tool-bar img').on('click', (event) => this.pickTool(event));
-        this.canvasContainer.resizable({stop : this.resCanvas});
+        this.canvasContainer.resizable({ stop: this.resCanvas });
     }
 
     stackOnTop = function () {
         $('.window').css('z-index', 30);
-        const window = $(this).parent().parent().detach();
+        const window = $(this).parent().detach();
         $('desktop').append(window);
     }
 
@@ -158,38 +159,38 @@ class Paint {
         this.window.find('.tool-bar img').removeClass('border2bl');
         let id = $(event.target).attr('id');
         //console.log($(event.target).attr('id'))
-        if(id == "pencil") {
+        if (id == "pencil") {
             $(event.target).addClass('border2bl');
-            this.window.find('canvas').css('cursor','url("../../assets/ico/'+this.window.find('.border2bl').attr('id')+'.ico") 0 32, grab');
-        } else if(id == "fill") {
+            this.window.find('canvas').css('cursor', 'url("../../assets/ico/' + this.window.find('.border2bl').attr('id') + '.ico") 0 32, grab');
+        } else if (id == "fill") {
             $(event.target).addClass('border2bl');
-            this.window.find('canvas').css('cursor','url("../../assets/ico/'+this.window.find('.border2bl').attr('id')+'.ico") 0 28, grab');
-        } else if(id == "rubber") {
+            this.window.find('canvas').css('cursor', 'url("../../assets/ico/' + this.window.find('.border2bl').attr('id') + '.ico") 0 28, grab');
+        } else if (id == "rubber") {
             $(event.target).addClass('border2bl');
-            this.window.find('canvas').css('cursor','url("../../assets/ico/'+this.window.find('.border2bl').attr('id')+'.ico") 0 28, grab');
-        } else if(id == "clear") {
+            this.window.find('canvas').css('cursor', 'url("../../assets/ico/' + this.window.find('.border2bl').attr('id') + '.ico") 0 28, grab');
+        } else if (id == "clear") {
             clear();
             background(255);
             $(document).find('#pencil').addClass('border2bl');
-            this.window.find('canvas').css('cursor','url("../../assets/ico/'+this.window.find('.border2bl').attr('id')+'.ico") 0 32, grab');
-        } else if(id == "save") {
+            this.window.find('canvas').css('cursor', 'url("../../assets/ico/' + this.window.find('.border2bl').attr('id') + '.ico") 0 32, grab');
+        } else if (id == "save") {
             //console.log(this.actual_node);
-            if(this.path)
-                save(this.actual_node.name+"."+this.actual_node.ext);
+            if (this.path)
+                save(this.actual_node.name + "." + this.actual_node.ext);
             else
                 save();
         }
     }
 
     resCanvas() {
-        resizeCanvas($(this).width()-5, $(this).height()-5, true);
+        resizeCanvas($(this).width() - 5, $(this).height() - 5, true);
         background(255);
     }
 }
 
 function preload(path) {
     //print(path);
-    if(path)
+    if (path)
         img = loadImage(path);
     else
         img = undefined;
@@ -201,22 +202,20 @@ function setup(w, h) {
     background(255);
     colorMode(RGB);
     noLoop();
-    if(img) {
+    if (img) {
         image(img, 0, 0);
     }
 };
 
 function draw() {
-    if(img && firstIter) {
+    if (img && firstIter) {
         image(img, 0, 0);
         firstIter = false;
     }
 
     if (mouseIsPressed) {
         let mode = $(document).find('.border2bl').attr('id');
-        if(mode == "fill") {
-            
-        } else {
+        if (mode != "fill") {
             strokeWeight($(document).find('#radius_weight').val());
             line(mouseX, mouseY, pmouseX, pmouseY);
         }
@@ -228,9 +227,34 @@ function mousePressed() { // different function (not in the continuous draw loop
     // each time the mouse is pressed over these coordinates (the random rect), then the rect color will change color
     let mode = $(document).find('.border2bl').attr('id');
     if ((mouseX > 0) && (mouseX < width) && (mouseY > 0) && (mouseY < height)) {
-        if(mode == "pencil")
+        if (mode == "pencil")
             stroke($(document).find('#color_canvas').val())
-        else if(mode == "rubber")
+        else if (mode == "rubber")
             stroke("#ffffff")
     }
 };
+
+function mouseClicked() {
+    fillSameColors(mouseX, mouseY, $(document).find('#color_canvas').val());
+}
+
+function fillSameColors(mx, my, fill_color) {
+    let c = get(mx, my);
+    fill_color = color(fill_color);
+    print(c, fill_color);
+
+    loadPixels();
+    for (let i = 0; i < pixels.length; i += 4) {
+        if (pixels[i] == c[0] &&
+            pixels[i + 1] == c[1] &&
+            pixels[i + 2] == c[2] &&
+            pixels[i + 3] == c[3]
+        ) {
+            pixels[i] = red(fill_color);
+            pixels[i + 1] = green(fill_color);
+            pixels[i + 2] = blue(fill_color);
+            pixels[i + 3] = alpha(fill_color);
+        }
+    }
+    updatePixels();
+}

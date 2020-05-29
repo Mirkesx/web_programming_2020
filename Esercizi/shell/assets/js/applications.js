@@ -108,6 +108,7 @@ function createPaint(data) {
         $('desktop').find('.app_icon').css('z-index', '1');
         _.each($('desktop').find('.window'), (e) => e.style.zIndex = 30);
         let p = new Paint(data);
+        p.window.css('z-index', '31');
         paints.push(p);
         if (task && task.state == 0)
             task.renderActivities();
