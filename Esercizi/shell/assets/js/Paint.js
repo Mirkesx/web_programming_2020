@@ -14,7 +14,7 @@ class Paint {
     }
 
     init_state(node) {
-        console.log(node);
+        //console.log(node);
         if (node) {
             this.actual_node = node;
             this.height = this.actual_node.height;
@@ -183,8 +183,10 @@ class Paint {
     }
 
     resCanvas() {
+        img = get();
         resizeCanvas($(this).width() - 5, $(this).height() - 5, true);
         background(255);
+        image(img,0,0);
     }
 }
 
@@ -201,10 +203,6 @@ function setup(w, h) {
     createCanvas(w, h);
     background(255);
     colorMode(RGB);
-    noLoop();
-    if (img) {
-        image(img, 0, 0);
-    }
 };
 
 function draw() {
@@ -212,15 +210,15 @@ function draw() {
         image(img, 0, 0);
         firstIter = false;
     }
-
-    if (mouseIsPressed) {
-        let mode = $(document).find('.border2bl').attr('id');
-        if (mode != "fill") {
-            strokeWeight($(document).find('#radius_weight').val());
-            line(mouseX, mouseY, pmouseX, pmouseY);
+    else{
+        if (mouseIsPressed) {
+            let mode = $(document).find('.border2bl').attr('id');
+            if (mode != "fill") {
+                strokeWeight($(document).find('#radius_weight').val());
+                line(mouseX, mouseY, pmouseX, pmouseY);
+            }
         }
     }
-
 };
 
 function mousePressed() { // different function (not in the continuous draw loop) with a condition of pressing the mouse
@@ -234,8 +232,10 @@ function mousePressed() { // different function (not in the continuous draw loop
     }
 };
 
-function mouseClicked() {
-    fillSameColors(mouseX, mouseY, $(document).find('#color_canvas').val());
+function mouseClicked() { //function used to fill just once
+    let mode = $(document).find('.border2bl').attr('id');
+    if(mode == "fill")
+        fillSameColors(mouseX, mouseY, $(document).find('#color_canvas').val());
 }
 
 function fillSameColors(mx, my, fill_color) {
