@@ -146,14 +146,6 @@ class Paint {
         isPaintOpen = false;
     };
 
-    checkExistence(node) {
-        for (let inode in file_manager) {
-            if (file_manager[inode].id == this.actual_node.id) {
-                return;
-            }
-        }
-    };
-
     pickTool = (event) => {
         this.window.find('.tool-bar img').removeClass('border2bl');
         let id = $(event.target).attr('id');

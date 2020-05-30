@@ -33,6 +33,24 @@ apps = {
         icon: "assets/img/paint.png",
         open: createPaint,
     },
+    bomberman: {
+        name: "Bomber Man",
+        idName: "bomberman_icon",
+        icon: "assets/img/bomberman.png",
+        open: () => createVideoGame("Bomber Man", "assets/img/bomberman.png")
+    },
+    tris: {
+        name: "Tris",
+        idName: "tris_icon",
+        icon: "assets/img/tris.png",
+        open: () => createVideoGame("Tris", "assets/img/tris.png")
+    },
+    snake: {
+        name: "Snake",
+        idName: "snake_icon",
+        icon: "assets/img/snake.png",
+        open: () => createVideoGame("Snake", "assets/img/snake.png")
+    }
 }
 
 apps = _.orderBy(apps, "name");
@@ -114,3 +132,16 @@ function createPaint(data) {
             task.renderActivities();
     }
 };
+
+function createVideoGame(name, icon) {
+    console.log(name,icon);
+    if (!isGameOpened) {
+        $('desktop').find('.app_icon').css('z-index', '1');
+        _.each($('desktop').find('.window'), (e) => e.style.zIndex = 30);
+        let v = new Videogame(name, icon);
+        v.window.css('z-index', '31');
+        videogames.push(v);
+        if (task && task.state == 0)
+            task.renderActivities();
+    }
+}

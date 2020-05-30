@@ -19,6 +19,7 @@ let upfis = [];
 let drawers = [];
 let readers = [];
 let paints = [];
+let videogames = [];
 let info;
 let task;
 
@@ -41,7 +42,7 @@ $(document).keydown((event) => {
 //CHIAMATE
 
 getTime();
-timeoutRefreshRemoteFile();
+//timeoutRefreshRemoteFile();
 
 //DEFINIZIONE
 
