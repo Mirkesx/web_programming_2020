@@ -840,3 +840,53 @@ footer-menu>img:hover {
     top: 0;
     left: 0;
 }
+
+.videogame {
+    position: absolute;
+    background-color: white;
+    top: 40px;
+    left: 0px;
+    right: 0px;
+    bottom: 10px;
+    padding: 0px;
+}
+
+.snake-screen {
+    background-color: black;
+    top: 0;
+    left: 0;
+    height: calc(100% - 50px);
+    width: 100%;
+}
+
+.snake-tab {
+    background-color: black;
+    bottom: 0;
+    left: 0;
+    height: 50px;
+    width: 100%;
+}
+
+.snake-body {
+    position: absolute;
+    height: 5%;
+    width: 5%;
+    border-radius: 50px;
+    background-color: lightgray;
+}
+
+.snake-tail {
+    background-color: blue !important;
+}
+
+.snake-head {
+    background-color: red !important;
+}
+
+.snake-item {
+    position: absolute;
+    height: 5%;
+    width: 5%;
+    border-radius: 50px;
+    background-color: green;
+}

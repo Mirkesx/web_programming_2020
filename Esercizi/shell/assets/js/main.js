@@ -42,7 +42,7 @@ $(document).keydown((event) => {
 //CHIAMATE
 
 getTime();
-timeoutRefreshRemoteFile();
+//timeoutRefreshRemoteFile();
 
 //DEFINIZIONE
 

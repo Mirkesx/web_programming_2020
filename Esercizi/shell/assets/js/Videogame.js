@@ -6,9 +6,16 @@ class Videogame {
         this.icon = icon;
         isGameOpened = true;
         this.renderVideogame();
+        switch (name) {
+            case "Snake":
+                this.initSnake();
+                this.renderSnake();
+                this.setSnakeListeners();
+                break;
+        }
         this.setListeners();
 
-        console.log("Created videogame #" + this.id + "!")
+        console.log("Created videogame " + this.name + "!")
     }
 
     renderVideogame() {
@@ -28,9 +35,6 @@ class Videogame {
         switch (this.name) {
             case "Bomber Man":
                 path = "http://cavallispa.altervista.org/Bomberman/Bomberman_-_Select_Level.html";
-                break;
-            case "Snake":
-                path = "http://cavallispa.altervista.org/snake/Snake_noboard.html";
                 break;
             case "Tris":
                 path = "http://cavallispa.altervista.org/tris/Tris.html";
@@ -67,11 +71,215 @@ class Videogame {
         $('footer').append(this.footer_icon);
     }
 
-    setListeners() {
+    initSnake() {
+        this.gameScreen = 0;
 
-        //$('#videogame' + this.id).draggable({ handle: '.title_bar', stack: 'div', cursor: "pointer", containment: 'parent' }).resizable({ minHeight: 150, minWidth: 250 });
-        //$('#videogame' + this.id + ' .title_bar').dblclick(this.maximize);
-        //$('#videogame' + this.id + ' .max_button').click(this.maximize);
+        this.window.find("iframe").remove();
+
+        this.window.css({
+            top: 0,
+            left: 0,
+            height: 450,
+            width: 400
+        });
+    }
+
+    renderSnake() {
+        if (this.gameScreen == 0) {
+            this.renderHomePage();
+        } else {
+            this.window.find('.snake-screen').html("");
+            this.window.find('.snake-bar').html("");
+            this.resetVal();
+            this.createGameField();
+            this.run();
+        }
+    }
+
+    renderHomePage() {
+        this.window.find('.videogame')
+            .append('<div class="snake-screen" tabindex="0"></div>')
+            .append('<div class="snake-tab"></div>');
+
+        this.window.find('.snake-screen')
+            .append("<table>\
+                    <tr>\
+                    <td colspan='5'><h1>Snake</h1></td>\
+                    </tr>\
+                    <tr>\
+                    <td id='level_1' colspan='2'><h4>Play</h4></td>\
+                    <td colspan='3' rowspan='3'><img src='assets/img/snakeHome.png'></td>\
+                    </tr>\
+                    <tr>\
+                    <td id='level_2' colspan='2'></td>\
+                    </tr>\
+                    <tr>\
+                    <td id='level_3' colspan='2'></td>\
+                    </tr>\
+                    </table>");
+
+        this.window.find('table').css({
+            color: "white",
+            "text-align": "center",
+            width: "100%",
+            height: "100%",
+        });
+
+        this.window.find('.snake-tab').html("");
+
+        this.window.find('h4').parent().css("cursor", "pointer");
+
+        this.window.find('table img').css({
+            height: 200,
+        });
+
+        this.window.find('#level_1').click(() => {
+            this.gameScreen = 1;
+            this.renderSnake();
+        });
+
+        this.window.find('#level_2').click(() => {
+            this.gameScreen = 2;
+            this.renderSnake();
+        });
+
+        this.window.find('#level_3').click(() => {
+            this.gameScreen = 3;
+            this.renderSnake();
+        });
+    }
+
+    resetVal() {
+        this.lifes = 3;
+        this.points = 0;
+        this.snake_body = [];
+        this.item_loc = [];
+        this.snake_speed = 500;
+        this.gameBoard = [];
+        this.direction = "+y";
+    }
+
+    createGameField() {
+        this.createElement('body');
+        this.createElement('item');
+    }
+
+    createElement(type) {
+        let found = false;
+        let x, y;
+        while (!found) {
+            x = parseInt(Math.random() * 20);
+            y = parseInt(Math.random() * 20);
+            if (this.snake_body == 0 || _.filter(this.snake_body, (e) => e && e[0] == x && e[1] == y).length == 0) {
+                found = true;
+            }
+        }
+
+        const height = this.window.find('.snake-screen').height() * 5 / 100;
+        const width = this.window.find('.snake-screen').width() * 5 / 100;
+
+        const last = this.snake_body.length - 1;
+        const element = $('<div"></div>').css({ top: x * height, left: y * width });
+
+        if (type == 'body') {
+            if (this.snake_body.length > 0) {
+                this.snake_body[last].removeClass('snake-tail');
+                element.addClass('snake-body snake-tail');
+                this.snake_body.push([element,x,y]);
+            }
+            else {
+                element.addClass('snake-body snake-tail snake-head');
+                this.snake_body = [[element,x,y]];
+            }
+        } else {
+            element.addClass('snake-item');
+            this.item_loc = [element,x,y];
+        }
+        element.appendTo('.snake-screen');
+    }
+
+    run() {
+        this.changedDirection = false;
+        switch (this.direction) {
+            case '+y':
+                this.moveSnake(0, 1);
+                break;
+            case '-y':
+                this.moveSnake(0, -1);
+                break;
+            case '+x':
+                this.moveSnake(1, 0);
+                break;
+            case '-x':
+                this.moveSnake(-1, 0);
+                break;
+        }
+        if(this.collisionItem()) {
+            this.points++;
+            this.snake_speed *= 0.95;
+            this.window.find('.snake-item').remove();
+            this.createElement('item');
+            this.appendToSnake();
+        }
+        setTimeout(() => this.run(),this.snake_speed);
+    }
+
+    moveSnake(x,y) {
+        const height = this.window.find('.snake-screen').height() * 5 / 100;
+        const width = this.window.find('.snake-screen').width() * 5 / 100;
+        const prec_x = this.snake_body[0][1];
+        const prec_y = this.snake_body[0][2];
+        let new_x = (parseInt((prec_x+x)%20) >= 0 ? parseInt((prec_x+x)%20) : 19);
+        let new_y = (parseInt((prec_y+y)%20) >= 0 ? parseInt((prec_y+y)%20) : 19);
+        this.snake_body[0][0].css({ top: new_x * height, left: new_y * width });
+        this.snake_body[0][1] = new_x;
+        this.snake_body[0][2] = new_y;
+
+        for(let i = this.snake_body.length-1; i > 0; i--) {
+            new_x = this.snake_body[i-1][1];
+            new_y = this.snake_body[i-1][2];
+            this.snake_body[i][0].css({ top: new_x * height, left: new_y * width })
+        }
+    }
+
+    setSnakeListeners() {
+        $('#videogame' + this.id).draggable({ handle: '.title_bar', stack: 'div', cursor: "pointer", containment: 'parent' }).resizable({ minHeight: 500, minWidth: 400 });
+        $('#videogame' + this.id + ' .title_bar').dblclick(this.maximize);
+        $('#videogame' + this.id + ' .max_button').click(this.maximize);
+
+        $(document).keydown((event) => {
+            if(!this.changedDirection) {
+                if(event.keyCode === 37 && this.direction != '+y') {
+                    this.direction = '-y';
+                    this.changedDirection = true;
+                }
+                if(event.keyCode === 38 && this.direction != '+x') {
+                    this.direction = '-x';
+                    this.changedDirection = true;
+                }
+                if(event.keyCode === 39 && this.direction != '-y') {
+                    this.direction = '+y';
+                    this.changedDirection = true;
+                }
+                if(event.keyCode === 40 && this.direction != '-x') {
+                    this.direction = '+x';
+                    this.changedDirection = true;
+                }
+            }
+        });
+    }
+
+    collisionItem() {
+        console.log(this.snake_body[0]);
+        console.log(this.item_loc);
+        return this.snake_body[0][1] == this.item_loc[1] && this.snake_body[0][2] == this.item_loc[2];
+    }
+
+    appendToSnake() {
+
+    }
+
+    setListeners() {
         $('#videogame' + this.id + ' .close_button').click(this.close);
         $('#videogame' + this.id + ' .min_button').click(this.minimize);
         $('#v_icon' + this.id).click(this.minimize);
@@ -84,7 +292,7 @@ class Videogame {
         $('desktop').append(window);
     }
 
-    /*maximize = () => {
+    maximize = () => {
         let h = $('desktop').height();
         let w = $('desktop').width();
         if (h != $('#videogame' + this.id).height() && w != $('#videogame' + this.id).width()) {
@@ -98,7 +306,7 @@ class Videogame {
             $('#videogame' + this.id).css({ top: this.tmpTop, left: this.tmpLeft, height: this.tmpHeight, width: this.tmpWidth });
             this.tmpHeight = this.tmpWidth = this.tmpTop = this.tmpLeft = 0;
         }
-    };*/
+    };
 
     minimize = () => {
         if ($('#v_icon' + this.id + ' .dot').css("display") == "none") {
