@@ -1,4 +1,5 @@
 var isGameOpened = false;
+var record = 0;
 
 class Videogame {
     constructor(name, icon) {
@@ -89,7 +90,7 @@ class Videogame {
             this.renderHomePage();
         } else {
             this.window.find('.snake-screen').html("");
-            this.window.find('.snake-bar').html("");
+            this.window.find('.snake-tab').html("");
             this.resetVal();
             this.createGameField();
             this.run();
@@ -150,26 +151,33 @@ class Videogame {
     }
 
     resetVal() {
-        this.lifes = 3;
+        this.lifes = 1;
         this.points = 0;
         this.snake_body = [];
         this.item_loc = [];
         this.snake_speed = 500;
         this.gameBoard = [];
         this.direction = "+y";
+        this.columns = 20;
     }
 
     createGameField() {
         this.createElement('body');
         this.createElement('item');
+        this.window.find('.snake-tab')
+            .append('<div class="snake-points">\
+                        Points: <span id="your-points">0</span> Record: '+record+'<br>\
+                        <span id="snake-reset">Restart</span>\
+                    </div>');
+        this.window.find('#snake-reset').click(() => {this.restart()});
     }
 
     createElement(type) {
         let found = false;
         let x, y;
         while (!found) {
-            x = parseInt(Math.random() * 20);
-            y = parseInt(Math.random() * 20);
+            x = parseInt(Math.random() * this.columns);
+            y = parseInt(Math.random() * this.columns);
             if (this.snake_body == 0 || _.filter(this.snake_body, (e) => e && e[0] == x && e[1] == y).length == 0) {
                 found = true;
             }
@@ -182,18 +190,11 @@ class Videogame {
         const element = $('<div"></div>').css({ top: x * height, left: y * width });
 
         if (type == 'body') {
-            if (this.snake_body.length > 0) {
-                this.snake_body[last].removeClass('snake-tail');
-                element.addClass('snake-body snake-tail');
-                this.snake_body.push([element,x,y]);
-            }
-            else {
-                element.addClass('snake-body snake-tail snake-head');
-                this.snake_body = [[element,x,y]];
-            }
+            element.addClass('snake-body snake-tail snake-head');
+            this.snake_body = [[element, x, y, -1]];
         } else {
             element.addClass('snake-item');
-            this.item_loc = [element,x,y];
+            this.item_loc = [element, x, y];
         }
         element.appendTo('.snake-screen');
     }
@@ -214,31 +215,64 @@ class Videogame {
                 this.moveSnake(-1, 0);
                 break;
         }
-        if(this.collisionItem()) {
+        if (this.collisionItem()) {
             this.points++;
+            this.window.find('#your-points').html(this.points);
             this.snake_speed *= 0.95;
-            this.window.find('.snake-item').remove();
+            this.item_loc[0].remove();
+            this.appendToSnake(this.item_loc[1], this.item_loc[2], this.snake_body.length-1);
             this.createElement('item');
-            this.appendToSnake();
+        } 
+
+        if(!this.collisionBody())
+            this.runTimeout = setTimeout(() => this.run(), this.snake_speed);
+        else {
+            console.log("Game Over");
+            if(record < this.points) {
+                record = this.points;
+                console.log("Hai stabilito un nuovo record di "+record+" punti!");
+            }
         }
-        setTimeout(() => this.run(),this.snake_speed);
     }
 
-    moveSnake(x,y) {
+    restart() {
+        if(this.runTimeout)
+            clearTimeout(this.runTimeout);
+        this.renderSnake();
+    }
+
+    moveSnake(x, y) {
         const height = this.window.find('.snake-screen').height() * 5 / 100;
         const width = this.window.find('.snake-screen').width() * 5 / 100;
         const prec_x = this.snake_body[0][1];
         const prec_y = this.snake_body[0][2];
-        let new_x = (parseInt((prec_x+x)%20) >= 0 ? parseInt((prec_x+x)%20) : 19);
-        let new_y = (parseInt((prec_y+y)%20) >= 0 ? parseInt((prec_y+y)%20) : 19);
+        let new_x = (parseInt((prec_x + x) % this.columns) >= 0 ? parseInt((prec_x + x) % this.columns) : this.columns - 1);
+        let new_y = (parseInt((prec_y + y) % this.columns) >= 0 ? parseInt((prec_y + y) % this.columns) : this.columns - 1);
         this.snake_body[0][0].css({ top: new_x * height, left: new_y * width });
         this.snake_body[0][1] = new_x;
         this.snake_body[0][2] = new_y;
 
-        for(let i = this.snake_body.length-1; i > 0; i--) {
-            new_x = this.snake_body[i-1][1];
-            new_y = this.snake_body[i-1][2];
-            this.snake_body[i][0].css({ top: new_x * height, left: new_y * width })
+        for (let i = this.snake_body.length - 1; i > 0; i--) {
+            if(i > 1) {
+                new_x = this.snake_body[i - 1][1];
+                new_y = this.snake_body[i - 1][2];
+            } else {
+                new_x = prec_x;
+                new_y = prec_y;
+            }
+            if (this.snake_body[i][3] == -1) {
+                this.snake_body[i][0].css({ top: new_x * height, left: new_y * width });
+                this.snake_body[i][1] = new_x;
+                this.snake_body[i][2] = new_y;
+            } else {
+                if (this.snake_body[i][3] == 0) {
+                    this.snake_body[i][0].css({ top: new_x * height, left: new_y * width });
+                    this.window.find('.snake-screen').append(this.snake_body[i][0]);
+                    this.window.find('.snake-tail').removeClass("snake-tail");
+                    this.snake_body[i][0].addClass("snake-tail");
+                }
+                this.snake_body[i][3]--;
+            }
         }
     }
 
@@ -248,20 +282,20 @@ class Videogame {
         $('#videogame' + this.id + ' .max_button').click(this.maximize);
 
         $(document).keydown((event) => {
-            if(!this.changedDirection) {
-                if(event.keyCode === 37 && this.direction != '+y') {
+            if (!this.changedDirection) {
+                if (event.keyCode === 37 && this.direction != '+y') {
                     this.direction = '-y';
                     this.changedDirection = true;
                 }
-                if(event.keyCode === 38 && this.direction != '+x') {
+                if (event.keyCode === 38 && this.direction != '+x') {
                     this.direction = '-x';
                     this.changedDirection = true;
                 }
-                if(event.keyCode === 39 && this.direction != '-y') {
+                if (event.keyCode === 39 && this.direction != '-y') {
                     this.direction = '+y';
                     this.changedDirection = true;
                 }
-                if(event.keyCode === 40 && this.direction != '-x') {
+                if (event.keyCode === 40 && this.direction != '-x') {
                     this.direction = '+x';
                     this.changedDirection = true;
                 }
@@ -270,13 +304,26 @@ class Videogame {
     }
 
     collisionItem() {
-        console.log(this.snake_body[0]);
-        console.log(this.item_loc);
         return this.snake_body[0][1] == this.item_loc[1] && this.snake_body[0][2] == this.item_loc[2];
     }
 
-    appendToSnake() {
+    collisionBody() {
+        const head_x = this.snake_body[0][1];
+        const head_y = this.snake_body[0][2];
+        for(let i = 4; i < this.snake_body.length; i++) { //inutile controllare prima perchè le collissioni sono impossibili
+            let body_x = this.snake_body[i][1];
+            let body_y = this.snake_body[i][2];
+            if(head_x == body_x && head_y == body_y)
+                return true;
+        }
+        return false;
+    }
 
+    appendToSnake(x, y, l) {
+        const height = this.window.find('.snake-screen').height() * 5 / 100;
+        const width = this.window.find('.snake-screen').width() * 5 / 100;
+        const element = $('<div"></div>').css({ top: x * height, left: y * width }).addClass('snake-body');
+        this.snake_body.push([element, -1, -1, l]);
     }
 
     setListeners() {
