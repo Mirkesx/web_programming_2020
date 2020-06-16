@@ -227,7 +227,7 @@ class Videogame {
         if(!this.collisionBody())
             this.runTimeout = setTimeout(() => this.run(), this.snake_speed);
         else {
-            console.log("Game Over");
+            alert("Game Over");
             if(record < this.points) {
                 record = this.points;
                 console.log("Hai stabilito un nuovo record di "+record+" punti!");
